@@ -293,6 +293,7 @@ module TSOS {
         public shellDate(args: string[]) {
             if(args.length > 0){
                 let dateTime = new Date();
+                dateTime.toLocaleString("en-US");
                 _StdOut.putText(dateTime);
             }
         }
