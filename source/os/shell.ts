@@ -294,7 +294,7 @@ module TSOS {
             if(args.length > 0){
                 let dateTime = new Date();
                 dateTime.toLocaleString("en-US");
-                _StdOut.putText(dateTime);
+                _StdOut.putText("Current date: " + dateTime);
             }
         }
 
