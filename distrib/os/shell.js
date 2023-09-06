@@ -15,6 +15,7 @@ var TSOS;
         commandList = [];
         curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
+        commandsUsed = [];
         constructor() {
         }
         init() {
@@ -50,6 +51,9 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             // whereami
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Tells the user to answer this question themselves.");
+            this.commandList[this.commandList.length] = sc;
+            // cake
+            sc = new TSOS.ShellCommand(this.shellCake, "cake", "- The displayed statement is true.");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -257,6 +261,9 @@ var TSOS;
         }
         shellWhereami(args) {
             _StdOut.putText("Take a look around... (Why do I have to tell you this?)");
+        }
+        shellCake(args) {
+            _StdOut.putText(" == lie.");
         }
     }
     TSOS.Shell = Shell;

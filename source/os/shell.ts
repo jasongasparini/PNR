@@ -16,6 +16,7 @@ module TSOS {
         public commandList = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
+        public commandsUsed = [];
 
         constructor() {
         }
@@ -83,6 +84,12 @@ module TSOS {
             sc = new ShellCommand(this.shellWhereami,
                                     "whereami",
                                     "- Tells the user to answer this question themselves.")
+            this.commandList[this.commandList.length] = sc;
+
+            // cake
+            sc = new ShellCommand(this.shellCake,
+                                    "cake",
+                                    "- The displayed statement is true.")
             this.commandList[this.commandList.length] = sc;
 
             // ps  - list the running processes and their IDs
@@ -305,6 +312,10 @@ module TSOS {
 
         public shellWhereami(args: string[]) {
             _StdOut.putText("Take a look around... (Why do I have to tell you this?)");
+        }
+
+        public shellCake (args: string[]){
+            _StdOut.putText(" == lie.");
         }
 
     }
