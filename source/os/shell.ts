@@ -79,6 +79,12 @@ module TSOS {
                                     "- Displays the current date and time.")
             this.commandList[this.commandList.length] = sc;
 
+            // whereami
+            sc = new ShellCommand(this.shellWhereami,
+                                    "whereami",
+                                    "- Tells the user to answer this question themselves.")
+            this.commandList[this.commandList.length] = sc;
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -295,6 +301,10 @@ module TSOS {
             dateTime.toLocaleString("en-US");
             _StdOut.putText("Current date: " + dateTime);
             
+        }
+
+        public shellWhereami(args: string[]) {
+            _StdOut.putText("Take a look around... (Why do I have to tell you this?)");
         }
 
     }

@@ -48,6 +48,9 @@ var TSOS;
             // date
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
+            // whereami
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Tells the user to answer this question themselves.");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -251,6 +254,9 @@ var TSOS;
             let dateTime = new Date();
             dateTime.toLocaleString("en-US");
             _StdOut.putText("Current date: " + dateTime);
+        }
+        shellWhereami(args) {
+            _StdOut.putText("Take a look around... (Why do I have to tell you this?)");
         }
     }
     TSOS.Shell = Shell;
