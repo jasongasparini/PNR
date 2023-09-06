@@ -80,7 +80,7 @@ var TSOS;
                 _FontHeightMargin;
             // TODO: Handle scrolling. (iProject 1)
             if (this.currentYPosition > _Canvas.height) {
-                _DrawingContext.clearRect(0, 0, 100, 100);
+                _DrawingContext.clearRect(0, 0, 100, _Canvas.width);
             }
         }
     }
