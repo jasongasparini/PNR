@@ -248,11 +248,9 @@ var TSOS;
             }
         }
         shellDate(args) {
-            if (args.length > 0) {
-                let dateTime = new Date();
-                dateTime.toLocaleString("en-US");
-                _StdOut.putText("Current date: " + dateTime);
-            }
+            let dateTime = new Date();
+            dateTime.toLocaleString("en-US");
+            _StdOut.putText("Current date: " + dateTime);
         }
     }
     TSOS.Shell = Shell;
