@@ -81,8 +81,7 @@ var TSOS;
             // TODO: Handle scrolling. (iProject 1)
             if (this.currentYPosition > _Canvas.height) {
                 _DrawingContext.clearRect(0, 0, _Canvas.width, 100);
-                _DrawingContext.save();
-                _DrawingContext.restore();
+                _DrawingContext.translate(0, -100);
             }
         }
     }
