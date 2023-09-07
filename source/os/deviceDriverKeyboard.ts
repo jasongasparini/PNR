@@ -46,10 +46,24 @@ module TSOS {
                         (keyCode == 32)                     ||   // space
                         (keyCode == 13)) {                       // enter
                 if (isShifted === true){
-                    chr = String.fromCharCode(keyCode - 16); // digit punction chars
+                    if(keyCode == 50){
+                        chr = String.fromCharCode(64);
+                    } else if (keyCode == 54){
+                        chr = String.fromCharCode(94);
+                    } else if (keyCode == 55){
+                        chr = String.fromCharCode(38);
+                    } else if (keyCode == 56){
+                        chr = String.fromCharCode(42);
+                    } else if (keyCode == 57){
+                        chr = String.fromCharCode(40);
+                    } else if (keyCode == 48){
+                        chr = String.fromCharCode(41);
+                    } 
+
                 } else{
                     chr = String.fromCharCode(keyCode);
                 }
+                
                 _KernelInputQueue.enqueue(chr);
              } //else if (((keyCode >= ) && ()))
         }
