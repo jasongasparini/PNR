@@ -84,6 +84,7 @@ module TSOS {
 
             if(this.currentYPosition > _Canvas.height){
                 _DrawingContext.clearRect(0, 0, _Canvas.width, 100);
+                _DrawingContext.moveTo(0, -100);
             }
         }
     }
