@@ -61,6 +61,9 @@ var TSOS;
                     else if (keyCode == 48) {
                         chr = String.fromCharCode(41);
                     }
+                    else {
+                        chr = String.fromCharCode(keyCode - 16);
+                    }
                 }
                 else {
                     chr = String.fromCharCode(keyCode);
