@@ -70,7 +70,7 @@ var TSOS;
                 }
                 _KernelInputQueue.enqueue(chr);
             }
-            else if (keyCode == 192) {
+            else if (keyCode == 192) { // ~`
                 if (isShifted === true) {
                     chr = String.fromCharCode(126);
                 }
@@ -79,7 +79,7 @@ var TSOS;
                 }
                 _KernelInputQueue.enqueue(chr);
             }
-            else if (keyCode == 189) {
+            else if (keyCode == 189) { // _-
                 if (isShifted === true) {
                     chr = String.fromCharCode(95);
                 }
@@ -88,12 +88,84 @@ var TSOS;
                 }
                 _KernelInputQueue.enqueue(chr);
             }
-            else if (keyCode == 187) {
+            else if (keyCode == 187) { // +=
                 if (isShifted === true) {
                     chr = String.fromCharCode(43);
                 }
                 else {
                     chr = String.fromCharCode(61);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 219) { // {[
+                if (isShifted === true) {
+                    chr = String.fromCharCode(123);
+                }
+                else {
+                    chr = String.fromCharCode(91);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 221) { // }]
+                if (isShifted === true) {
+                    chr = String.fromCharCode(125);
+                }
+                else {
+                    chr = String.fromCharCode(93);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 220) { // |\
+                if (isShifted === true) {
+                    chr = String.fromCharCode(124);
+                }
+                else {
+                    chr = String.fromCharCode(92);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 186) { // :;
+                if (isShifted === true) {
+                    chr = String.fromCharCode(58);
+                }
+                else {
+                    chr = String.fromCharCode(59);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 222) { // "'
+                if (isShifted === true) {
+                    chr = String.fromCharCode(34);
+                }
+                else {
+                    chr = String.fromCharCode(39);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 188) { // <,
+                if (isShifted === true) {
+                    chr = String.fromCharCode(60);
+                }
+                else {
+                    chr = String.fromCharCode(44);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 190) { // >.
+                if (isShifted === true) {
+                    chr = String.fromCharCode(62);
+                }
+                else {
+                    chr = String.fromCharCode(46);
+                }
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 191) { // ?/
+                if (isShifted === true) {
+                    chr = String.fromCharCode(63);
+                }
+                else {
+                    chr = String.fromCharCode(47);
                 }
                 _KernelInputQueue.enqueue(chr);
             }
