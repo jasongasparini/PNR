@@ -42,12 +42,16 @@ module TSOS {
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
-            } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
+            } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits and their special chars
                         (keyCode == 32)                     ||   // space
                         (keyCode == 13)) {                       // enter
-                chr = String.fromCharCode(keyCode);
+                if (isShifted === true){
+                    chr = String.fromCharCode(keyCode - 15); // digit punction chars
+                } else{
+                    chr = String.fromCharCode(keyCode);
+                }
                 _KernelInputQueue.enqueue(chr);
-            }
+             } //else if (((keyCode >= ) && ()))
         }
     }
 }
