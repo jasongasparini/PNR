@@ -46,7 +46,7 @@ module TSOS {
                         (keyCode == 32)                     ||   // space
                         (keyCode == 13)) {                       // enter
                 if (isShifted === true){
-                    chr = String.fromCharCode(keyCode - 15); // digit punction chars
+                    chr = String.fromCharCode(keyCode - 16); // digit punction chars
                 } else{
                     chr = String.fromCharCode(keyCode);
                 }
