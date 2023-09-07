@@ -69,7 +69,31 @@ var TSOS;
                     chr = String.fromCharCode(keyCode);
                 }
                 _KernelInputQueue.enqueue(chr);
-            } //else if (((keyCode >= ) && ()))
+            }
+            else if (keyCode == 192) {
+                if (isShifted === true) {
+                    chr = String.fromCharCode(126);
+                }
+                else {
+                    chr = String.fromCharCode(96);
+                }
+            }
+            else if (keyCode == 189) {
+                if (isShifted === true) {
+                    chr = String.fromCharCode(95);
+                }
+                else {
+                    chr = String.fromCharCode(45);
+                }
+            }
+            else if (keyCode == 187) {
+                if (isShifted === true) {
+                    chr = String.fromCharCode(43);
+                }
+                else {
+                    chr = String.fromCharCode(61);
+                }
+            }
         }
     }
     TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;
