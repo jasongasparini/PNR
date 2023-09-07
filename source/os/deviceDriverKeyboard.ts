@@ -36,7 +36,8 @@ module TSOS {
 
             // Backspace handling
             if (keyCode == 8){
-                
+                chr = String.fromCharCode(keyCode);
+                _KernelInputQueue.enqueue(chr);
             }
 
 
