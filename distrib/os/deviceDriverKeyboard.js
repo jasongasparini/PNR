@@ -30,8 +30,7 @@ var TSOS;
             var chr = "";
             // Backspace handling
             if (keyCode == 8) {
-                chr = String.fromCharCode(keyCode);
-                _KernelInputQueue.dequeue();
+                _KernelInputQueue.enqueue(keyCode); // Queues the keyCode "8" to then be recognized and handled in console.ts handleInput
             }
             // Check to see if we even want to deal with the key that was pressed.
             if ((keyCode >= 65) && (keyCode <= 90)) { // letter
