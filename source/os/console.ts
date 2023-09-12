@@ -61,7 +61,7 @@ module TSOS {
             // console.log('TESTING LINE FOR BACKSPACE');
             var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
             this.currentXPosition = this.currentXPosition - offset;
-            _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-offset, offset, this.currentFontSize);
+            _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-10, offset, this.currentFontSize);
         }
 
         public putText(text): void {
