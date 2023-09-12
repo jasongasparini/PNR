@@ -61,7 +61,7 @@ var TSOS;
             // console.log('TESTING LINE FOR BACKSPACE');
             var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
             this.currentXPosition = this.currentXPosition - offset;
-            _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 15, offset, this.currentFontSize);
+            _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 12, offset, this.currentFontSize);
         }
         putText(text) {
             /*  My first inclination here was to write two functions: putChar() and putString().
