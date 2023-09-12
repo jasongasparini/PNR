@@ -41,8 +41,8 @@ module TSOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
-                } else if (chr === String.fromCharCode(8)){
-                    this.buffer = this.buffer.slice(0, -1);
+                } else if (chr == 8){
+                    
                     let delChar = this.buffer.slice(-1);
                     this.backspace(delChar);
                     this.buffer = this.buffer.slice(0, -1);
