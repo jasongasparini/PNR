@@ -57,6 +57,7 @@ module TSOS {
         }
 
         public backspace(text){
+            console.log('TESTING LINE FOR BACKSPACE');
             var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
             this.currentXPosition = this.currentXPosition - offset;
             _DrawingContext.clearRect(this.currentXPosition, this.currentFontSize, offset, this.currentFontSize);
