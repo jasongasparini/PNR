@@ -36,7 +36,7 @@ module TSOS {
 
             // Backspace handling
             if (keyCode == 8){
-                
+                chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(keyCode); // Queues the keyCode "8" to then be recognized and handled in console.ts handleInput
             }
 
