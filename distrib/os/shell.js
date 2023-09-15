@@ -16,7 +16,7 @@ var TSOS;
         commandListStrings = [];
         curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
-        commandsUsed = null;
+        commandsUsed = [];
         commandsUsedIndex = 0;
         constructor() {
         }
@@ -105,7 +105,7 @@ var TSOS;
             }
             if (found) {
                 this.execute(fn, args); // Note that args is always supplied, though it might be empty.
-                // this.commandsUsed.push(cmd);
+                this.commandsUsed.push(cmd);
             }
             else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
