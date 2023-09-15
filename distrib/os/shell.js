@@ -130,6 +130,7 @@ var TSOS;
             }
             // ... and finally write the prompt again.
             this.putPrompt();
+            _Console.tabArray = [];
         }
         parseInput(buffer) {
             var retVal = new TSOS.UserCommand();

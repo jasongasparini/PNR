@@ -167,6 +167,7 @@ module TSOS {
             }
             // ... and finally write the prompt again.
             this.putPrompt();
+            _Console.tabArray = [];
         }
 
         public parseInput(buffer: string): UserCommand {

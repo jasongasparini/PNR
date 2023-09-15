@@ -60,6 +60,7 @@ var TSOS;
                         this.currentXPosition = 0;
                         _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 12, 50, this.currentFontSize);
                         this.putText(this.tabArray[this.tabArrayindex]);
+                        this.buffer = this.tabArray[this.tabArrayindex];
                         if (this.tabArrayindex == this.tabArray.length) {
                             this.tabArrayindex == 0;
                         }
