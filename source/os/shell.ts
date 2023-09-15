@@ -170,7 +170,7 @@ module TSOS {
             }
             // ... and finally write the prompt again.
             this.putPrompt();
-            // _Console.tabArray = [];  // Clears the tab completion array
+            _Console.tabArray = [];  // Clears the tab completion array
         }
 
         public parseInput(buffer: string): UserCommand {
