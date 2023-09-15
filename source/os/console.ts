@@ -13,7 +13,9 @@ module TSOS {
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
-                    public buffer = "") {
+                    public buffer = "",
+                    public tabArray: string[] = [], 
+                    public tabArrayindex = 0) {
         }
 
         public init(): void {
@@ -29,6 +31,10 @@ module TSOS {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
         }
+
+        public filterArrayByPrefix(arr: string[], prefix: string): string[] {
+            return arr.filter(item => item.startsWith(prefix));
+          }
 
         public handleInput(): void {
             while (_KernelInputQueue.getSize() > 0) {
@@ -46,7 +52,22 @@ module TSOS {
                     let delChar = this.buffer.slice(-1);
                     this.backspace(delChar);
                     this.buffer = this.buffer.slice(0, -1);
-                }else {
+                } else if(chr == 9){
+                    this.tabArray = this.filterArrayByPrefix(_OsShell.commandList, this.buffer);
+                    if (this.tabArray.length > 0){
+                        this.currentXPosition = 0;
+                        _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-12, 50, this.currentFontSize);
+                        this.putText(this.tabArray[this.tabArrayindex]);
+
+                        if (this.tabArrayindex == this.tabArray.length){
+                            this.tabArrayindex == 0;
+                        } else {
+                            this.tabArrayindex += 1;
+                        }
+
+                    }
+                    
+                } else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
@@ -99,6 +120,7 @@ module TSOS {
 
             if (this.currentYPosition >= _Canvas.height) { 
                 var canvasContent = _DrawingContext.getImageData(0, 0, _Canvas.width, _Canvas.height);
+                
                 this.clearScreen();
 
                 _DrawingContext.putImageData(canvasContent, 0, canvasHeight);

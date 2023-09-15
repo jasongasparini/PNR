@@ -12,12 +12,16 @@ var TSOS;
         currentXPosition;
         currentYPosition;
         buffer;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "") {
+        tabArray;
+        tabArrayindex;
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", tabArray = [], tabArrayindex = 0) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
+            this.tabArray = tabArray;
+            this.tabArrayindex = tabArrayindex;
         }
         init() {
             this.clearScreen();
@@ -29,6 +33,9 @@ var TSOS;
         resetXY() {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
+        }
+        filterArrayByPrefix(arr, prefix) {
+            return arr.filter(item => item.startsWith(prefix));
         }
         handleInput() {
             while (_KernelInputQueue.getSize() > 0) {
@@ -46,6 +53,20 @@ var TSOS;
                     let delChar = this.buffer.slice(-1);
                     this.backspace(delChar);
                     this.buffer = this.buffer.slice(0, -1);
+                }
+                else if (chr == 9) {
+                    this.tabArray = this.filterArrayByPrefix(_OsShell.commandList, this.buffer);
+                    if (this.tabArray.length > 0) {
+                        this.currentXPosition = 0;
+                        _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 12, 50, this.currentFontSize);
+                        this.putText(this.tabArray[this.tabArrayindex]);
+                        if (this.tabArrayindex == this.tabArray.length) {
+                            this.tabArrayindex == 0;
+                        }
+                        else {
+                            this.tabArrayindex += 1;
+                        }
+                    }
                 }
                 else {
                     // This is a "normal" character, so ...
