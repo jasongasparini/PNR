@@ -58,13 +58,10 @@ var TSOS;
                     this.tabArray = this.filterArrayByPrefix(_OsShell.commandListStrings, this.buffer);
                     if (this.tabArray.length > 0) {
                         this.currentXPosition = 0;
+                        this.tabArrayindex = 0;
                         _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 12, 50, this.currentFontSize);
                         this.putText(this.tabArray[this.tabArrayindex]);
                         this.buffer = this.tabArray[this.tabArrayindex];
-                        this.tabArrayindex += 1;
-                        if (this.tabArrayindex >= this.tabArray.length) {
-                            this.tabArrayindex == 0;
-                        }
                     }
                 }
                 else {
