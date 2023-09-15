@@ -104,8 +104,8 @@ var TSOS;
                 }
             }
             if (found) {
-                // this.commandsUsed.push(cmd);
                 this.execute(fn, args); // Note that args is always supplied, though it might be empty.
+                this.commandsUsed.push(cmd);
             }
             else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
