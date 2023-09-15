@@ -60,15 +60,16 @@ module TSOS {
                         this.tabArrayindex = 0;
 
                         _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-15, 300, 20);
+                        _OsShell.putPrompt();
                         this.putText(this.tabArray[this.tabArrayindex]);
                         this.buffer = this.tabArray[this.tabArrayindex];
                         
                     }
                     
-                } else if ((chr == 38) && _OsShell.commandsUsed != null){
+                } else if ((chr == 38) && _OsShell.commandsUsed.length != 0){
                     this.currentXPosition = 0;
                     _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-15, 300, 20);
-
+                    _OsShell.putPrompt();
                     this.putText(_OsShell.commandsUsed[_OsShell.commandsUsedIndex]);
                     this.buffer = _OsShell.commandsUsed[_OsShell.commandsUsedIndex];
 
