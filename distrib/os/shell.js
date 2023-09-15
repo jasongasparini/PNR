@@ -13,6 +13,7 @@ var TSOS;
         // Properties
         promptStr = ">";
         commandList = [];
+        commandListStrings = [];
         curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
         commandsUsed = [];
@@ -25,36 +26,47 @@ var TSOS;
             // ver
             sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // help
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // shutdown
             sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // cls
             sc = new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // man <topic>
             sc = new TSOS.ShellCommand(this.shellMan, "man", "<topic> - Displays the MANual page for <topic>.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // trace <on | off>
             sc = new TSOS.ShellCommand(this.shellTrace, "trace", "<on | off> - Turns the OS trace on or off.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // rot13 <string>
             sc = new TSOS.ShellCommand(this.shellRot13, "rot13", "<string> - Does rot13 obfuscation on <string>.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // date
             sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // whereami
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- Tells the user to answer this question themselves.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // cake
             sc = new TSOS.ShellCommand(this.shellCake, "cake", "- The displayed statement is true.");
             this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.

@@ -55,7 +55,7 @@ var TSOS;
                     this.buffer = this.buffer.slice(0, -1);
                 }
                 else if (chr == 9) {
-                    this.tabArray = this.filterArrayByPrefix(_OsShell.commandList, this.buffer);
+                    this.tabArray = this.filterArrayByPrefix(_OsShell.commandListStrings, this.buffer);
                     if (this.tabArray.length > 0) {
                         this.currentXPosition = 0;
                         _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 12, 50, this.currentFontSize);
