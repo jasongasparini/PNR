@@ -132,7 +132,7 @@ var TSOS;
             }
             // ... and finally write the prompt again.
             this.putPrompt();
-            // _Console.tabArray = [];  // Clears the tab completion array
+            _Console.tabArray = []; // Clears the tab completion array
         }
         parseInput(buffer) {
             var retVal = new TSOS.UserCommand();
