@@ -59,7 +59,7 @@ var TSOS;
                     if (this.tabArray.length > 0) {
                         this.currentXPosition = 0;
                         this.tabArrayindex = 0;
-                        _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 12, 50, this.currentFontSize);
+                        _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 15, 300, 20);
                         this.putText(this.tabArray[this.tabArrayindex]);
                         this.buffer = this.tabArray[this.tabArrayindex];
                     }
