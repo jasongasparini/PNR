@@ -65,7 +65,18 @@ module TSOS {
                         
                     }
                     
-                } else {
+                } else if ((chr == 38) && _OsShell.commandsUsed != null){
+                    this.currentXPosition = 0;
+                    this.tabArrayindex = 0;
+                    _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-15, 300, 20);
+
+                    this.putText(_OsShell.commandsUsed[_OsShell.commandsUsedIndex]);
+                    this.buffer = _OsShell.commandsUsed[_OsShell.commandsUsedIndex];
+
+                } else if (chr == 40) {
+                
+                
+                } else{
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);

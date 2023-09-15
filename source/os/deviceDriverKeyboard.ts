@@ -39,7 +39,13 @@ module TSOS {
                 // chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(keyCode); // Queues the keyCode "8" to then be recognized and handled in console.ts handleInput
             }
-            if (keyCode == 9){
+            if (keyCode == 9){ // Tab key
+                _KernelInputQueue.enqueue(keyCode);
+            }
+
+            if (keyCode == 38){ // Up arrow
+                _KernelInputQueue.enqueue(keyCode);
+            } else if (keyCode == 40){ // down arrow
                 _KernelInputQueue.enqueue(keyCode);
             }
 

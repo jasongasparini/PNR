@@ -17,7 +17,8 @@ module TSOS {
         public commandListStrings: string[] = [];
         public curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         public apologies = "[sorry]";
-        public commandsUsed = [];
+        public commandsUsed: string[] = null;
+        public commandsUsedIndex = 0;
 
         constructor() {
         }
@@ -142,6 +143,8 @@ module TSOS {
                 }
             }
             if (found) {
+                this.commandsUsed.push(cmd);
+
                 this.execute(fn, args);  // Note that args is always supplied, though it might be empty.
             } else {
                 // It's not found, so check for curses and apologies before declaring the command invalid.
@@ -167,7 +170,7 @@ module TSOS {
             }
             // ... and finally write the prompt again.
             this.putPrompt();
-            _Console.tabArray = [];
+            _Console.tabArray = [];  // Clears the tab completion array
         }
 
         public parseInput(buffer: string): UserCommand {
