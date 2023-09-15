@@ -16,7 +16,8 @@ var TSOS;
         commandListStrings = [];
         curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
-        commandsUsed = [];
+        commandsUsed = null;
+        commandsUsedIndex = 0;
         constructor() {
         }
         init() {
@@ -103,6 +104,7 @@ var TSOS;
                 }
             }
             if (found) {
+                this.commandsUsed.push(cmd);
                 this.execute(fn, args); // Note that args is always supplied, though it might be empty.
             }
             else {
@@ -130,7 +132,7 @@ var TSOS;
             }
             // ... and finally write the prompt again.
             this.putPrompt();
-            _Console.tabArray = [];
+            _Console.tabArray = []; // Clears the tab completion array
         }
         parseInput(buffer) {
             var retVal = new TSOS.UserCommand();
