@@ -104,7 +104,7 @@ var TSOS;
                 }
             }
             if (found) {
-                this.commandsUsed.push(cmd);
+                // this.commandsUsed.push(cmd);
                 this.execute(fn, args); // Note that args is always supplied, though it might be empty.
             }
             else {
@@ -132,7 +132,7 @@ var TSOS;
             }
             // ... and finally write the prompt again.
             this.putPrompt();
-            _Console.tabArray = []; // Clears the tab completion array
+            // _Console.tabArray = [];  // Clears the tab completion array
         }
         parseInput(buffer) {
             var retVal = new TSOS.UserCommand();
