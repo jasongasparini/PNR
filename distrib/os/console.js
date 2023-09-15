@@ -66,14 +66,14 @@ var TSOS;
                     }
                 }
                 else if ((chr == 38) && _OsShell.commandsUsed.length != 0) {
+                    if (_OsShell.commandsUsedIndex != 0) {
+                        _OsShell.commandsUsedIndex -= 1;
+                    }
                     this.currentXPosition = 0;
                     _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 15, 300, 20);
                     _OsShell.putPrompt();
                     this.putText(_OsShell.commandsUsed[_OsShell.commandsUsedIndex]);
                     this.buffer = _OsShell.commandsUsed[_OsShell.commandsUsedIndex];
-                    if (_OsShell.commandsUsedIndex != 0) {
-                        _OsShell.commandsUsedIndex -= 1;
-                    }
                 }
                 else if (chr == 40) {
                     if (_OsShell.commandsUsedIndex != (_OsShell.commandsUsed.length - 1)) {
