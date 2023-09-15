@@ -72,6 +72,9 @@ module TSOS {
                     _OsShell.putPrompt();
                     this.putText(_OsShell.commandsUsed[_OsShell.commandsUsedIndex]);
                     this.buffer = _OsShell.commandsUsed[_OsShell.commandsUsedIndex];
+                    if(_OsShell.commandsUsedIndex != 0){
+                        _OsShell.commandsUsedIndex -= 1;
+                    }
 
                 } else if (chr == 40) {
                 
