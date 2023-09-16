@@ -36,6 +36,11 @@ h3 {
   cursor: default;
 }
 
+#taskbar {
+  background-color:#d6581d;
+  border: 2px solid rgb(0, 0, 0);
+}
+
 .normal_button {
   width: 100px;
 }
