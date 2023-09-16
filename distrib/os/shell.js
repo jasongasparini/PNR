@@ -310,11 +310,12 @@ var TSOS;
         }
         shellLoad(args) {
             // Stubbing this out for now until funcitonality is needed in proceeding Labs
-            var textarea = document.getElementById("taProgramInput").value;
-            var validation = textarea.match(/^[ A-F0-9]+$/);
-            if (validation == null) {
-                _StdOut.putText("Invalid program specified.");
-            }
+            // var textarea = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+            // var validation = textarea.match(/^[ A-F0-9]+$/)
+            // if(validation == null) {
+            //     _StdOut.putText("Invalid program specified.");
+            // }
+            _StdOut.putText("Loading");
         }
     }
     TSOS.Shell = Shell;

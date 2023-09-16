@@ -375,12 +375,14 @@ module TSOS {
 
         public shellLoad (args: string[]){
             // Stubbing this out for now until funcitonality is needed in proceeding Labs
-            var textarea = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
-            var validation = textarea.match(/^[ A-F0-9]+$/);
+            // var textarea = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+            // var validation = textarea.match(/^[ A-F0-9]+$/)
             
-            if(validation == null) {
-                _StdOut.putText("Invalid program specified.");
-            }
+            // if(validation == null) {
+            //     _StdOut.putText("Invalid program specified.");
+            // }
+
+            _StdOut.putText("Loading");
         } 
 
     }
