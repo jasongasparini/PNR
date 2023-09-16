@@ -68,6 +68,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellCake, "cake", "- The displayed statement is true.");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
+            // cake
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "- Displays the given status.");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -280,6 +284,17 @@ var TSOS;
         }
         shellCake(args) {
             _StdOut.putText(" == lie.");
+        }
+        shellStatus(args) {
+            if (args.length > 0) {
+                var status = args.join(" ");
+                _StdOut.putText("testing: " + status);
+                const statusElement = document.getElementById("status");
+                statusElement.innerHTML = status;
+            }
+            else {
+                _StdOut.putText("Usage: status <string>, Provide a valid string to display as the status.");
+            }
         }
     }
     TSOS.Shell = Shell;

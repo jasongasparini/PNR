@@ -81,6 +81,14 @@
    </div>
 
    <script>
+      
+      const instance = new shell();
+      const statusElement = document.getElementById("status");
+      statusElement.innerHTML = instance.inputStatus;
+
+   </script>
+
+   <script>
 
       function updateDate(){
          
@@ -88,7 +96,7 @@
          var day = date.getDate(); 
          var month = date.getMonth() + 1; 
          var year = date.getFullYear(); 
-         var datetime = day + "/" + month + "/" + year; 
+         var datetime = month + "/" + day + "/" + year; 
          
          var p = document.getElementById("datetime"); 
          p.innerHTML = datetime; 
@@ -98,7 +106,7 @@
          k.innerHTML = timedate; 
 
       }
-      
+
       setInterval(updateDate, 1000);
       updateDateTime();
    </script>
