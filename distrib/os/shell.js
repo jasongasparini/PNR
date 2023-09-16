@@ -303,6 +303,7 @@ var TSOS;
             _DrawingContext.clearRect(0, 0, 500, 500);
             _DrawingContext.fillStyle = "blue";
             _DrawingContext.fillRect(0, 0, 500, 500);
+            _Console.putText("You broke GLaDOS........");
         }
     }
     TSOS.Shell = Shell;
