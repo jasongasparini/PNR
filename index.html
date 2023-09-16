@@ -68,12 +68,40 @@
    </div>
 
    <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
+      <div class ="taskbar" style="text-align: right; float:left;">
+         <span id="datetime"></span>
+         <span id="timedate"></span>
+         <span id="status" style="text-align: left;"></span>
+      </div>
       <canvas id="display"
               width="500px"
               height="500px"
               tabindex="3">
       </canvas>
    </div>
+
+   <script>
+
+      function updateDate(){
+         
+         var date = new Date(); 
+         var day = date.getDate(); 
+         var month = date.getMonth() + 1; 
+         var year = date.getFullYear(); 
+         var datetime = day + "/" + month + "/" + year; 
+         
+         var p = document.getElementById("datetime"); 
+         p.innerHTML = datetime; 
+
+         var timedate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+         var k = document.getElementById("timedate"); 
+         k.innerHTML = timedate; 
+
+      }
+      
+      setInterval(updateDate, 1000);
+      updateDateTime();
+   </script>
 
    <div id="divLog" style="margin-left:520px;">
       <label>

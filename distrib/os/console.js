@@ -64,6 +64,10 @@ var TSOS;
                         this.putText(this.tabArray[this.tabArrayindex]);
                         this.buffer = this.tabArray[this.tabArrayindex];
                     }
+                    /*
+                        Switching from a up arrow press to down arrow press will take two presses for the recall to work as intended,
+                        this will have to be fixed at a later point
+                    */
                 }
                 else if ((chr == 38) && _OsShell.commandsUsed.length != 0) {
                     this.currentXPosition = 0;
