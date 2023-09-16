@@ -367,5 +367,25 @@ module TSOS {
             _Console.putText("You broke GLaDOS........");
         }
 
+        public shellLoad (args: string[]){
+            // Stubbing this out for now until funcitonality is needed in proceeding Labs
+            const textarea = document.getElementById("taProgramInput") as HTMLTextAreaElement;
+            const validationMessage = document.getElementById("validationMessage") as HTMLParagraphElement;
+
+            textarea.addEventListener("input", () => {
+                const inputValue = textarea.value;
+                const isValid = /^[0-9A-Fa-f\s]*$/.test(inputValue);
+
+                if (!isValid) {
+                    validationMessage.textContent = "Invalid input. Only hex digits and spaces are allowed.";
+                    validationMessage.style.color = "red";
+                } else {
+                    validationMessage.textContent = "";
+                }
+            });
+
+            _StdOut.putText(validationMessage.textContent);
+        } 
+
     }
 }

@@ -81,7 +81,7 @@ var TSOS;
                 }
                 else if (chr == 40) {
                     if (_OsShell.commandsUsedIndex != (_OsShell.commandsUsed.length - 1)) {
-                        _OsShell.commandsUsedIndex += 1;
+                        _OsShell.commandsUsedIndex += 1; // Steps the array prior to putting text
                     }
                     this.currentXPosition = 0;
                     _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - 15, 300, 20);

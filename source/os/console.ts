@@ -70,7 +70,6 @@ module TSOS {
                         Switching from a up arrow press to down arrow press will take two presses for the recall to work as intended, 
                         this will have to be fixed at a later point
                     */
-                   
                 } else if ((chr == 38) && _OsShell.commandsUsed.length != 0){ 
                     this.currentXPosition = 0;
                     _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-15, 300, 20);
@@ -82,8 +81,8 @@ module TSOS {
                     }
 
                 } else if (chr == 40) { 
-                    if(_OsShell.commandsUsedIndex != (_OsShell.commandsUsed.length - 1)){
-                        _OsShell.commandsUsedIndex += 1;
+                    if(_OsShell.commandsUsedIndex != (_OsShell.commandsUsed.length - 1)){ 
+                        _OsShell.commandsUsedIndex += 1; // Steps the array prior to putting text
                     }
                     this.currentXPosition = 0;
                     _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition-15, 300, 20);

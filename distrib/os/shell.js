@@ -305,6 +305,23 @@ var TSOS;
             _DrawingContext.fillRect(0, 0, 500, 500);
             _Console.putText("You broke GLaDOS........");
         }
+        shellLoad(args) {
+            // Stubbing this out for now until funcitonality is needed in proceeding Labs
+            const textarea = document.getElementById("taProgramInput");
+            const validationMessage = document.getElementById("validationMessage");
+            textarea.addEventListener("input", () => {
+                const inputValue = textarea.value;
+                const isValid = /^[0-9A-Fa-f\s]*$/.test(inputValue);
+                if (!isValid) {
+                    validationMessage.textContent = "Invalid input. Only hex digits and spaces are allowed.";
+                    validationMessage.style.color = "red";
+                }
+                else {
+                    validationMessage.textContent = "";
+                }
+            });
+            _StdOut.putText(validationMessage.textContent);
+        }
     }
     TSOS.Shell = Shell;
 })(TSOS || (TSOS = {}));
