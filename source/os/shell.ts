@@ -345,7 +345,7 @@ module TSOS {
             if (args.length > 0) {
 
                 var status = args.join(" ");
-                _StdOut.putText("testing: " + status);
+                _StdOut.putText("Current status: " + status);
                 const statusElement = document.getElementById("status");
                 statusElement.innerHTML = status;
 
