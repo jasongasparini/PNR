@@ -105,10 +105,16 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
-            // cake
+            // status
             sc = new ShellCommand(this.shellStatus,
                                     "status",
                                     "- Displays the given status.")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            sc = new ShellCommand(this.shellBSOD,
+                                    "bsod",
+                                    "- Blue screens the console for testing.")
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
@@ -352,6 +358,12 @@ module TSOS {
             } else {
                 _StdOut.putText("Usage: status <string>, Provide a valid string to display as the status.");
             }
+        }
+
+        public shellBSOD (args: string[]){
+            _DrawingContext.clearRect(0, 0, 500, 500);
+            _DrawingContext.fillStyle = "blue";
+            _DrawingContext.fillRect(0, 0, 500, 500);
         }
 
     }

@@ -68,8 +68,11 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellCake, "cake", "- The displayed statement is true.");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
-            // cake
+            // status
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "- Displays the given status.");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            sc = new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Blue screens the console for testing.");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // ps  - list the running processes and their IDs
@@ -288,13 +291,18 @@ var TSOS;
         shellStatus(args) {
             if (args.length > 0) {
                 var status = args.join(" ");
-                _StdOut.putText("testing: " + status);
+                _StdOut.putText("Current status: " + status);
                 const statusElement = document.getElementById("status");
                 statusElement.innerHTML = status;
             }
             else {
                 _StdOut.putText("Usage: status <string>, Provide a valid string to display as the status.");
             }
+        }
+        shellBSOD(args) {
+            _DrawingContext.clearRect(0, 0, 500, 500);
+            _DrawingContext.fillStyle = "blue";
+            _DrawingContext.fillRect(0, 0, 500, 500);
         }
     }
     TSOS.Shell = Shell;
