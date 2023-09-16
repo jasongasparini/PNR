@@ -118,6 +118,12 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+            sc = new ShellCommand(this.shellBSOD,
+                                    "load",
+                                    "- Loads user program input.")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 

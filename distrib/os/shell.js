@@ -75,6 +75,9 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Blue screens the console for testing.");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
+            sc = new TSOS.ShellCommand(this.shellBSOD, "load", "- Loads user program input.");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
