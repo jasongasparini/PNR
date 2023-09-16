@@ -67,12 +67,15 @@
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
+   <div class ="taskbar" style="text-align: right; float:left; background-color: red; border: 2px solid black; padding: 10px;width: 100%;">
+      <span id="datetime"></span>
+      <span id="timedate"></span>
+      <span id="status" style="text-align: left;"></span>
+   </div>
+
+
    <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
-      <div class ="taskbar" style="text-align: right; float:left; background-color: red; border: 2px solid black; padding: 10px;width: 400px;">
-         <span id="datetime"></span>
-         <span id="timedate"></span>
-         <span id="status" style="text-align: left;"></span>
-      </div>
+      
       <canvas id="display"
               width="500px"
               height="500px"
