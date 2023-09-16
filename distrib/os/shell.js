@@ -75,7 +75,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellBSOD, "bsod", "- Blue screens the console for testing.");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
-            sc = new TSOS.ShellCommand(this.shellBSOD, "load", "- Loads user program input.");
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Loads user program input.");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // ps  - list the running processes and their IDs
@@ -310,12 +310,12 @@ var TSOS;
         }
         shellLoad(args) {
             // Stubbing this out for now until funcitonality is needed in proceeding Labs
-            // var textarea = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
-            // var validation = textarea.match(/^[ A-F0-9]+$/)
-            // if(validation == null) {
-            //     _StdOut.putText("Invalid program specified.");
-            // }
-            _StdOut.putText("Loading");
+            var textarea = document.getElementById("taProgramInput").value;
+            var validation = textarea.match(/^[ A-F0-9]+$/);
+            if (validation == null) {
+                _StdOut.putText("Invalid program specified.");
+            }
+            // _StdOut.putText("Loading");
         }
     }
     TSOS.Shell = Shell;
