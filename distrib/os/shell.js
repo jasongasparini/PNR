@@ -315,7 +315,6 @@ var TSOS;
             if (validation == null) {
                 _StdOut.putText("Invalid program specified.");
             }
-            // _StdOut.putText("Loading");
         }
     }
     TSOS.Shell = Shell;
