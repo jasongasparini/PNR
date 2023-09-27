@@ -382,7 +382,7 @@ module TSOS {
                 _StdOut.putText("Invalid program specified.");
             }
 
-            // _StdOut.putText("Loading");
+            
         } 
 
     }
