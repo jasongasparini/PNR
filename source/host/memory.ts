@@ -5,7 +5,7 @@
    ---------------------------------- */
 
    module TSOS {
-    export class CoreMemory {
+    export class Memory {
         private memory: number[];
 
         constructor() {

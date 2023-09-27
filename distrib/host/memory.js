@@ -5,7 +5,7 @@
    ---------------------------------- */
 var TSOS;
 (function (TSOS) {
-    class CoreMemory {
+    class Memory {
         memory;
         constructor() {
             this.memory = new Array(256).fill(0); // Initializes memory
@@ -37,6 +37,6 @@ var TSOS;
             return byteValue;
         }
     }
-    TSOS.CoreMemory = CoreMemory;
+    TSOS.Memory = Memory;
 })(TSOS || (TSOS = {}));
-//# sourceMappingURL=coreMemory.js.map
+//# sourceMappingURL=memory.js.map
