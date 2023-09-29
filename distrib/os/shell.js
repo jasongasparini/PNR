@@ -315,6 +315,30 @@ var TSOS;
             if (validation == null) {
                 _StdOut.putText("Invalid program specified.");
             }
+            // Split the input into individual opcodes (assuming they are separated by spaces)
+            const opcodes = textarea.split(" ");
+            // Load the opcodes into memory
+            for (let i = 0; i < opcodes.length; i++) {
+                const opcode = opcodes[i];
+                if (opcode.length === 2) {
+                    // Assuming each opcode is a 2-digit hexadecimal string
+                    const value = parseInt(opcode, 16);
+                    // Check if value is a valid number
+                    if (!isNaN(value) && value >= 0 && value <= 255) {
+                        // Write the value to memory at the next available address
+                        _Memory.writeByte(i, value);
+                    }
+                    else {
+                        _StdOut.putText("Invalid opcode at position " + i);
+                        return;
+                    }
+                }
+                else {
+                    _StdOut.putText("Invalid opcode length at position " + i);
+                    return;
+                }
+            }
+            _Memory.updateMemoryTable();
         }
     }
     TSOS.Shell = Shell;
