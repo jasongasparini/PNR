@@ -28,11 +28,11 @@ var TSOS;
             this.isExecuting = isExecuting;
         }
         init() {
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
-            this.Zflag = 0;
+            this.PC = 0x0000;
+            this.Acc = 0x00;
+            this.Xreg = 0x00;
+            this.Yreg = 0x00;
+            this.Zflag = 0x00;
             this.isExecuting = false;
         }
         cycle() {
@@ -41,8 +41,6 @@ var TSOS;
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             if (this.isExecuting) {
             }
-        }
-        execute() {
         }
     }
     TSOS.Cpu = Cpu;
