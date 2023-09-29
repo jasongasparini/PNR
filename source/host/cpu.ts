@@ -31,20 +31,10 @@ module TSOS {
             this.Yreg = 0x00;
             this.Zflag = 0x00;
             this.isExecuting = false;
-        }
-
-        public cycle(): void {
-            _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
-
-            if(this.isExecuting){
-
-            }
 
 
             document.addEventListener("DOMContentLoaded", function() {
-                const memory = new Memory(); // Assuming you have the Memory class implemented
+            
               
                 // Function to update the memory table
                 function updateMemoryTable() {
@@ -66,8 +56,24 @@ module TSOS {
                 // Initial update
                 updateMemoryTable();
               });
+        }
+
+        public cycle(): void {
+            _Kernel.krnTrace('CPU cycle');
+            // TODO: Accumulate CPU usage and profiling statistics here.
+            // Do the real work here. Be sure to set this.isExecuting appropriately.
+
+            if(this.isExecuting){
+
+            }
+
+            
+            
 
         }
+
+
+        
 
         // public execute(): void {
         //     switch (instruction) {
