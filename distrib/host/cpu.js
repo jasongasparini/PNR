@@ -41,6 +41,25 @@ var TSOS;
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             if (this.isExecuting) {
             }
+            document.addEventListener("DOMContentLoaded", function () {
+                const memory = new TSOS.Memory(); // Assuming you have the Memory class implemented
+                // Function to update the memory table
+                function updateMemoryTable() {
+                    const tableBody = document.querySelector('#memoryTable tbody');
+                    tableBody.innerHTML = '';
+                    for (let address = 0; address < 256; address++) {
+                        const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
+                        const hexValue = _Memory.readByte(address);
+                        const row = `<tr>
+                                   <td>0x${hexAddress}</td>
+                                   <td>${hexValue}</td>
+                                 </tr>`;
+                        tableBody.innerHTML += row;
+                    }
+                }
+                // Initial update
+                updateMemoryTable();
+            });
         }
     }
     TSOS.Cpu = Cpu;
