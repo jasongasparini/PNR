@@ -16,6 +16,9 @@ module TSOS {
         public krnBootstrap() {      // Page 8. {
             Control.hostLog("bootstrap", "host");  // Use hostLog because we ALWAYS want this, even if _Trace is off.
 
+            // Initialize Memory manager
+            _MemoryManager = new MemoryManager();
+
             // Initialize our global queues.
             _KernelInterruptQueue = new Queue();  // A (currently) non-priority queue for interrupt requests (IRQs).
             _KernelBuffers = new Array();         // Buffers... for the kernel.
@@ -47,6 +50,8 @@ module TSOS {
             this.krnTrace("Creating and Launching the shell.");
             _OsShell = new Shell();
             _OsShell.init();
+
+            
 
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {

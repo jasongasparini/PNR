@@ -8,17 +8,21 @@ var TSOS;
     class Memory {
         memory;
         constructor() {
+        }
+        init() {
             this.memory = new Array(256).fill(0); // Initializes memory
         }
-        // Read a byte from memory at the specified address
-        readByte(address) {
+        // Read a byte from memory at the specified hexadecimal address
+        readByte(hexAddress) {
+            const address = this.hexStringToByte(hexAddress);
             // if (address < 0 || address >= 256) {
             // throw new Error("Invalid memory address");
             // }
             return this.byteToHexString(this.memory[address]);
         }
-        // Write a byte to memory at the specified address
-        writeByte(address, value) {
+        // Write a byte to memory at the specified hexadecimal address
+        writeByte(hexAddress, value) {
+            const address = this.hexStringToByte(hexAddress);
             // if (address < 0 || address >= 256) {
             // throw new Error("Invalid memory address");
             // }
