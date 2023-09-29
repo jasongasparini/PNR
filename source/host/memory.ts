@@ -6,9 +6,9 @@
 
    module TSOS {
     export class Memory {
-        
+        private memory: number[];
 
-        constructor(public memory: number[]) {
+        constructor() {
             
         }
 

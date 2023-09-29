@@ -7,8 +7,7 @@ var TSOS;
 (function (TSOS) {
     class Memory {
         memory;
-        constructor(memory) {
-            this.memory = memory;
+        constructor() {
         }
         init() {
             this.memory = new Array(256).fill(0); // Initializes memory

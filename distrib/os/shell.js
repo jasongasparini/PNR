@@ -18,7 +18,6 @@ var TSOS;
         apologies = "[sorry]";
         commandsUsed = [];
         commandsUsedIndex = 0;
-        currentProcessCount = 1;
         constructor() {
         }
         init() {
@@ -339,9 +338,6 @@ var TSOS;
                     return;
                 }
             }
-            // const currentPID = this.currentProcessCount;
-            // this.currentProcessCount++;
-            // _StdOut.putText("process ID: " + currentPID);
             _Memory.updateMemoryTable();
         }
     }
