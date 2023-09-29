@@ -10,6 +10,10 @@
         constructor() {
             
         }
+
+        // public readMemory(address: number): string {
+        //     const convertedAddress = number
+        // }
     }
 
 }

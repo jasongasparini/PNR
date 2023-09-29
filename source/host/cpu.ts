@@ -25,11 +25,11 @@ module TSOS {
         }
 
         public init(): void {
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
-            this.Zflag = 0;
+            this.PC = 0x0000;
+            this.Acc = 0x00;
+            this.Xreg = 0x00;
+            this.Yreg = 0x00;
+            this.Zflag = 0x00;
             this.isExecuting = false;
         }
 
@@ -44,8 +44,15 @@ module TSOS {
 
         }
 
-        public execute(): void {
-            
-        }
+        // public execute(): void {
+        //     switch (instruction) {
+        //         case "0xA9":
+        //             this.PC ++;
+                    
+
+
+        //             break;
+        //     }
+        // }
     }
 }

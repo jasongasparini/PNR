@@ -17,25 +17,24 @@
         }
 
         // Read a byte from memory at the specified hexadecimal address
-        readByte(hexAddress: string): string {
-            const address = this.hexStringToByte(hexAddress);
-            // if (address < 0 || address >= 256) {
-            // throw new Error("Invalid memory address");
-            // }
+        readByte(hexAddress: number): string {
+            const address = this.hexToByte(hexAddress);
+            if (address < 0 || address >= 256) {
+            throw new Error("Invalid memory address");
+            }
 
             return this.byteToHexString(this.memory[address]);
         }
 
         // Write a byte to memory at the specified hexadecimal address
-        writeByte(hexAddress: string, value: string): void {
-            const address = this.hexStringToByte(hexAddress);
-            // if (address < 0 || address >= 256) {
-            // throw new Error("Invalid memory address");
-            // }
+        writeByte(hexAddress: number, value: number): void {
+            const address = this.hexToByte(hexAddress);
+            if (address < 0 || address >= 256) {
+            throw new Error("Invalid memory address");
+            }
 
-            this.memory[address] = this.hexStringToByte(value);
+            this.memory[address] = this.hexToByte(value);
         }
-
 
         // Helper function to convert a byte (number) to a 2-digit hexadecimal string
         private byteToHexString(byteValue: number): string {
@@ -43,13 +42,10 @@
         }
 
         // Helper function to convert a 2-digit hexadecimal string to a byte (number)
-        private hexStringToByte(hexString: string): number {
-            const byteValue = parseInt(hexString, 16);
-            // if (isNaN(byteValue) || byteValue < 0 || byteValue > 255) {
-            // throw new Error("Invalid hexadecimal value");
-            // }
-            return byteValue;
+        private hexToByte(hexValue: number): number {
+            return hexValue & 0xFF; // Ensure that the value is within the range of 0x00 to 0xFF
         }
+
 
 
     }
