@@ -19,6 +19,7 @@ module TSOS {
         public apologies = "[sorry]";
         public commandsUsed: string[] = [];
         public commandsUsedIndex = 0;
+        public currentProcessCount = 1;
 
         constructor() {
         }
@@ -406,6 +407,9 @@ module TSOS {
                 }
             }
 
+            const currentPID = this.currentProcessCount;
+            this.currentProcessCount++;
+            _StdOut.putText("process ID: " + currentPID);
             _Memory.updateMemoryTable();
 
         } 
