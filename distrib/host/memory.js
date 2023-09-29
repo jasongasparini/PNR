@@ -35,10 +35,10 @@ var TSOS;
             const tableBody = document.querySelector('#memoryTable tbody');
             tableBody.innerHTML = '';
             for (let address = 0; address < 256; address++) {
-                //   const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
-                //   const hexValue = this.readByte(address);
-                const hexAddress = address;
-                const hexValue = 1;
+                const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
+                const hexValue = this.readByte(address);
+                // const hexAddress = address;
+                // const hexValue = 1
                 const row = `<tr>
                              <td>0x${hexAddress}</td>
                              <td>${hexValue}</td>
