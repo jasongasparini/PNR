@@ -34,31 +34,12 @@ var TSOS;
             this.Yreg = 0x00;
             this.Zflag = 0x00;
             this.isExecuting = false;
-            document.addEventListener("DOMContentLoaded", function () {
-                // Function to update the memory table
-                function updateMemoryTable() {
-                    const tableBody = document.querySelector('#memoryTable tbody');
-                    tableBody.innerHTML = '';
-                    for (let address = 0; address < 256; address++) {
-                        const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
-                        const hexValue = _Memory.readByte(address);
-                        const row = `<tr>
-                                   <td>0x${hexAddress}</td>
-                                   <td>${hexValue}</td>
-                                 </tr>`;
-                        tableBody.innerHTML += row;
-                    }
-                }
-                // Initial update
-                updateMemoryTable();
-            });
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
-            if (this.isExecuting) {
-            }
+            _Memory.updateMemoryTable();
         }
     }
     TSOS.Cpu = Cpu;

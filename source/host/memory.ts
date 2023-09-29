@@ -6,9 +6,9 @@
 
    module TSOS {
     export class Memory {
-        private memory: number[]
+        
 
-        constructor() {
+        constructor(public memory: number[]) {
             
         }
 
@@ -17,21 +17,17 @@
         }
 
         // Read a byte from memory at the specified hexadecimal address
-        readByte(hexAddress: number): string {
+        public readByte(hexAddress: number): string {
             const address = this.hexToByte(hexAddress);
-            if (address < 0 || address >= 256) {
-            throw new Error("Invalid memory address");
-            }
+            
 
             return this.byteToHexString(this.memory[address]);
         }
 
         // Write a byte to memory at the specified hexadecimal address
-        writeByte(hexAddress: number, value: number): void {
+        public writeByte(hexAddress: number, value: number): void {
             const address = this.hexToByte(hexAddress);
-            if (address < 0 || address >= 256) {
-            throw new Error("Invalid memory address");
-            }
+            
 
             this.memory[address] = this.hexToByte(value);
         }
@@ -46,7 +42,21 @@
             return hexValue & 0xFF; // Ensure that the value is within the range of 0x00 to 0xFF
         }
 
-
+        public updateMemoryTable() {
+            const tableBody = document.querySelector('#memoryTable tbody');
+            tableBody.innerHTML = '';
+        
+            for (let address = 0; address < 256; address++) {
+              const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
+              const hexValue = this.readByte(address);
+              
+              const row = `<tr>
+                             <td>0x${hexAddress}</td>
+                             <td>${hexValue}</td>
+                           </tr>`;
+              tableBody.innerHTML += row;
+            }
+          }
 
     }
 
