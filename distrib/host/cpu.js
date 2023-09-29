@@ -34,15 +34,7 @@ var TSOS;
             this.Yreg = 0x00;
             this.Zflag = 0x00;
             this.isExecuting = false;
-        }
-        cycle() {
-            _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
-            if (this.isExecuting) {
-            }
             document.addEventListener("DOMContentLoaded", function () {
-                const memory = new TSOS.Memory(); // Assuming you have the Memory class implemented
                 // Function to update the memory table
                 function updateMemoryTable() {
                     const tableBody = document.querySelector('#memoryTable tbody');
@@ -60,6 +52,13 @@ var TSOS;
                 // Initial update
                 updateMemoryTable();
             });
+        }
+        cycle() {
+            _Kernel.krnTrace('CPU cycle');
+            // TODO: Accumulate CPU usage and profiling statistics here.
+            // Do the real work here. Be sure to set this.isExecuting appropriately.
+            if (this.isExecuting) {
+            }
         }
     }
     TSOS.Cpu = Cpu;
