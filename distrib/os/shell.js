@@ -351,12 +351,12 @@ var TSOS;
                 }
             }
             _Kernel.krnTrace('Loaded');
+            _Kernel.krnTrace('Updating table'); // TEST
+            _Memory.updateMemoryTable();
             const processId = this.nextProcessId;
             const pcb = new TSOS.ProcessControlBlock(processId, 0x0000, 0x0000);
             this.pcbList.push(pcb);
             this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
-            _Kernel.krnTrace('Updating table'); // TEST
-            _Memory.updateMemoryTable();
         }
         shellRun(args) {
             if (args.length > 0) {
