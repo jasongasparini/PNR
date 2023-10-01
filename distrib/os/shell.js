@@ -350,8 +350,6 @@ var TSOS;
                     return;
                 }
             }
-            _Kernel.krnTrace('Loaded');
-            _Kernel.krnTrace('Updating table'); // TEST
             _Memory.updateMemoryTable();
             // const processId = this.nextProcessId;
             // const pcb = new ProcessControlBlock(processId, 0x0000, 0x0000);
@@ -369,6 +367,7 @@ var TSOS;
         }
         shellKill(args) {
             _CPU.isExecuting = false;
+            _StdOut.putText(_CPU.Acc);
         }
     }
     TSOS.Shell = Shell;

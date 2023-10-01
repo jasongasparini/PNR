@@ -424,9 +424,6 @@ module TSOS {
                     return;
                 }
             }
-
-            _Kernel.krnTrace('Loaded');
-            _Kernel.krnTrace('Updating table'); // TEST
             _Memory.updateMemoryTable();
 
 
@@ -452,6 +449,7 @@ module TSOS {
 
         public shellKill(args: string[]){
             _CPU.isExecuting = false;
+            _StdOut.putText(_CPU.Acc);
         }
 
     }
