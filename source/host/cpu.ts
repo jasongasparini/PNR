@@ -34,8 +34,12 @@ module TSOS {
             this.Zflag = 0x00;
             this.isExecuting = false;
 
+        }
 
-            
+        public updateTable(): void {
+            document.getElementById("pcValue").textContent = this.PC.toString(16);
+            document.getElementById("irValue").textContent = this.IR.toString(16);
+            document.getElementById("accValue").textContent = this.Acc.toString(16);
         }
 
         public cycle(): void {
@@ -55,7 +59,7 @@ module TSOS {
                 break;
             }
 
-
+            this.updateTable();
         }
 
 

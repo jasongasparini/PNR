@@ -38,6 +38,11 @@ var TSOS;
             this.Zflag = 0x00;
             this.isExecuting = false;
         }
+        updateTable() {
+            document.getElementById("pcValue").textContent = this.PC.toString(16);
+            document.getElementById("irValue").textContent = this.IR.toString(16);
+            document.getElementById("accValue").textContent = this.Acc.toString(16);
+        }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
@@ -51,6 +56,7 @@ var TSOS;
                     this.execute(this.IR); // Execute step
                     break;
             }
+            this.updateTable();
         }
         execute(instruction) {
             switch (instruction) {
