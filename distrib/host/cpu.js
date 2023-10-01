@@ -42,6 +42,25 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+            // Fetches the byte in memory at the current Program Counter address
+            const currentByte = _MemoryAccessor.readMemory(this.PC);
+            // Decoding step
+            switch (currentByte) {
+                case 0xA9:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+                    break;
+            }
+        }
+        execute(instruction) {
+            switch (instruction) {
+                case 0xA9:
+                    this.PC++;
+                    const value = _MemoryAccessor.readMemory(this.PC);
+                    this.Acc = value; // Loads the accumulator with the constant
+                    this.PC++;
+                    break;
+            }
         }
     }
     TSOS.Cpu = Cpu;

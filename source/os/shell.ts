@@ -19,6 +19,8 @@ module TSOS {
         public apologies = "[sorry]";
         public commandsUsed: string[] = [];
         public commandsUsedIndex = 0;
+        public pcbList = [];
+        public nextProcessId = this.pcbList.length;
 
         constructor() {
         }
@@ -112,20 +114,35 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+            // BSOD command
             sc = new ShellCommand(this.shellBSOD,
                                     "bsod",
                                     "- Blue screens the console for testing.")
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+            // load program
             sc = new ShellCommand(this.shellLoad,
                                     "load",
                                     "- Loads user program input.")
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+            // run specified program
+            sc = new ShellCommand(this.shellRun,
+                                    "run",
+                                    "- Runs the specified process.")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
+            sc = new ShellCommand(this.shellKill,
+                                    "kill",
+                                    "- Stops the CPU")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
 
             // Display the initial prompt.
             this.putPrompt();
@@ -406,11 +423,29 @@ module TSOS {
                 }
             }
 
-            const pcb = new ProcessControlBlock(0, 0x0000, 0x0000);
+            const processId = this.nextProcessId;
+            const pcb = new ProcessControlBlock(processId, 0x0000, 0x0000);
+            this.pcbList.push(pcb);
+            this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
 
             _Memory.updateMemoryTable();
 
         } 
+
+        public shellRun(args: string[]){
+            if (args.length > 0) {
+                
+                // let id = parseInt(args[0], 10);
+                _CPU.isExecuting = true;
+
+            } else {
+                _StdOut.putText("Invalid process ID");
+            }
+        }
+
+        public shellKill(args: string[]){
+            _CPU.isExecuting = false;
+        }
 
     }
 }

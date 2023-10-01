@@ -45,7 +45,7 @@
         
             for (let address = 0; address < 256; address++) {
               const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
-              const hexValue = this.readByte(address);
+              const hexValue = this.readByte(address).toString(16).toUpperCase().padStart(2, '0');
 
             // const hexAddress = address;
             // const hexValue = 1
