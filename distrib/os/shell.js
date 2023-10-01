@@ -328,6 +328,7 @@ var TSOS;
             }
             // Split the input into individual opcodes (assuming they are separated by spaces)
             const opcodes = textarea.split(" ");
+            _Kernel.krnTrace('loading'); //TEST
             // Load the opcodes into memory
             for (let i = 0; i < opcodes.length; i++) {
                 const opcode = opcodes[i];
@@ -353,6 +354,7 @@ var TSOS;
             const pcb = new TSOS.ProcessControlBlock(processId, 0x0000, 0x0000);
             this.pcbList.push(pcb);
             this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
+            _Kernel.krnTrace('Updating table'); // TEST
             _Memory.updateMemoryTable();
         }
         shellRun(args) {

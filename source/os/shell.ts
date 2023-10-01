@@ -402,6 +402,7 @@ module TSOS {
             // Split the input into individual opcodes (assuming they are separated by spaces)
             const opcodes = textarea.split(" ");
 
+            _Kernel.krnTrace('loading'); //TEST
             // Load the opcodes into memory
             for (let i = 0; i < opcodes.length; i++) {
                 const opcode = opcodes[i];
@@ -413,6 +414,7 @@ module TSOS {
                     if (!isNaN(value) && value >= 0 && value <= 255) {
                         // Write the value to memory at the next available address
                         _Memory.writeByte(i, value);
+                        
                     } else {
                         _StdOut.putText("Invalid opcode at position " + i);
                         return;
@@ -428,6 +430,7 @@ module TSOS {
             this.pcbList.push(pcb);
             this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
 
+            _Kernel.krnTrace('Updating table'); // TEST
             _Memory.updateMemoryTable();
 
         } 
