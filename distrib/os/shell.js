@@ -350,6 +350,7 @@ var TSOS;
                     return;
                 }
             }
+            _Kernel.krnTrace('Loaded');
             const processId = this.nextProcessId;
             const pcb = new TSOS.ProcessControlBlock(processId, 0x0000, 0x0000);
             this.pcbList.push(pcb);
