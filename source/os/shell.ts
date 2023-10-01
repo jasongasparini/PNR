@@ -449,7 +449,7 @@ module TSOS {
 
         public shellKill(args: string[]){
             _CPU.isExecuting = false;
-            _StdOut.putText(_CPU.Acc);
+            
         }
 
     }

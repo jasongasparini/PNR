@@ -367,7 +367,6 @@ var TSOS;
         }
         shellKill(args) {
             _CPU.isExecuting = false;
-            _StdOut.putText(_CPU.Acc);
         }
     }
     TSOS.Shell = Shell;
