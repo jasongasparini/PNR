@@ -430,10 +430,10 @@ module TSOS {
             _Memory.updateMemoryTable();
 
 
-            const processId = this.nextProcessId;
-            const pcb = new ProcessControlBlock(processId, 0x0000, 0x0000);
-            this.pcbList.push(pcb);
-            this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
+            // const processId = this.nextProcessId;
+            // const pcb = new ProcessControlBlock(processId, 0x0000, 0x0000);
+            // this.pcbList.push(pcb);
+            // this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
 
             
 
