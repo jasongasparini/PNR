@@ -17,11 +17,8 @@
         }
 
         // Read a byte from memory at the specified hexadecimal address
-        public readByte(hexAddress: number): string {
-            const address = this.hexToByte(hexAddress);
-            
-
-            return this.byteToHexString(this.memory[address]);
+        public readByte(hexAddress: number): number {
+            return this.memory[hexAddress];
         }
 
         // Write a byte to memory at the specified hexadecimal address

@@ -16,6 +16,7 @@ module TSOS {
     export class Cpu {
 
         constructor(public PC: number = 0,
+                    public IR: number = 0,
                     public Acc: number = 0,
                     public Xreg: number = 0,
                     public Yreg: number = 0,
@@ -26,6 +27,7 @@ module TSOS {
 
         public init(): void {
             this.PC = 0x0000;
+            this.IR = 0x00;
             this.Acc = 0x00;
             this.Xreg = 0x00;
             this.Yreg = 0x00;

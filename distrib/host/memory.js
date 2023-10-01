@@ -14,8 +14,7 @@ var TSOS;
         }
         // Read a byte from memory at the specified hexadecimal address
         readByte(hexAddress) {
-            const address = this.hexToByte(hexAddress);
-            return this.byteToHexString(this.memory[address]);
+            return this.memory[hexAddress];
         }
         // Write a byte to memory at the specified hexadecimal address
         writeByte(hexAddress, value) {

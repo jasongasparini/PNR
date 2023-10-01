@@ -6,20 +6,20 @@
 
 module TSOS {
     export class ProcessControlBlock {
-        public PID: number = 0;
-        public PC: number = 0;
-        public IR: number = 0x00;
-        public ACC: number = 0x00;
-        public X: number = 0;
-        public Y: number = 0;
-        public Z: number = 0;
-        public priority: number = 0;
-        public state: string = "";
-        public location: number = 0;
+        public PID: number;
+        public PC: number;
+        public IR: number;
+        public ACC: number;
+        public X: number;
+        public Y: number;
+        public Z: number;
+        public priority: number;
+        public state: string;
+        public location: number;
 
-        constructor(pid: number, pc: number, ir: number, acc: number,
-                    xReg: number, yReg: number, zFlag: number,
-                    prior: number, sta: string, loca: number) {
+        constructor(pid: number, pc: number, loca: number, ir: number = 0x00, acc: number = 0x00,
+                    xReg: number = 0x00, yReg: number = 0x00, zFlag: number = 0,
+                    prior: number = 0, sta: string = "Idle") {
 
             this.PID = pid;
             this.PC = pc;

@@ -406,6 +406,8 @@ module TSOS {
                 }
             }
 
+            const pcb = new ProcessControlBlock(0, 0x0000, 0x0000);
+
             _Memory.updateMemoryTable();
 
         } 
