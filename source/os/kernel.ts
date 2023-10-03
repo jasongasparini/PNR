@@ -127,7 +127,7 @@ module TSOS {
                     _StdIn.handleInput();
                     break;
                 case FF_IRQ:
-                    _StdOut.putText(params);
+                    _StdOut.putText(params[0]);
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
