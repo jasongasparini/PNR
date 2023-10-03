@@ -108,7 +108,7 @@ var TSOS;
                     _StdIn.handleInput();
                     break;
                 case FF_IRQ:
-                    let string = params[0];
+                    let string = params[0].toString(16);
                     _StdOut.putText(string);
                     break;
                 default:
