@@ -203,9 +203,10 @@ var TSOS;
                     break;
                 case 0xEE: // Increments the value of a byte
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(this.PC);
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    value = _MemoryAccessor.readMemory(address);
                     value++;
-                    _MemoryAccessor.writeMemory(this.PC, value);
+                    _MemoryAccessor.writeMemory(address, value);
                     this.PC++;
                     this.PC++;
                     break;
