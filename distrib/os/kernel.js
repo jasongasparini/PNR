@@ -108,7 +108,8 @@ var TSOS;
                     _StdIn.handleInput();
                     break;
                 case FF_IRQ:
-                    _StdOut.putText(params[0]);
+                    let string = params[0];
+                    _StdOut.putText(string);
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
