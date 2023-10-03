@@ -189,7 +189,6 @@ module TSOS {
                     this.PC++;
                     value = _MemoryAccessor.readMemory(this.PC);
                     this.PC++;
-                    this.PC++;
                     this.Xreg = value;
                 break;
 
@@ -205,7 +204,6 @@ module TSOS {
                 case 0xA0: // Loads the Y reg with a constant
                     this.PC++;
                     value = _MemoryAccessor.readMemory(this.PC);
-                    this.PC++;
                     this.PC++;
                     this.Yreg = value;
                 break;
