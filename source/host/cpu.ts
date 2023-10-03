@@ -37,12 +37,12 @@ module TSOS {
         }
 
         public updateTable(): void {
-            document.getElementById("pcValue").textContent = this.PC.toString(16);
-            document.getElementById("irValue").textContent = this.IR.toString(16);
-            document.getElementById("accValue").textContent = this.Acc.toString(16);
-            document.getElementById("xValue").textContent = this.Xreg.toString(16);
-            document.getElementById("yValue").textContent = this.Yreg.toString(16);
-            document.getElementById("zValue").textContent = this.Zflag.toString(16);
+            document.getElementById("pcValue").textContent = this.PC.toString(16).toUpperCase();
+            document.getElementById("irValue").textContent = this.IR.toString(16).toUpperCase();
+            document.getElementById("accValue").textContent = this.Acc.toString(16).toUpperCase();
+            document.getElementById("xValue").textContent = this.Xreg.toString(16).toUpperCase();
+            document.getElementById("yValue").textContent = this.Yreg.toString(16).toUpperCase();
+            document.getElementById("zValue").textContent = this.Zflag.toString(16).toUpperCase();
         }
 
         public cycle(): void {
@@ -140,8 +140,10 @@ module TSOS {
                 break;
             }
 
-            this.updateTable();
-            _Memory.updateMemoryTable(); 
+
+            // This was moved to the clock pulse in devices.ts
+            // this.updateTable();
+            // _Memory.updateMemoryTable(); 
         }
 
 
@@ -232,7 +234,7 @@ module TSOS {
                     this.PC++;
                     value = _MemoryAccessor.readMemory(address);
                     if (value == this.Xreg){
-                        this.Zflag == 0x01;
+                        this.Zflag = 0x01;
                     }
 
                 break;

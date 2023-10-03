@@ -39,12 +39,12 @@ var TSOS;
             this.isExecuting = false;
         }
         updateTable() {
-            document.getElementById("pcValue").textContent = this.PC.toString(16);
-            document.getElementById("irValue").textContent = this.IR.toString(16);
-            document.getElementById("accValue").textContent = this.Acc.toString(16);
-            document.getElementById("xValue").textContent = this.Xreg.toString(16);
-            document.getElementById("yValue").textContent = this.Yreg.toString(16);
-            document.getElementById("zValue").textContent = this.Zflag.toString(16);
+            document.getElementById("pcValue").textContent = this.PC.toString(16).toUpperCase();
+            document.getElementById("irValue").textContent = this.IR.toString(16).toUpperCase();
+            document.getElementById("accValue").textContent = this.Acc.toString(16).toUpperCase();
+            document.getElementById("xValue").textContent = this.Xreg.toString(16).toUpperCase();
+            document.getElementById("yValue").textContent = this.Yreg.toString(16).toUpperCase();
+            document.getElementById("zValue").textContent = this.Zflag.toString(16).toUpperCase();
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
@@ -111,8 +111,9 @@ var TSOS;
                     this.execute(this.IR); // Execute step
                     break;
             }
-            this.updateTable();
-            _Memory.updateMemoryTable();
+            // This was moved to the clock pulse in devices.ts
+            // this.updateTable();
+            // _Memory.updateMemoryTable(); 
         }
         execute(instruction) {
             let value = 0x00;
@@ -188,7 +189,7 @@ var TSOS;
                     this.PC++;
                     value = _MemoryAccessor.readMemory(address);
                     if (value == this.Xreg) {
-                        this.Zflag == 0x01;
+                        this.Zflag = 0x01;
                     }
                     break;
                 case 0xD0: // Branches n bytes
