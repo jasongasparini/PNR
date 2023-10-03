@@ -220,7 +220,7 @@ var TSOS;
                         let xStringArray;
                         xStringArray.push(xString);
                         var interrupt = new TSOS.Interrupt(FF_IRQ, xStringArray);
-                        _KernelInputQueue.enqueue(interrupt);
+                        _KernelInterruptQueue.enqueue(interrupt);
                     }
                     else if (this.Xreg == 0x02) {
                         // let yString = this.Yreg.toString(16).split("");
