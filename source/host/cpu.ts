@@ -265,14 +265,16 @@ module TSOS {
                 case 0xFF: // FF System call print
                     this.PC++;
                     if(this.Xreg == 0x01){
-                        let xString = this.Xreg.toString(16).split("");
-                        var interrupt = new Interrupt(FF_IRQ, xString);
+                        let xString = this.Xreg.toString(16);
+                        let xStringArray: string[];
+                        xStringArray.push(xString);
+                        var interrupt = new Interrupt(FF_IRQ, xStringArray);
                         _Kernel.krnInterruptHandler(interrupt.irq, interrupt.params);
                     }
                     else if(this.Xreg == 0x02){
-                        let yString = this.Yreg.toString(16).split("");
-                        var interrupt = new Interrupt(FF_IRQ, yString);
-                        _Kernel.krnInterruptHandler(interrupt.irq, interrupt.params);
+                        // let yString = this.Yreg.toString(16).split("");
+                        // var interrupt = new Interrupt(FF_IRQ, yString);
+                        // _Kernel.krnInterruptHandler(interrupt.irq, interrupt.params);
                     }
 
                 break;

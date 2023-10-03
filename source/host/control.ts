@@ -90,7 +90,7 @@ module TSOS {
 
             _Memory = new Memory();
             _Memory.init(); 
-            _Memory.updateMemoryTable();
+
 
             _MemoryAccessor = new MemoryAccessor();
 
