@@ -214,7 +214,9 @@ var TSOS;
                 case 0xFF: // FF System call print
                     this.PC++;
                     if (this.Xreg == 0x01) {
-                        let xString = this.Xreg.toString(16);
+                        let xString = this.Yreg.toString(16);
+                        _StdOut.putText("Case satisfied. Testing output");
+                        _StdOut.putText(xString);
                         let xStringArray;
                         xStringArray.push(xString);
                         var interrupt = new TSOS.Interrupt(FF_IRQ, xStringArray);
