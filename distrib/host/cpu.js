@@ -42,6 +42,9 @@ var TSOS;
             document.getElementById("pcValue").textContent = this.PC.toString(16);
             document.getElementById("irValue").textContent = this.IR.toString(16);
             document.getElementById("accValue").textContent = this.Acc.toString(16);
+            document.getElementById("xValue").textContent = this.Xreg.toString(16);
+            document.getElementById("yValue").textContent = this.Yreg.toString(16);
+            document.getElementById("zValue").textContent = this.Zflag.toString(16);
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
@@ -109,6 +112,7 @@ var TSOS;
                     break;
             }
             this.updateTable();
+            _Memory.updateMemoryTable();
         }
         execute(instruction) {
             let value = 0x00;
