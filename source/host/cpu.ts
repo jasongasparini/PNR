@@ -57,6 +57,84 @@ module TSOS {
                     this.execute(this.IR); // Execute step
 
                 break;
+
+                case 0xAD:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0x8D:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0x6D:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xA2:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xAE:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xA0:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xAC:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xEA:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0x00:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xEC:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xD0:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xEE:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
+
+                case 0xFF:
+                    this.IR = currentByte;
+                    this.execute(this.IR); // Execute step
+
+                break;
             }
 
             this.updateTable();
@@ -66,13 +144,133 @@ module TSOS {
         
 
         private execute(instruction: number): void {
+            let value = 0x00;
+            let address = 0x00
+
             switch (instruction) {
-                case 0xA9:
+                case 0xA9: // Loads the accumulator with a constant
                     this.PC++;
-                    const value = _MemoryAccessor.readMemory(this.PC); 
+                    value = _MemoryAccessor.readMemory(this.PC); 
                     this.Acc = value; // Loads the accumulator with the constant
                     this.PC++;
-                    break;
+                break;
+
+                case 0xAD: // Loads the accumulator from memory
+                    this.PC++;
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(address);
+                    this.Acc = value;
+                break;
+
+                case 0x8D: // Stores the accumulator in memory
+                    this.PC++;
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    _MemoryAccessor.writeMemory(address, this.Acc);
+                break;
+
+                case 0x6D: // Adds the accumulator with a constant in memory
+                    this.PC++;
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(address);
+                    this.Acc = this.Acc+value;
+                break;
+
+                case 0xA2: // Loads the X reg with a constant
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    this.Xreg = value;
+                break;
+
+                case 0xAE: // Loads the X reg from memory
+                    this.PC++;
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(address);
+                    this.Xreg = value;
+                break;
+
+                case 0xA0: // Loads the Y reg with a constant
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    this.Yreg = value;
+                break;
+
+                case 0xAC: // Loads the Y reg from memory
+                    this.PC++;
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(address);
+                    this.Yreg = value;
+                break;
+
+                case 0xEA: // No op
+                    this.PC++;
+                break;
+
+                case 0x00: // Break
+                    this.isExecuting = false;
+                break;
+
+                case 0xEC: // Sets zflag if byte == x reg
+                    this.PC++;
+                    address = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(address);
+                    if (value == this.Xreg){
+                        this.Zflag == 0x01;
+                    }
+
+                break;
+
+                case 0xD0: // Branches n bytes
+                    this.PC++;
+                    let operand = _MemoryAccessor.readMemory(this.PC);
+                    if(this.Zflag == 0x00){
+                        let mask = 0b11111111;
+                        operand = operand & mask;
+                        operand += 1;
+                        this.PC = this.PC - operand;
+                    }
+
+                break;
+
+                case 0xEE: // Increments the value of a byte
+                    this.PC++;
+                    value = _MemoryAccessor.readMemory(this.PC);
+                    value++;
+                    _MemoryAccessor.writeMemory(this.PC, value);
+                    this.PC++;
+                    this.PC++;
+
+                break;
+
+                case 0xFF: // FF System call print
+                    this.PC++;
+                    if(this.Xreg == 0x01){
+                        let xString = this.Xreg.toString(16).split("");
+                        var interrupt = new Interrupt(FF_IRQ, xString);
+                        _Kernel.krnInterruptHandler(interrupt.irq, interrupt.params);
+                    }
+                    else if(this.Xreg == 0x02){
+                        let yString = this.Yreg.toString(16).split("");
+                        var interrupt = new Interrupt(FF_IRQ, yString);
+                        _Kernel.krnInterruptHandler(interrupt.irq, interrupt.params);
+                    }
+
+                break;
             }
         }
     }
