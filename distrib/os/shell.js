@@ -18,8 +18,6 @@ var TSOS;
         apologies = "[sorry]";
         commandsUsed = [];
         commandsUsedIndex = 0;
-        pcbList = [];
-        nextProcessId = this.pcbList.length;
         constructor() {
         }
         init() {
@@ -328,8 +326,10 @@ var TSOS;
             }
             // Split the input into individual opcodes (assuming they are separated by spaces)
             const opcodes = textarea.split(" ");
-            _Kernel.krnTrace('loading'); //TEST
+            // _Kernel.krnTrace('loading'); //TEST
             // Load the opcodes into memory
+            _Memory.init();
+            _CPU.init();
             for (let i = 0; i < opcodes.length; i++) {
                 const opcode = opcodes[i];
                 if (opcode.length === 2) {
@@ -351,10 +351,8 @@ var TSOS;
                 }
             }
             _Memory.updateMemoryTable();
-            // const processId = this.nextProcessId;
-            // const pcb = new ProcessControlBlock(processId, 0x0000, 0x0000);
-            // this.pcbList.push(pcb);
-            // this.nextProcessId = this.pcbList.length; // Increments the tracker for the next Process ID based off of the list of pcbs
+            var pcb = new TSOS.ProcessControlBlock(0);
+            _PcbList.push(pcb);
         }
         shellRun(args) {
             if (args.length > 0) {

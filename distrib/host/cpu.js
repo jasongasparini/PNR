@@ -111,6 +111,8 @@ var TSOS;
                     this.execute(this.IR); // Execute step
                     break;
             }
+            _PcbList[0].synchronize();
+            _PcbList[0].updatepcbTable();
             // This was moved to the clock pulse in devices.ts
             // this.updateTable();
             // _Memory.updateMemoryTable(); 
