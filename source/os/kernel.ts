@@ -142,7 +142,7 @@ module TSOS {
                             }
                             let digit = _MemoryAccessor.readMemory(i).toString(16);
                             let ascii = parseInt(digit, 16);
-                            let char = String.fromCharCode(ascii);
+                            let char = String.fromCharCode(ascii); // Converts the stored hex string to its ASCII equivalent
 
                             string += char;
                         }

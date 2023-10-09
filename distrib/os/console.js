@@ -114,11 +114,16 @@ var TSOS;
                 decided to write one function and use the term "text" to connote string or char.
             */
             if (text !== "") {
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                for (let i = 0; i < text.length; i++) {
+                    let offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text[i]);
+                    if (this.currentXPosition + offset >= _Canvas.width) {
+                        this.advanceLine();
+                    }
+                    // Draw the text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text[i]);
+                    // Move the current X position. 
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         }
         advanceLine() {
