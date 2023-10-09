@@ -1,9 +1,7 @@
 MY CURRENT PROGRESS
 ================
 
-As of 9/15 I have completed all of the basic requirements for iProject 1 in the MAIN branch. (It is currently the only branch in the repo).
-
-Thank you Dr.Labouseur for the extra time to work on part 1.
+As of 10/9 all of my work for iP2 is pushed to the main branch.
 
 
 
