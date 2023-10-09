@@ -114,8 +114,19 @@ var TSOS;
                         _StdOut.putText(string);
                     }
                     else if (_CPU.Xreg == 0x02) {
-                        let value = _MemoryAccessor.readMemory(_CPU.Yreg);
-                        string = value.toString(16);
+                        // let value = _MemoryAccessor.readMemory(_CPU.Yreg);
+                        // string = value.toString(16);
+                        string = "";
+                        let val = _CPU.Yreg;
+                        for (let i = val; i < 256; i++) {
+                            if (_MemoryAccessor.readMemory(i) == 0x00) {
+                                break;
+                            }
+                            let digit = _MemoryAccessor.readMemory(i).toString(16);
+                            let ascii = parseInt(digit, 16);
+                            let char = String.fromCharCode(ascii);
+                            string += char;
+                        }
                         _StdOut.putText(string);
                     }
                     break;
