@@ -15,9 +15,9 @@ module TSOS {
         public Z: number;
         public priority: number;
         public state: string;
-        public location: number;
 
-        constructor(pid: number, pc: number, loca: number, ir: number = 0x00, acc: number = 0x00,
+
+        constructor(pid: number, pc: number = 0x0000, ir: number = 0x00, acc: number = 0x00,
                     xReg: number = 0x00, yReg: number = 0x00, zFlag: number = 0,
                     prior: number = 0, sta: string = "Idle") {
 
@@ -30,8 +30,29 @@ module TSOS {
             this.Z = zFlag;
             this.priority = prior;
             this.state = sta;
-            this.location = loca;
+            
 
+        }
+
+        public synchronize(): void{
+            this.PC = _CPU.PC;
+            this.IR = _CPU.IR;
+            this.ACC = _CPU.Acc;
+            this.X = _CPU.Xreg;
+            this.Y = _CPU.Yreg;
+            this.Z = _CPU.Zflag;
+        }
+
+        public updateTable(): void {
+            document.getElementById("pcbpidValue").textContent = this.PID.toString(10).toUpperCase();
+            document.getElementById("pcbpcValue").textContent = this.PC.toString(16).toUpperCase();
+            document.getElementById("pcbirValue").textContent = this.IR.toString(16).toUpperCase();
+            document.getElementById("pcbaccValue").textContent = this.ACC.toString(16).toUpperCase();
+            document.getElementById("pcbxValue").textContent = this.X.toString(16).toUpperCase();
+            document.getElementById("pcbyValue").textContent = this.Y.toString(16).toUpperCase();
+            document.getElementById("pcbzValue").textContent = this.Z.toString(16).toUpperCase();
+            document.getElementById("pcbpriorityValue").textContent = this.priority.toString(10).toUpperCase();
+            document.getElementById("pcbstateValue").textContent = this.state;
         }
     }
 
