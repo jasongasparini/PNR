@@ -183,7 +183,7 @@ var TSOS;
                     break;
                 case 0x00: // Break
                     this.isExecuting = false;
-                    _PcbList[0].status = "Terminated";
+                    _PcbList[0].state = "Terminated";
                     break;
                 case 0xEC: // Sets zflag if byte == x reg
                     this.PC++;
