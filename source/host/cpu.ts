@@ -226,6 +226,7 @@ module TSOS {
 
                 case 0x00: // Break
                     this.isExecuting = false;
+                    _PcbList[0].status = "Terminated";
                 break;
 
                 case 0xEC: // Sets zflag if byte == x reg

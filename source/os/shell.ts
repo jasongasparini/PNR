@@ -439,6 +439,7 @@ module TSOS {
                 
                 // let id = parseInt(args[0], 10);
                 _CPU.isExecuting = true;
+                _PcbList[0].status = "Running";
 
             } else {
                 _StdOut.putText("Invalid process ID");
