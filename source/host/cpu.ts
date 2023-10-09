@@ -140,7 +140,7 @@ module TSOS {
                 break;
             }
             _PcbList[0].synchronize();
-            _PcbList[0].updateTable();
+            _PcbList[0].updatepcbTable();
 
             // This was moved to the clock pulse in devices.ts
             // this.updateTable();

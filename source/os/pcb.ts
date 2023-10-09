@@ -43,7 +43,7 @@ module TSOS {
             this.Z = _CPU.Zflag;
         }
 
-        public updateTable(): void {
+        public updatepcbTable(): void {
             document.getElementById("pcbpidValue").textContent = this.PID.toString(10).toUpperCase();
             document.getElementById("pcbpcValue").textContent = this.PC.toString(16).toUpperCase();
             document.getElementById("pcbirValue").textContent = this.IR.toString(16).toUpperCase();
