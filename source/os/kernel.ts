@@ -127,8 +127,16 @@ module TSOS {
                     _StdIn.handleInput();
                     break;
                 case FF_IRQ:
-                    let string = params[0].toString(16);
-                    _StdOut.putText(string);
+                    let string = "";
+                    if(_CPU.Xreg == 0x01){
+                        string = _CPU.Yreg.toString(16);
+                        _StdOut.putText(string);
+                    } else if(_CPU.Xreg == 0x02){
+                        let value = _MemoryAccessor.readMemory(_CPU.Yreg);
+                        string = value.toString(16);
+                        _StdOut.putText(string);
+                    }
+                    
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

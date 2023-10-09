@@ -242,11 +242,12 @@ module TSOS {
                 case 0xD0: // Branches n bytes
                     this.PC++;
                     let operand = _MemoryAccessor.readMemory(this.PC);
+                    this.PC++;
                     if(this.Zflag == 0x00){
-                        let mask = 0b11111111;
-                        operand = operand & mask;
-                        operand += 1;
-                        this.PC = this.PC - operand;
+                        this.PC += operand;
+                        if(this.PC >= 0x100){
+                            this.PC = this.PC % 0x100;
+                        }
                     }
 
                 break;
@@ -265,18 +266,18 @@ module TSOS {
                 case 0xFF: // FF System call print
                     this.PC++;
                     if(this.Xreg == 0x01){
-                        let xString = this.Yreg.toString(16);
-                        _StdOut.putText("Case satisfied. Testing output");
-                        _StdOut.putText(xString);
-                        let xStringArray: string[];
-                        xStringArray.push(xString);
-                        var interrupt = new Interrupt(FF_IRQ, xStringArray);
-                        _KernelInterruptQueue.enqueue(interrupt);
+                        // let xString = this.Yreg.toString(16);
+                        // _StdOut.putText("Case satisfied. Testing output");
+                        // _StdOut.putText(xString);
+                        let params: string[];
+                        _KernelInterruptQueue.enqueue(new Interrupt(FF_IRQ, params));
                     }
                     else if(this.Xreg == 0x02){
                         // let yString = this.Yreg.toString(16).split("");
                         // var interrupt = new Interrupt(FF_IRQ, yString);
                         // _Kernel.krnInterruptHandler(interrupt.irq, interrupt.params);
+                        let params: string[];
+                        _KernelInterruptQueue.enqueue(new Interrupt(FF_IRQ, params));
                     }
 
                 break;
