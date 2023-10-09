@@ -1,0 +1,98 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CMPT 424
+% iProject 2
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from: http://www.LaTeXTemplates.com
+% Original author: % Frits Wenneker (http://www.howtotex.com)
+% License: CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% Modified by Jason Gasparini
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[letterpaper, 10pt]{article} 
+
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{graphicx}
+\usepackage[lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\usepackage{lastpage}
+\usepackage{url}
+
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{page \thepage\ of \pageref{LastPage}} % Page numbering for center footer
+\fancyfoot[R]{}
+
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 424 - Fall 2023 - Jason Gasparini} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge iProject 2 -- Questions \\     	    % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+
+\author{Jason Gasparini \\ \normalsize Jason.Gasparini@Marist.edu}
+
+\date{\normalsize\today} 	% Today's date.
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%   CONTENT SECTION
+%----------------------------------------------------------------------------------------
+
+% - -- -  - -- -  - -- -  -
+
+\section{Lab 3 Questions}
+\subsection{Question 1}
+Internal fragmentation occurs when memory is allocated to a program, but not all of the allocated memory is actually used. This unused memory within a allocated block is wasted and cannot be utilized by other programs or processes. External fragmentation occurs when free memory blocks are scattered throughout the system, but they are not contiguous. Although the total free memory space may be sufficient to satisfy a memory request, the scattered nature of the free blocks makes it challenging to find a single contiguous block large enough to accommodate the request.
+
+\subsection{Question 2}
+Optimal Algorithm:
+212KB: 200KB partition (remaining free space: 200KB - 212KB = -12KB), 417KB: 600KB partition (remaining free space: 600KB - 417KB = 183KB), 112KB: 100KB partition (remaining free space: 100KB - 112KB = -12KB), 426KB: 500KB partition (remaining free space: 500KB - 426KB = 74KB)
+\\
+First-Fit Algorithm:
+212KB: 500KB partition (remaining free space: 500KB - 212KB = 288KB), 417KB: 600KB partition (remaining free space: 600KB - 417KB = 183KB), 112KB: 200KB partition (remaining free space: 200KB - 112KB = 88KB), 426KB: 600KB partition (remaining free space: 600KB - 426KB = 174KB)
+\\
+Best-Fit Algorithm:
+212KB: 300KB partition (remaining free space: 300KB - 212KB = 88KB), 417KB: 500KB partition (remaining free space: 500KB - 417KB = 83KB), 112KB: 200KB partition (remaining free space: 200KB - 112KB = 88KB), 426KB: 600KB partition (remaining free space: 600KB - 426KB = 174KB)
+\\
+Worst-Fit Algorithm:
+212KB: 600KB partition (remaining free space: 600KB - 212KB = 388KB), 417KB: 600KB partition (remaining free space: 600KB - 417KB = 183KB), 112KB: 600KB partition (remaining free space: 600KB - 112KB = 488KB), 426KB: 600KB partition (remaining free space: 600KB - 426KB = 174KB)
+
+
+\noindent
+
+\vspace{2em}
+
+\section{Lab 2 Question}
+
+The relationship between the guest operating system (OS) and the host operating system is fundamental to the functioning of virtual machines (VMs). The guest OS operates within a virtual machine created by the virtualization software and is independent of the host OS. This independence allows for diverse combinations, such as running a Windows guest OS on a host system running Linux. The guest OS interacts with the virtualized hardware provided by the virtualization software, remaining unaware of the underlying physical hardware. The host operating system, in contrast, runs directly on the physical hardware of the computer or server. It is responsible for managing the physical resources of the system, including the CPU, memory, storage, and networking. Virtualization software, like VMware, operates on top of the host OS, creating virtual machines. Each virtual machine can run its own guest OS, and the virtualization layer facilitates the simultaneous execution of multiple VMs on the same physical hardware. When selecting the host operating system in a virtualized environment, several factors must be carefully considered. Firstly, hardware compatibility is crucial to ensure that the host OS supports the underlying hardware, encompassing considerations such as CPU architecture, memory, and storage devices. Virtualization support, such as Intel VT-x or AMD-V, is another critical factor, as it enhances the efficiency of virtual machine execution.
+
+\end{document}
