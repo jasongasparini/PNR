@@ -424,6 +424,7 @@ module TSOS {
                     return;
                 }
             }
+            _StdOut.putText("PID: 0");
             _Memory.updateMemoryTable();
 
 

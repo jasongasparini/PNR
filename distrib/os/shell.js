@@ -350,6 +350,7 @@ var TSOS;
                     return;
                 }
             }
+            _StdOut.putText("PID: 0");
             _Memory.updateMemoryTable();
             var pcb = new TSOS.ProcessControlBlock(0);
             _PcbList.push(pcb);
