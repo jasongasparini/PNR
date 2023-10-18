@@ -17,7 +17,7 @@ module TSOS {
         public state: string;
 
 
-        constructor(pid: number, pc: number = 0x0000, ir: number = 0x00, acc: number = 0x00,
+        constructor(pid: number, pc: number = 0, ir: number = 0x00, acc: number = 0x00,
                     xReg: number = 0x00, yReg: number = 0x00, zFlag: number = 0,
                     prior: number = 0, sta: string = "Idle") {
 
@@ -45,7 +45,7 @@ module TSOS {
 
         public updatepcbTable(): void {
             document.getElementById("pcbpidValue").textContent = this.PID.toString(10).toUpperCase();
-            document.getElementById("pcbpcValue").textContent = this.PC.toString(16).toUpperCase();
+            document.getElementById("pcbpcValue").textContent = this.PC.toString(10).toUpperCase();
             document.getElementById("pcbirValue").textContent = this.IR.toString(16).toUpperCase();
             document.getElementById("pcbaccValue").textContent = this.ACC.toString(16).toUpperCase();
             document.getElementById("pcbxValue").textContent = this.X.toString(16).toUpperCase();
