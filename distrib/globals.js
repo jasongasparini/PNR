@@ -12,7 +12,7 @@
 //
 const APP_NAME = "PNR";
 const APP_VERSION = "Fall 2023"; // What did you expect?
-const CPU_CLOCK_INTERVAL = 1000; // This is in ms (milliseconds) so 1000 = 1 second.
+const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
