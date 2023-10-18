@@ -190,16 +190,16 @@ var TSOS;
                     this.PC++;
                     this.PC++;
                     value = _MemoryAccessor.readMemory(address);
-                    if (value == this.Xreg) {
+                    if (value === this.Xreg) {
                         this.Zflag = 0x01;
                     }
                     break;
                 case 0xD0: // Branches n bytes
                     this.PC++;
                     let operand = _MemoryAccessor.readMemory(this.PC);
-                    this.PC++;
+                    // this.PC++;
                     if (this.Zflag == 0x00) {
-                        this.PC += operand;
+                        this.PC += operand - 1;
                         if (this.PC >= 0x0100) {
                             this.PC = this.PC % 0x100;
                         }
