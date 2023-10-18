@@ -242,11 +242,11 @@ module TSOS {
                 break;
 
                 case 0xD0: // Branches n bytes
-                    this.PC++;
-                    let operand = _MemoryAccessor.readMemory(this.PC);
-                    // this.PC++;
+                    
+                    let operand = _MemoryAccessor.readMemory(this.PC+1);
+                    
                     if(this.Zflag == 0x00){
-                        this.PC += operand -1;
+                        this.PC += operand;
                         if(this.PC >= 0x0100){
                             this.PC = this.PC % 0x100;
                         }
