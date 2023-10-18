@@ -15,7 +15,7 @@ var TSOS;
         Z;
         priority;
         state;
-        constructor(pid, pc = 0x0000, ir = 0x00, acc = 0x00, xReg = 0x00, yReg = 0x00, zFlag = 0, prior = 0, sta = "Idle") {
+        constructor(pid, pc = 0, ir = 0x00, acc = 0x00, xReg = 0x00, yReg = 0x00, zFlag = 0, prior = 0, sta = "Idle") {
             this.PID = pid;
             this.PC = pc;
             this.IR = ir;
@@ -36,7 +36,7 @@ var TSOS;
         }
         updatepcbTable() {
             document.getElementById("pcbpidValue").textContent = this.PID.toString(10).toUpperCase();
-            document.getElementById("pcbpcValue").textContent = this.PC.toString(16).toUpperCase();
+            document.getElementById("pcbpcValue").textContent = this.PC.toString(10).toUpperCase();
             document.getElementById("pcbirValue").textContent = this.IR.toString(16).toUpperCase();
             document.getElementById("pcbaccValue").textContent = this.ACC.toString(16).toUpperCase();
             document.getElementById("pcbxValue").textContent = this.X.toString(16).toUpperCase();
