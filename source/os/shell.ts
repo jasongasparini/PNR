@@ -436,7 +436,7 @@ module TSOS {
         } 
 
         public shellRun(args: string[]){
-            if (args.length > 0) {
+            if (args.length > 0 && args[0] == "0") {
                 
                 // let id = parseInt(args[0], 10);
                 _CPU.isExecuting = true;
