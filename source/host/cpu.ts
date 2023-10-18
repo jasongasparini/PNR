@@ -26,7 +26,7 @@ module TSOS {
         }
 
         public init(): void {
-            this.PC = 0x0000;
+            this.PC = 0;
             this.IR = 0x00;
             this.Acc = 0x00;
             this.Xreg = 0x00;
@@ -37,7 +37,7 @@ module TSOS {
         }
 
         public updateTable(): void {
-            document.getElementById("pcValue").textContent = this.PC.toString(16).toUpperCase();
+            document.getElementById("pcValue").textContent = this.PC.toString(10).toUpperCase();
             document.getElementById("irValue").textContent = this.IR.toString(16).toUpperCase();
             document.getElementById("accValue").textContent = this.Acc.toString(16).toUpperCase();
             document.getElementById("xValue").textContent = this.Xreg.toString(16).toUpperCase();
