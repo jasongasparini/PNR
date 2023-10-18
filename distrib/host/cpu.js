@@ -113,9 +113,8 @@ var TSOS;
             }
             _PcbList[0].synchronize();
             _PcbList[0].updatepcbTable();
-            // This was moved to the clock pulse in devices.ts
-            // this.updateTable();
-            // _Memory.updateMemoryTable(); 
+            this.updateTable();
+            _Memory.updateMemoryTable();
         }
         execute(instruction) {
             let value = 0x00;
@@ -201,7 +200,7 @@ var TSOS;
                     this.PC++;
                     if (this.Zflag == 0x00) {
                         this.PC += operand;
-                        if (this.PC >= 0x100) {
+                        if (this.PC >= 0x0100) {
                             this.PC = this.PC % 0x100;
                         }
                     }

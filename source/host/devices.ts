@@ -32,8 +32,8 @@ module TSOS {
             // Call the kernel clock pulse event handler.
             _Kernel.krnOnCPUClockPulse();
 
-            _CPU.updateTable();
-            _Memory.updateMemoryTable(); 
+            // _CPU.updateTable();
+            // _Memory.updateMemoryTable(); 
         }
 
         //
