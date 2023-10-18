@@ -236,8 +236,11 @@ module TSOS {
                     this.PC++;
                     value = _MemoryAccessor.readMemory(address);
                     if (value === this.Xreg){
-                        this.Zflag = this.Zflag === 0 ? 1 : 0;
+                        this.Zflag = 1;
+                    } else {
+                        this.Zflag = 0;
                     }
+
 
                 break;
 
