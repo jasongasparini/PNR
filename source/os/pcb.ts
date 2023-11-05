@@ -15,13 +15,17 @@ module TSOS {
         public Z: number;
         public priority: number;
         public state: string;
+        public lowerBound: number;
+        public upperBound: number;
+        public segment: number;
 
 
-        constructor(pid: number, pc: number = 0, ir: number = 0x00, acc: number = 0x00,
+        constructor(pid: number, seg: number, pc: number = 0, ir: number = 0x00, acc: number = 0x00,
                     xReg: number = 0x00, yReg: number = 0x00, zFlag: number = 0,
-                    prior: number = 0, sta: string = "Idle") {
+                    prior: number = 0, sta: string = "Idle", lower: number = 0, upper: number = 255) {
 
             this.PID = pid;
+            this.segment = seg;
             this.PC = pc;
             this.IR = ir;
             this.ACC = acc;
@@ -30,8 +34,25 @@ module TSOS {
             this.Z = zFlag;
             this.priority = prior;
             this.state = sta;
-            
+            this.lowerBound = lower;
+            this.upperBound = upper;
 
+            this.checkSetBounds(); // Checks what segment this program resides in and update the bounds of the program accordingly
+
+        }
+
+        public checkSetBounds(): void{
+            if(this.segment == 1){
+                return;
+            }
+            else if(this.segment == 2){
+                this.lowerBound = 256;
+                this.upperBound = 511;
+            }
+            else if(this.segment == 3){
+                this.lowerBound = 512;
+                this.upperBound = 767;
+            }
         }
 
         public synchronize(): void{

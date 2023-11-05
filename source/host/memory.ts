@@ -13,7 +13,7 @@
         }
 
         public init(): void {
-            this.memory = new Array(256).fill(0); // Initializes memory
+            this.memory = new Array(768).fill(0); // Initializes memory
         }
 
         // Read a byte from memory at the specified hexadecimal address

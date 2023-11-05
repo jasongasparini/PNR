@@ -51,6 +51,10 @@ module TSOS {
             _OsShell = new Shell();
             _OsShell.init();
 
+            // Create Mem and initialize CPU
+            _Memory.init(); 
+            _CPU.init();
+
             
 
             // Finally, initiate student testing protocol.
