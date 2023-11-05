@@ -15,8 +15,12 @@ var TSOS;
         Z;
         priority;
         state;
-        constructor(pid, pc = 0, ir = 0x00, acc = 0x00, xReg = 0x00, yReg = 0x00, zFlag = 0, prior = 0, sta = "Idle") {
+        lowerBound;
+        upperBound;
+        segment;
+        constructor(pid, seg, pc = 0, ir = 0x00, acc = 0x00, xReg = 0x00, yReg = 0x00, zFlag = 0, prior = 0, sta = "Idle", lower = 0, upper = 255) {
             this.PID = pid;
+            this.segment = seg;
             this.PC = pc;
             this.IR = ir;
             this.ACC = acc;
@@ -25,6 +29,22 @@ var TSOS;
             this.Z = zFlag;
             this.priority = prior;
             this.state = sta;
+            this.lowerBound = lower;
+            this.upperBound = upper;
+            this.checkSetBounds(); // Checks what segment this program resides in and update the bounds of the program accordingly
+        }
+        checkSetBounds() {
+            if (this.segment == 1) {
+                return;
+            }
+            else if (this.segment == 2) {
+                this.lowerBound = 256;
+                this.upperBound = 511;
+            }
+            else if (this.segment == 3) {
+                this.lowerBound = 512;
+                this.upperBound = 767;
+            }
         }
         synchronize() {
             this.PC = _CPU.PC;

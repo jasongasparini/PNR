@@ -41,6 +41,9 @@ var TSOS;
             this.krnTrace("Creating and Launching the shell.");
             _OsShell = new TSOS.Shell();
             _OsShell.init();
+            // Create Mem and initialize CPU
+            _Memory.init();
+            _CPU.init();
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
                 _GLaDOS.afterStartup();

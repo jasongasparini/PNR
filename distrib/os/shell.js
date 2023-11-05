@@ -326,10 +326,15 @@ var TSOS;
             }
             // Split the input into individual opcodes (assuming they are separated by spaces)
             const opcodes = textarea.split(" ");
-            // _Kernel.krnTrace('loading'); //TEST
+            var segment = _MemoryManager.getNextSegment();
+            var pcb = new TSOS.ProcessControlBlock(_PidCounter, segment);
+            _PcbList.push(pcb);
+            _StdOut.putText("Loaded Program in segment: " + segment.toString(10));
+            _StdOut.putText("Lower bound: " + _PcbList[_PidCounter].lowerBound.toString(10));
+            _PidCounter++;
             // Load the opcodes into memory
-            _Memory.init();
-            _CPU.init();
+            // _Memory.init(); ***Moved
+            // _CPU.init();
             for (let i = 0; i < opcodes.length; i++) {
                 const opcode = opcodes[i];
                 if (opcode.length === 2) {
@@ -338,7 +343,9 @@ var TSOS;
                     // Check if value is a valid number
                     if (!isNaN(value) && value >= 0 && value <= 255) {
                         // Write the value to memory at the next available address
-                        _Memory.writeByte(i, value);
+                        var address = i + pcb.lowerBound;
+                        // _StdOut.putText(" Writing to address: " + address.toString(16));
+                        _Memory.writeByte(address, value);
                     }
                     else {
                         _StdOut.putText("Invalid opcode at position " + i);
@@ -350,10 +357,8 @@ var TSOS;
                     return;
                 }
             }
-            _StdOut.putText("PID: 0");
+            _StdOut.putText("PID: " + _PidCounter.toString(10));
             _Memory.updateMemoryTable();
-            var pcb = new TSOS.ProcessControlBlock(0);
-            _PcbList.push(pcb);
         }
         shellRun(args) {
             if (args.length > 0 && args[0] == "0") {

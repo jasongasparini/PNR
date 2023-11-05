@@ -23,10 +23,11 @@
 
         // Write a byte to memory at the specified hexadecimal address
         public writeByte(hexAddress: number, value: number): void {
-            const address = this.hexToByte(hexAddress);
+            // _StdOut.putText(" Writing to address: " + hexAddress.toString(16)); TEST
             
-
-            this.memory[address] = this.hexToByte(value);
+            
+            
+            this.memory[hexAddress] = this.hexToByte(value);
         }
 
         // Helper function to convert a byte (number) to a 2-digit hexadecimal string
@@ -43,7 +44,7 @@
             const tableBody = document.querySelector('#memoryTable tbody');
             tableBody.innerHTML = '';
         
-            for (let address = 0; address < 256; address++) {
+            for (let address = 0; address < 768; address++) {
               const hexAddress = address.toString(16).toUpperCase().padStart(2, '0');
               const hexValue = this.byteToHexString(this.readByte(address));
 
