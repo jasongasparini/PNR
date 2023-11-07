@@ -1,7 +1,7 @@
 MY CURRENT PROGRESS
 ================
 
-As of 10/9 all of my work for iP2 is pushed to the main branch.
+I will be taking a few more days to finish as per our converstation about wisdom teeth troubles. Will be finished by Friday evening at the latest.
 
 
 
