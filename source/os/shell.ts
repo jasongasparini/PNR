@@ -141,6 +141,20 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+            // clearmem
+            sc = new ShellCommand(this.shellClearmem,
+                "clearmem",
+                "- Clears all memory segments")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            
+            // runall
+            sc = new ShellCommand(this.shellRunall,
+                "runall",
+                "- Runs all programs in memory")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
 
             // Display the initial prompt.
             this.putPrompt();
@@ -460,6 +474,14 @@ module TSOS {
 
         public shellKill(args: string[]){
             _CPU.isExecuting = false;
+            
+        }
+
+        public shellClearmem(args: string[]){
+            _MemoryManager.clearAll();
+        }
+
+        public shellRunall(args: string[]){
             
         }
 

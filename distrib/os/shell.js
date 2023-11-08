@@ -89,6 +89,14 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellKill, "kill", "- Stops the CPU");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
+            // clearmem
+            sc = new TSOS.ShellCommand(this.shellClearmem, "clearmem", "- Clears all memory segments");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // runall
+            sc = new TSOS.ShellCommand(this.shellRunall, "runall", "- Runs all programs in memory");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -372,6 +380,11 @@ var TSOS;
         }
         shellKill(args) {
             _CPU.isExecuting = false;
+        }
+        shellClearmem(args) {
+            _MemoryManager.clearAll();
+        }
+        shellRunall(args) {
         }
     }
     TSOS.Shell = Shell;

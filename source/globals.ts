@@ -12,7 +12,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 const APP_NAME: string    = "PNR";   
-const APP_VERSION: string = "Fall 2023";   // What did you expect?
+const APP_VERSION: string = "Fall 2023";   
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -33,6 +33,11 @@ var _MemoryAccessor: TSOS.MemoryAccessor;
 var _PidCounter = 0;
 var _PcbList = [];
 
+// CPU cycling statistics
+var _Quantum = 6;
+var _RunningCycles = 0;
+var _TotalCycles = 0;
+
 var _OSclock: number = 0;  // Page 23.
 
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
@@ -50,6 +55,10 @@ var _Kernel: TSOS.Kernel;
 var _KernelInterruptQueue: TSOS.Queue = null;
 var _KernelInputQueue: TSOS.Queue = null; 
 var _KernelBuffers = null; 
+
+// var _ProcessQueue: TSOS.Queue = null;
+var _ReadyQueue: TSOS.Queue = null;
+
 
 var _MemoryManager: TSOS.MemoryManager;
 

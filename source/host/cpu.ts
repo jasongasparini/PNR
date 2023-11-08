@@ -21,7 +21,8 @@ module TSOS {
                     public Xreg: number = 0,
                     public Yreg: number = 0,
                     public Zflag: number = 0,
-                    public isExecuting: boolean = false) {
+                    public isExecuting: boolean = false,
+                    public PID: number = null) {
 
         }
 
@@ -47,8 +48,7 @@ module TSOS {
 
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
+            
             
             // Fetches the byte in memory at the current Program Counter address
             const currentByte = _MemoryAccessor.readMemory(this.PC);

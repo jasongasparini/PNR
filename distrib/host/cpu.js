@@ -20,7 +20,8 @@ var TSOS;
         Yreg;
         Zflag;
         isExecuting;
-        constructor(PC = 0, IR = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false) {
+        PID;
+        constructor(PC = 0, IR = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, PID = null) {
             this.PC = PC;
             this.IR = IR;
             this.Acc = Acc;
@@ -28,6 +29,7 @@ var TSOS;
             this.Yreg = Yreg;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
+            this.PID = PID;
         }
         init() {
             this.PC = 0;
@@ -48,8 +50,6 @@ var TSOS;
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
-            // TODO: Accumulate CPU usage and profiling statistics here.
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
             // Fetches the byte in memory at the current Program Counter address
             const currentByte = _MemoryAccessor.readMemory(this.PC);
             // Decoding step
