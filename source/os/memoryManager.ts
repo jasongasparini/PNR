@@ -83,6 +83,10 @@
                 }
             }
         }
+
+        public clearAll(): void{
+            _Memory.init();
+        }
     }
 
 }

@@ -77,6 +77,9 @@ var TSOS;
                 }
             }
         }
+        clearAll() {
+            _Memory.init();
+        }
     }
     TSOS.MemoryManager = MemoryManager;
 })(TSOS || (TSOS = {}));
