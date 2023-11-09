@@ -418,8 +418,16 @@ module TSOS {
             var segment = _MemoryManager.getNextSegment();
             var pcb = new ProcessControlBlock(_PidCounter, segment);
             _PcbList.push(pcb);
+            if(_ProgramList.length != 3){
+                _ProgramList.push(pcb);
+            }
+            else{
+                _ProgramList[segment-1] = pcb;
+            }
+
             _StdOut.putText("Loaded Program in segment: " + segment.toString(10));
             _StdOut.putText("Lower bound: " + _PcbList[_PidCounter].lowerBound.toString(10));
+            _StdOut.putText(" PID: " + _PidCounter.toString(10));
             _PidCounter++;
             
 
@@ -451,7 +459,7 @@ module TSOS {
                     return;
                 }
             }
-            _StdOut.putText("PID: " + _PidCounter.toString(10));
+            
             _Memory.updateMemoryTable();
 
 
@@ -482,7 +490,9 @@ module TSOS {
         }
 
         public shellRunall(args: string[]){
-            
+            if(_PcbList.length > 0){
+                
+            }
         }
 
     }

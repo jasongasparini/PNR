@@ -11,6 +11,10 @@ module TSOS {
             
         }
 
-
+        public checkForSwitch(): void{
+            if(_RunningCycles > _Quantum){
+                // Dispatch interrupt
+            }
+        }
     }
 }

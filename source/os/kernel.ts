@@ -96,7 +96,10 @@ module TSOS {
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
+                _Scheduler.checkForSwitch();
+
                 _CPU.cycle();
+                _RunningCycles++;
             } else {                       // If there are no interrupts and there is nothing being executed then just be idle.
                 this.krnTrace("Idle");
             }
@@ -159,6 +162,10 @@ module TSOS {
                     }
                     
                     break;
+                case CONTEXTSWITCH_IRQ:
+                    // dispatch()
+                    break;
+
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }

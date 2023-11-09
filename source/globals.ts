@@ -20,6 +20,7 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
 const FF_IRQ: number = 2;
+const CONTEXTSWITCH_IRQ: number = 3;
 
 //
 // Global Variables
@@ -32,6 +33,7 @@ var _MemoryAccessor: TSOS.MemoryAccessor;
 // PCB List
 var _PidCounter = 0;
 var _PcbList = [];
+var _ProgramList = [];
 
 // CPU cycling statistics
 var _Quantum = 6;
