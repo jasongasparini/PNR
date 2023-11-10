@@ -80,7 +80,13 @@ module TSOS {
                         chr = String.fromCharCode(keyCode - 16);
                     }
 
-                } else{
+                } else if(keyCode == 104){
+                    chr = '8';
+                }
+                else if(keyCode == 105){
+                    chr = '9';
+                }
+                else{
                     chr = String.fromCharCode(keyCode);
                 }
                 

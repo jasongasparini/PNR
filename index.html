@@ -163,27 +163,67 @@
          ></textarea>
       </label>
    </div>
-</div>
 
-<div style="display: flex; direction: horizontal">
-   <div id="pcbStatus" style = "margin-right:50px;">
-      <label>
-         PCB display
-         <br>
-         <table class = "pcbStatusTable">
+   <div style="display: flex; direction: horizontal">
+      <div id="pcbStatus" style = "margin-right:50px;">
+         <label>
+            PCB display
+            <br>
+            <table class = "pcbStatusTable">
+               <tr>
+                  <th>PID</th>
+                  <th>Segment</th>
+                  <th>PC</th>
+                  <th>IR</th>
+                  <th>ACC</th>
+                  <th>X</th>
+                  <th>Y</th>
+                  <th>Z</th>
+                  <th>Priority</th>
+                  <th>State</th>
+                  <th>lowerBound</th>
+                  <th>upperBound</th>
+               </tr>
+               <tbody>
+               </tbody>
+            </table>
+         </label>
+      </div>
+
+   <div id="cpuView">
+      <h5>CPU</h5>
+      <table id="cpuTable">
+         <thead>
             <tr>
                <th>PID</th>
-               <th>Segment</th>
                <th>PC</th>
                <th>IR</th>
                <th>ACC</th>
                <th>X</th>
                <th>Y</th>
                <th>Z</th>
-               <th>Priority</th>
-               <th>State</th>
-               <th>lowerBound</th>
-               <th>upperBound</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td id="pidValue">-</td>
+               <td id="pcValue">-</td>
+               <td id="irValue">-</td>
+               <td id="accValue">-</td>
+               <td id="xValue">-</td>
+               <td id="yValue">-</td>
+               <td id="zValue">-</td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+
+   <div id="memoryStatus" style = "margin-right:50px;">
+      <label>
+         Memory
+         <br>
+         <table class = "pcbStatusTable">
+            <tr>
             </tr>
             <tbody>
             </tbody>
@@ -191,48 +231,14 @@
       </label>
    </div>
 
-<div id="cpuView">
-   <h5>CPU</h5>
-   <table id="cpuTable">
-      <thead>
-         <tr>
-            <th>PID</th>
-            <th>PC</th>
-            <th>IR</th>
-            <th>ACC</th>
-            <th>X</th>
-            <th>Y</th>
-            <th>Z</th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr>
-            <td id="pidValue">-</td>
-            <td id="pcValue">-</td>
-            <td id="irValue">-</td>
-            <td id="accValue">-</td>
-            <td id="xValue">-</td>
-            <td id="yValue">-</td>
-            <td id="zValue">-</td>
-         </tr>
-      </tbody>
-   </table>
+
 </div>
 
-<div id="memoryView">
-   <h4>Memory Viewer</h4>
-   <table id="memoryTable">
-      <thead>
-         <tr>
-         <th>Address</th>
-         <th>Value</th>
-         </tr>
-      </thead>
-      <tbody>
-         <!-- Memory content will be dynamically added here -->
-      </tbody>
-   </table>
-</div>
+
+
+
+
+
 
 
 

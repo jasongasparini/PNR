@@ -58,3 +58,14 @@ th, td {
   font-size: 8pt;
   text-align: center;
 }
+
+.pcbStatusTable{
+  background-color: white;
+  border-collapse: collapse;
+}
+
+.pcbStatusTable th,
+.pcbStatusTable td{
+  border: 1px solid black;
+  padding: 4px;
+}

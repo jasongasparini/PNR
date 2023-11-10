@@ -471,7 +471,7 @@ module TSOS {
                     }
                 }
                 
-                _Memory.updateMemoryTable(); 
+                
             }
         } 
 
@@ -559,17 +559,30 @@ module TSOS {
                 else if(_PcbList.length > 2){
                     var len = _PcbList.length;
 
-                    _ReadyQueue.enqueue(_PcbList[len-3]);
-                    _ReadyQueue.enqueue(_PcbList[len-2]);
-                    _ReadyQueue.enqueue(_PcbList[len-1]);
+                    if(_PcbList[len-3].state != "Terminated"){
+                        _ReadyQueue.enqueue(_PcbList[len-3]);
+                    }
+
+                    if(_PcbList[len-2].state != "Terminated"){
+                        _ReadyQueue.enqueue(_PcbList[len-2]);
+                    }
+                    
+                    if(_PcbList[len-1].state != "Terminated"){
+                        _ReadyQueue.enqueue(_PcbList[len-1]);
+                    }
                 }
 
-                var currentprogram = _ReadyQueue.dequeue()
-                _CPU.loadNextProgram(currentprogram);
-                _ReadyQueue.enqueue(currentprogram);
-                _StdOut.putText(_ReadyQueue.getSize().toString(10));
-                _CPU.isExecuting = true;
-                
+                if(_ReadyQueue.getSize() > 0){
+                    var currentprogram = _ReadyQueue.dequeue()
+                    _CPU.loadNextProgram(currentprogram);
+                    _ReadyQueue.enqueue(currentprogram);
+                    _StdOut.putText(_ReadyQueue.getSize().toString(10));
+                    _CPU.isExecuting = true;
+                } else{
+                    _StdOut.putText("No Programs to run.");
+                }
+            } else{
+                _StdOut.putText("No Programs to run.");
             }
         }
 
