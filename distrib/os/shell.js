@@ -86,7 +86,11 @@ var TSOS;
             this.commandListStrings.push(sc.command);
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
-            sc = new TSOS.ShellCommand(this.shellKill, "kill", "- Stops the CPU");
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "- Kills the specified process");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // killall
+            sc = new TSOS.ShellCommand(this.shellKillAll, "killall", "- Kills all processes");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // clearmem
@@ -98,7 +102,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // quantum
-            sc = new TSOS.ShellCommand(this.shellRunall, "quantum", "- Defines the CPU quantum");
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "- Defines the CPU quantum");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // Display the initial prompt.
@@ -381,7 +385,40 @@ var TSOS;
             }
         }
         shellKill(args) {
-            _CPU.isExecuting = false;
+            if (args.length > 0) {
+                try {
+                    const pid = parseInt(args[0], 10);
+                    if (!isNaN(pid)) {
+                        // Conversion successful
+                        if (_CPU.PID == pid && _PcbList[pid].state != "Terminated") {
+                            if (_ReadyQueue.getSize() > 1) {
+                                var len = _ReadyQueue.getSize();
+                                _ReadyQueue.dequeueByIndex(len - 1);
+                                _PcbList[pid].state = "Terminated";
+                                let params;
+                                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CONTEXTSWITCH_IRQ, params));
+                            }
+                            else {
+                                _ReadyQueue.dequeue();
+                                _CPU.isExecuting = false;
+                            }
+                        }
+                        else {
+                            _StdOut.putText("PID: " + pid + " is not running.");
+                        }
+                    }
+                    else {
+                        // Conversion failed
+                        throw new Error("Invalid PID value. Please enter an integer.");
+                    }
+                }
+                catch (error) {
+                    _StdOut.putText("Error: " + error.message);
+                }
+            }
+            else {
+                _StdOut.putText("Usage: kill <integer>");
+            }
         }
         shellKillAll(args) {
             _CPU.isExecuting = false;

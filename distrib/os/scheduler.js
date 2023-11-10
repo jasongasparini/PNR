@@ -9,7 +9,7 @@ var TSOS;
         constructor() {
         }
         checkForSwitch() {
-            if (_RunningCycles == _Quantum) {
+            if (_RunningCycles == _Quantum && _ReadyQueue.getSize() != 0) {
                 let params;
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CONTEXTSWITCH_IRQ, params));
                 _RunningCycles = 0;

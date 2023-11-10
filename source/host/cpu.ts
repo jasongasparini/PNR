@@ -246,10 +246,14 @@ module TSOS {
                 case 0x00: // Break
                     
                     _PcbList[this.PID].state = "Terminated";
-                    var num = _ReadyQueue.getSize() -1;
-                    _ReadyQueue.dequeueByIndex(num)
-                    let params: string[];
-                    _KernelInterruptQueue.enqueue(new Interrupt(CONTEXTSWITCH_IRQ, params));
+                    if(_ReadyQueue.getSize() != 0){
+                        var num = _ReadyQueue.getSize() -1;
+                        _ReadyQueue.dequeueByIndex(num)
+                        let params: string[];
+                        _KernelInterruptQueue.enqueue(new Interrupt(CONTEXTSWITCH_IRQ, params));
+                    } else {
+                        _CPU.isExecuting = false;
+                    }
                     
                 break;
 

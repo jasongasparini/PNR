@@ -200,10 +200,15 @@ var TSOS;
                     break;
                 case 0x00: // Break
                     _PcbList[this.PID].state = "Terminated";
-                    var num = _ReadyQueue.getSize() - 1;
-                    _ReadyQueue.dequeueByIndex(num);
-                    let params;
-                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CONTEXTSWITCH_IRQ, params));
+                    if (_ReadyQueue.getSize() != 0) {
+                        var num = _ReadyQueue.getSize() - 1;
+                        _ReadyQueue.dequeueByIndex(num);
+                        let params;
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CONTEXTSWITCH_IRQ, params));
+                    }
+                    else {
+                        _CPU.isExecuting = false;
+                    }
                     break;
                 case 0xEC: // Sets zflag if byte == x reg
                     this.PC++;

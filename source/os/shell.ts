@@ -137,7 +137,14 @@ module TSOS {
             // kill <id> - kills the specified process id.
             sc = new ShellCommand(this.shellKill,
                                     "kill",
-                                    "- Stops the CPU")
+                                    "- Kills the specified process")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // killall
+            sc = new ShellCommand(this.shellKillAll,
+                "killall",
+                "- Kills all processes")
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
@@ -156,7 +163,7 @@ module TSOS {
             this.commandListStrings.push(sc.command);
 
             // quantum
-            sc = new ShellCommand(this.shellRunall,
+            sc = new ShellCommand(this.shellQuantum,
                 "quantum",
                 "- Defines the CPU quantum")
             this.commandList[this.commandList.length] = sc;
@@ -468,7 +475,37 @@ module TSOS {
         }
 
         public shellKill(args: string[]){
-            _CPU.isExecuting = false;
+            if (args.length > 0) {
+                try {
+                    const pid = parseInt(args[0], 10);
+        
+                    if (!isNaN(pid)) {
+                        // Conversion successful
+                        if(_CPU.PID == pid && _PcbList[pid].state != "Terminated"){
+                            if(_ReadyQueue.getSize() > 1){
+                                var len = _ReadyQueue.getSize();
+                                _ReadyQueue.dequeueByIndex(len-1);
+                                _PcbList[pid].state = "Terminated";
+                                let params: string[];
+                                _KernelInterruptQueue.enqueue(new Interrupt(CONTEXTSWITCH_IRQ, params));
+                            }
+                            else{
+                                _ReadyQueue.dequeue();
+                                _CPU.isExecuting = false;
+                            }   
+                        } else{
+                            _StdOut.putText("PID: " + pid + " is not running.")
+                        }
+                    } else {
+                        // Conversion failed
+                        throw new Error("Invalid PID value. Please enter an integer.");
+                    }
+                } catch (error) {
+                    _StdOut.putText("Error: " + error.message);
+                }
+            } else {
+                _StdOut.putText("Usage: kill <integer>");
+            }
             
         }
 
@@ -508,8 +545,6 @@ module TSOS {
             }
         }
 
-
-        
         public shellQuantum(args: string[]){
             if (args.length > 0) {
                 try {
