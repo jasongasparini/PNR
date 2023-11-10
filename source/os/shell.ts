@@ -429,6 +429,19 @@ module TSOS {
                 var segment = _MemoryManager.getNextSegment();
                 var pcb = new ProcessControlBlock(_PidCounter, segment);
                 _PcbList.push(pcb);
+
+                const newPcbRow = document.getElementById("pcbStatus").getElementsByTagName('tbody')[0];
+                console.log("Row output test: ", document.getElementById("pcbStatus").getElementsByTagName('tbody'));
+                var newRow = newPcbRow.insertRow();
+
+                let pcbFields: string[] = Object.getOwnPropertyNames(pcb);
+                for(const field of pcbFields) {
+                    let value = pcb[field];
+                    let newCell = newRow.insertCell();
+                    let newText = document.createTextNode(value.toString(16));
+                    newCell.appendChild(newText);
+                    newCell.id = pcb.PID + "-" + field;
+                }
             
                 _StdOut.putText("Loaded Program in segment: " + segment.toString(10));
                 // _StdOut.putText("Lower bound: " + _PcbList[_PidCounter].lowerBound.toString(10));

@@ -165,37 +165,31 @@
    </div>
 </div>
 
-<div id="pcbView">
-   <h5>PCB</h5>
-   <table id="pcbTable">
-      <thead>
-         <tr>
-            <th>PID</th>
-            <th>PC</th>
-            <th>IR</th>
-            <th>ACC</th>
-            <th>X</th>
-            <th>Y</th>
-            <th>Z</th>
-            <th>Priority</th>
-            <th>State</th>
-         </tr>
-      </thead>
-      <tbody>
-         <tr>
-            <td id="pcbpidValue">-</td>
-            <td id="pcbpcValue">-</td>
-            <td id="pcbirValue">-</td>
-            <td id="pcbaccValue">-</td>
-            <td id="pcbxValue">-</td>
-            <td id="pcbyValue">-</td>
-            <td id="pcbzValue">-</td>
-            <td id="pcbpriorityValue">-</td>
-            <td id="pcbstateValue">-</td>
-         </tr>
-      </tbody>
-   </table>
-</div>
+<div style="display: flex; direction: horizontal">
+   <div id="pcbStatus" style = "margin-right:50px;">
+      <label>
+         PCB display
+         <br>
+         <table class = "pcbStatusTable">
+            <tr>
+               <th>PID</th>
+               <th>Segment</th>
+               <th>PC</th>
+               <th>IR</th>
+               <th>ACC</th>
+               <th>X</th>
+               <th>Y</th>
+               <th>Z</th>
+               <th>Priority</th>
+               <th>State</th>
+               <th>lowerBound</th>
+               <th>upperBound</th>
+            </tr>
+            <tbody>
+            </tbody>
+         </table>
+      </label>
+   </div>
 
 <div id="cpuView">
    <h5>CPU</h5>

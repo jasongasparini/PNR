@@ -7,6 +7,7 @@ var TSOS;
 (function (TSOS) {
     class ProcessControlBlock {
         PID;
+        segment;
         PC;
         IR;
         ACC;
@@ -17,8 +18,7 @@ var TSOS;
         state;
         lowerBound;
         upperBound;
-        segment;
-        constructor(pid, seg, pc = 0, ir = 0x00, acc = 0x00, xReg = 0x00, yReg = 0x00, zFlag = 0, prior = 0, sta = "Idle", lower = 0, upper = 255) {
+        constructor(pid, seg, pc = 0, ir = 0x00, acc = 0x00, xReg = 0x00, yReg = 0x00, zFlag = 0, prior = 0, sta = "Resident", lower = 0, upper = 255) {
             this.PID = pid;
             this.segment = seg;
             this.PC = pc;
@@ -46,6 +46,9 @@ var TSOS;
                 this.upperBound = 767;
             }
         }
+        setState(string) {
+            this.state = string;
+        }
         synchronize() {
             this.PC = _CPU.PC;
             this.IR = _CPU.IR;
@@ -54,16 +57,22 @@ var TSOS;
             this.Y = _CPU.Yreg;
             this.Z = _CPU.Zflag;
         }
-        updatepcbTable() {
-            document.getElementById("pcbpidValue").textContent = this.PID.toString(10).toUpperCase();
-            document.getElementById("pcbpcValue").textContent = this.PC.toString(10).toUpperCase();
-            document.getElementById("pcbirValue").textContent = this.IR.toString(16).toUpperCase();
-            document.getElementById("pcbaccValue").textContent = this.ACC.toString(16).toUpperCase();
-            document.getElementById("pcbxValue").textContent = this.X.toString(16).toUpperCase();
-            document.getElementById("pcbyValue").textContent = this.Y.toString(16).toUpperCase();
-            document.getElementById("pcbzValue").textContent = this.Z.toString(16).toUpperCase();
-            document.getElementById("pcbpriorityValue").textContent = this.priority.toString(10).toUpperCase();
-            document.getElementById("pcbstateValue").textContent = this.state;
+        updatePcbDisplay() {
+            const properties = Object.getOwnPropertyNames(this);
+            for (const prop of properties) {
+                const tagId = this.PID + "-" + prop;
+                let tag = document.getElementById(tagId);
+                if (!tag) {
+                    return;
+                }
+                if (typeof this[prop] === "number") {
+                    tag.innerHTML = this[prop].toString(16).toUpperCase();
+                }
+                //To update the state of the PCB since its not a number
+                else if (prop === "state") {
+                    tag.innerHTML = this[prop];
+                }
+            }
         }
     }
     TSOS.ProcessControlBlock = ProcessControlBlock;

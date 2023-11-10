@@ -180,6 +180,7 @@ module TSOS {
                     
                     break;
                 case CONTEXTSWITCH_IRQ:
+                    
                     _Dispatcher.dispatchNextProgram();
                     break;
 

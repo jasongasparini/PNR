@@ -37,6 +37,9 @@ module TSOS {
             this.Zflag = program.Z;
             this.PID = program.PID;
             this.lowerBound = program.lowerBound;
+
+
+            _PcbList[this.PID].state = "Running";
         }
 
         public init(): void {
@@ -158,8 +161,10 @@ module TSOS {
                 break;
             }
             _PcbList[this.PID].synchronize();
+            _PcbList[this.PID].updatePcbDisplay();
             _RunningCycles++;
-            // _PcbList[this.PID].updatepcbTable(); 
+            
+            
 
             
             this.updateTable();
@@ -246,6 +251,8 @@ module TSOS {
                 case 0x00: // Break
                     
                     _PcbList[this.PID].state = "Terminated";
+                    _PcbList[this.PID].synchronize();
+                    _PcbList[this.PID].updatePcbDisplay();
                     if(_ReadyQueue.getSize() != 0){
                         var num = _ReadyQueue.getSize() -1;
                         _ReadyQueue.dequeueByIndex(num)

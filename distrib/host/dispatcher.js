@@ -14,6 +14,7 @@ var TSOS;
                 _CPU.isExecuting = false;
             }
             else {
+                _PcbList[_CPU.PID].updatePcbDisplay();
                 var pcb = _ReadyQueue.dequeue();
                 _CPU.loadNextProgram(pcb);
                 _ReadyQueue.enqueue(pcb);
