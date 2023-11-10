@@ -27,6 +27,7 @@ var TSOS;
                     this.currentSegment++;
                 }
                 else if (this.segmentOneOccupied && this.segmentTwoOccupied && this.segmentThreeOccupied) {
+                    _PcbList[_PidCounter - 3].state = "Terminated";
                     this.clearSegment(1);
                     this.currentSegment++;
                     return 1;
@@ -42,6 +43,7 @@ var TSOS;
                     this.currentSegment++;
                 }
                 else if (this.segmentTwoOccupied && this.segmentThreeOccupied) {
+                    _PcbList[_PidCounter - 3].state = "Terminated";
                     this.clearSegment(2);
                     this.currentSegment++;
                     return 2;
@@ -54,6 +56,7 @@ var TSOS;
                     return 3;
                 }
                 else if (this.segmentThreeOccupied) {
+                    _PcbList[_PidCounter - 3].state = "Terminated";
                     this.clearSegment(3);
                     this.currentSegment = 1;
                     return 3;

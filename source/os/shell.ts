@@ -463,14 +463,29 @@ module TSOS {
         } 
 
         public shellRun(args: string[]){
-            if (args.length > 0 && args[0] == "0") {
-                
-                // let id = parseInt(args[0], 10);
-                _CPU.isExecuting = true;
-                _PcbList[0].state = "Running";
-
+            if (args.length > 0) {
+                try {
+                    const pid = parseInt(args[0], 10);
+        
+                    if (!isNaN(pid)) {
+                        // Conversion successful
+                        if(_PcbList[pid].state != "Terminated"){
+                            _CPU.loadNextProgram(_PcbList[pid]);
+                            _CPU.isExecuting = true;
+                        }
+                        else{
+                            _StdOut.putText("Cannot run program.");
+                        }
+                        
+                    } else {
+                        // Conversion failed
+                        throw new Error("Invalid PID value. Please enter an integer.");
+                    }
+                } catch (error) {
+                    _StdOut.putText("Error: " + error.message);
+                }
             } else {
-                _StdOut.putText("Invalid process ID");
+                _StdOut.putText("Usage: run <integer>");
             }
         }
 
