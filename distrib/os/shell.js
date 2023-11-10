@@ -97,6 +97,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellRunall, "runall", "- Runs all programs in memory");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
+            // quantum
+            sc = new TSOS.ShellCommand(this.shellRunall, "quantum", "- Defines the CPU quantum");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -326,47 +330,45 @@ var TSOS;
             _Console.putText("You broke GLaDOS........");
         }
         shellLoad(args) {
-            // Stubbing this out for now until funcitonality is needed in proceeding Labs
             var textarea = document.getElementById("taProgramInput").value;
             var validation = textarea.match(/^[ A-F0-9]+$/);
             if (validation == null) {
                 _StdOut.putText("Invalid program specified.");
             }
-            // Split the input into individual opcodes (assuming they are separated by spaces)
-            const opcodes = textarea.split(" ");
-            var segment = _MemoryManager.getNextSegment();
-            var pcb = new TSOS.ProcessControlBlock(_PidCounter, segment);
-            _PcbList.push(pcb);
-            _StdOut.putText("Loaded Program in segment: " + segment.toString(10));
-            _StdOut.putText("Lower bound: " + _PcbList[_PidCounter].lowerBound.toString(10));
-            _PidCounter++;
-            // Load the opcodes into memory
-            // _Memory.init(); ***Moved
-            // _CPU.init();
-            for (let i = 0; i < opcodes.length; i++) {
-                const opcode = opcodes[i];
-                if (opcode.length === 2) {
-                    // Assuming each opcode is a 2-digit hexadecimal string
-                    const value = parseInt(opcode, 16);
-                    // Check if value is a valid number
-                    if (!isNaN(value) && value >= 0 && value <= 255) {
-                        // Write the value to memory at the next available address
-                        var address = i + pcb.lowerBound;
-                        // _StdOut.putText(" Writing to address: " + address.toString(16));
-                        _Memory.writeByte(address, value);
+            else {
+                // Split the input into individual opcodes (assuming they are separated by spaces)
+                const opcodes = textarea.split(" ");
+                var segment = _MemoryManager.getNextSegment();
+                var pcb = new TSOS.ProcessControlBlock(_PidCounter, segment);
+                _PcbList.push(pcb);
+                _StdOut.putText("Loaded Program in segment: " + segment.toString(10));
+                // _StdOut.putText("Lower bound: " + _PcbList[_PidCounter].lowerBound.toString(10));
+                _StdOut.putText(" PID: " + _PidCounter.toString(10));
+                _PidCounter++;
+                for (let i = 0; i < opcodes.length; i++) {
+                    const opcode = opcodes[i];
+                    if (opcode.length === 2) {
+                        // Assuming each opcode is a 2-digit hexadecimal string
+                        const value = parseInt(opcode, 16);
+                        // Check if value is a valid number
+                        if (!isNaN(value) && value >= 0 && value <= 255) {
+                            // Write the value to memory at the next available address
+                            var address = i + pcb.lowerBound;
+                            // _StdOut.putText(" Writing to address: " + address.toString(16));
+                            _Memory.writeByte(address, value);
+                        }
+                        else {
+                            _StdOut.putText("Invalid opcode at position " + i + ", Please clearmem and try again");
+                            return;
+                        }
                     }
                     else {
-                        _StdOut.putText("Invalid opcode at position " + i);
+                        _StdOut.putText("Invalid opcode length at position " + i + ", Please clearmem and try again");
                         return;
                     }
                 }
-                else {
-                    _StdOut.putText("Invalid opcode length at position " + i);
-                    return;
-                }
+                _Memory.updateMemoryTable();
             }
-            _StdOut.putText("PID: " + _PidCounter.toString(10));
-            _Memory.updateMemoryTable();
         }
         shellRun(args) {
             if (args.length > 0 && args[0] == "0") {
@@ -381,10 +383,55 @@ var TSOS;
         shellKill(args) {
             _CPU.isExecuting = false;
         }
+        shellKillAll(args) {
+            _CPU.isExecuting = false;
+        }
         shellClearmem(args) {
             _MemoryManager.clearAll();
         }
         shellRunall(args) {
+            if (_PcbList.length > 0) {
+                if (_PcbList.length == 1) {
+                    _ReadyQueue.enqueue(_PcbList[0]);
+                }
+                else if (_PcbList.length == 2) {
+                    _ReadyQueue.enqueue(_PcbList[0]);
+                    _ReadyQueue.enqueue(_PcbList[1]);
+                }
+                else if (_PcbList.length > 2) {
+                    var len = _PcbList.length;
+                    _ReadyQueue.enqueue(_PcbList[len - 3]);
+                    _ReadyQueue.enqueue(_PcbList[len - 2]);
+                    _ReadyQueue.enqueue(_PcbList[len - 1]);
+                }
+                var currentprogram = _ReadyQueue.dequeue();
+                _CPU.loadNextProgram(currentprogram);
+                _ReadyQueue.enqueue(currentprogram);
+                _StdOut.putText(_ReadyQueue.getSize().toString(10));
+                _CPU.isExecuting = true;
+            }
+        }
+        shellQuantum(args) {
+            if (args.length > 0) {
+                try {
+                    const quantumValue = parseInt(args[0], 10);
+                    if (!isNaN(quantumValue)) {
+                        // Conversion successful
+                        _Quantum = quantumValue;
+                        _StdOut.putText("Quantum set to " + quantumValue);
+                    }
+                    else {
+                        // Conversion failed
+                        throw new Error("Invalid quantum value. Please enter an integer.");
+                    }
+                }
+                catch (error) {
+                    _StdOut.putText("Error: " + error.message);
+                }
+            }
+            else {
+                _StdOut.putText("Usage: quantum <integer>");
+            }
         }
     }
     TSOS.Shell = Shell;

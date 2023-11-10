@@ -30,6 +30,21 @@ var TSOS;
             }
             return retVal;
         }
+        dequeueByIndex(index) {
+            var retVal = null;
+            if (index >= 0 && index < this.q.length) {
+                retVal = this.q.splice(index, 1)[0];
+            }
+            return retVal;
+        }
+        peek(index) {
+            if (index >= 0 && index < this.q.length) {
+                return this.q[index];
+            }
+            else {
+                return null;
+            }
+        }
         toString() {
             var retVal = "";
             for (var i in this.q) {

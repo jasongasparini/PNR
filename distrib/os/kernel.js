@@ -74,10 +74,24 @@ var TSOS;
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.
                 // TODO (maybe): Implement a priority queue based on the IRQ number/id to enforce interrupt priority.
+                let highestPriority = Number.MAX_SAFE_INTEGER;
+                let highestPriorityIndex = -1;
+                for (let i = 0; i < _KernelInterruptQueue.getSize(); i++) {
+                    let interrupt = _KernelInterruptQueue.peek(i);
+                    if (interrupt.irq < highestPriority) {
+                        highestPriority = interrupt.irq;
+                        highestPriorityIndex = i;
+                    }
+                }
+                if (highestPriorityIndex !== -1) {
+                    let interrupt = _KernelInterruptQueue.dequeueByIndex(highestPriorityIndex);
+                    this.krnInterruptHandler(interrupt.irq, interrupt.params);
+                }
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
-            else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
+            else if (_CPU.isExecuting && _SingleStep == false) { // If there are no interrupts then run one CPU cycle if there is anything being processed.
+                _Scheduler.checkForSwitch();
                 _CPU.cycle();
             }
             else { // If there are no interrupts and there is nothing being executed then just be idle.
@@ -124,17 +138,21 @@ var TSOS;
                         // string = value.toString(16);
                         string = "";
                         let val = _CPU.Yreg;
+                        let bound = _CPU.lowerBound;
                         for (let i = val; i < 256; i++) {
-                            if (_MemoryAccessor.readMemory(i) == 0x00) {
+                            if (_MemoryAccessor.readMemory(i + bound) == 0x00) {
                                 break;
                             }
-                            let digit = _MemoryAccessor.readMemory(i).toString(16);
+                            let digit = _MemoryAccessor.readMemory(i + bound).toString(16);
                             let ascii = parseInt(digit, 16);
                             let char = String.fromCharCode(ascii); // Converts the stored hex string to its ASCII equivalent
                             string += char;
                         }
                         _StdOut.putText(string);
                     }
+                    break;
+                case CONTEXTSWITCH_IRQ:
+                    _Dispatcher.dispatchNextProgram();
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

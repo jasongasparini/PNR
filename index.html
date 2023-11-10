@@ -17,6 +17,7 @@
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
    <script type="text/javascript" src="distrib/host/memory.js"></script>
    <script type="text/javascript" src="distrib/host/memoryAccessor.js"></script>
+   <script type="text/javascript" src="distrib/host/dispatcher.js"></script>
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
@@ -31,6 +32,7 @@
    <script type="text/javascript" src="distrib/os/kernel.js"></script>
    <script type="text/javascript" src="distrib/os/pcb.js"></script>
    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
+   <script type="text/javascript" src="distrib/os/scheduler.js"></script>
 
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
@@ -77,6 +79,22 @@
              value="Reset"
              tabindex="2"
              onclick="TSOS.Control.hostBtnReset_click(this);">
+
+      <input type="button"
+             id = "btnSingle"
+             name="brnSingle"
+             class="normal_button"
+             value="Single Step"
+             tabindex="3"
+             onclick="TSOS.Control.hostBtnSingleStep_click(this);">
+
+      <input type="button"
+             id = "btnCycle"
+             name="brnCycle"
+             class="normal_button"
+             value="Cycle"
+             tabindex="4"
+             onclick="TSOS.Control.hostBtnCycle_click(this);">
    </div>
 
    
@@ -184,6 +202,7 @@
    <table id="cpuTable">
       <thead>
          <tr>
+            <th>PID</th>
             <th>PC</th>
             <th>IR</th>
             <th>ACC</th>
@@ -194,6 +213,7 @@
       </thead>
       <tbody>
          <tr>
+            <td id="pidValue">-</td>
             <td id="pcValue">-</td>
             <td id="irValue">-</td>
             <td id="accValue">-</td>

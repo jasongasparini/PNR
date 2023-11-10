@@ -122,5 +122,14 @@ module TSOS {
             // be reloaded from the server. If it is false or not specified the browser may reload the
             // page from its cache, which is not what we want.
         }
+
+        public static hostBtnSingleStep_click(btn): void {
+            _SingleStep = true;
+        }
+
+        public static hostBtnCycle_click(btn): void {
+            _Scheduler.checkForSwitch();
+            _CPU.cycle();
+        }
     }
 }

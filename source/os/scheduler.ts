@@ -12,8 +12,10 @@ module TSOS {
         }
 
         public checkForSwitch(): void{
-            if(_RunningCycles > _Quantum){
-                // Dispatch interrupt
+            if(_RunningCycles == _Quantum){
+                let params: string[];
+                _KernelInterruptQueue.enqueue(new Interrupt(CONTEXTSWITCH_IRQ, params));
+                _RunningCycles = 0;
             }
         }
     }

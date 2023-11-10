@@ -29,6 +29,7 @@ const CONTEXTSWITCH_IRQ: number = 3;
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _Memory: TSOS.Memory;
 var _MemoryAccessor: TSOS.MemoryAccessor;
+var _SingleStep: boolean = false;
 
 // PCB List
 var _PidCounter = 0;

@@ -21,7 +21,9 @@ var TSOS;
         Zflag;
         isExecuting;
         PID;
-        constructor(PC = 0, IR = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, PID = null) {
+        lowerBound;
+        address;
+        constructor(PC = 0, IR = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, PID = 0, lowerBound = 0, address = null) {
             this.PC = PC;
             this.IR = IR;
             this.Acc = Acc;
@@ -30,6 +32,18 @@ var TSOS;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
             this.PID = PID;
+            this.lowerBound = lowerBound;
+            this.address = address;
+        }
+        loadNextProgram(program) {
+            this.PC = program.PC;
+            this.IR = program.IR;
+            this.Acc = program.ACC;
+            this.Xreg = program.X;
+            this.Yreg = program.Y;
+            this.Zflag = program.Z;
+            this.PID = program.PID;
+            this.lowerBound = program.lowerBound;
         }
         init() {
             this.PC = 0;
@@ -41,6 +55,7 @@ var TSOS;
             this.isExecuting = false;
         }
         updateTable() {
+            document.getElementById("pidValue").textContent = this.PID.toString(10).toUpperCase();
             document.getElementById("pcValue").textContent = this.PC.toString(10).toUpperCase();
             document.getElementById("irValue").textContent = this.IR.toString(16).toUpperCase();
             document.getElementById("accValue").textContent = this.Acc.toString(16).toUpperCase();
@@ -50,8 +65,10 @@ var TSOS;
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');
+            this.address = this.PC + this.lowerBound;
             // Fetches the byte in memory at the current Program Counter address
-            const currentByte = _MemoryAccessor.readMemory(this.PC);
+            const currentByte = _MemoryAccessor.readMemory(this.address);
+            _Kernel.krnTrace('Reading instruction: ' + currentByte.toString(16) + ' At location: ' + this.address.toString(16));
             // Decoding step
             switch (currentByte) {
                 case 0xA9:
@@ -111,85 +128,89 @@ var TSOS;
                     this.execute(this.IR); // Execute step
                     break;
             }
-            _PcbList[0].synchronize();
-            _PcbList[0].updatepcbTable();
+            _PcbList[this.PID].synchronize();
+            _RunningCycles++;
+            // _PcbList[this.PID].updatepcbTable(); 
             this.updateTable();
-            _Memory.updateMemoryTable();
+            // _Memory.updateMemoryTable(); 
         }
         execute(instruction) {
             let value = 0x00;
-            let address = 0x00;
+            let writeAddress = 0x00;
             switch (instruction) {
                 case 0xA9: // Loads the accumulator with a constant
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(this.PC);
+                    value = _MemoryAccessor.readMemory(this.address + 1);
                     this.Acc = value; // Loads the accumulator with the constant
                     this.PC++;
                     break;
                 case 0xAD: // Loads the accumulator from memory
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
                     this.PC++;
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(address);
+                    value = _MemoryAccessor.readMemory(writeAddress);
                     this.Acc = value;
                     break;
                 case 0x8D: // Stores the accumulator in memory
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
                     this.PC++;
                     this.PC++;
-                    _MemoryAccessor.writeMemory(address, this.Acc);
+                    _MemoryAccessor.writeMemory(writeAddress, this.Acc);
                     break;
                 case 0x6D: // Adds the accumulator with a constant in memory
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
                     this.PC++;
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(address);
+                    value = _MemoryAccessor.readMemory(writeAddress);
                     this.Acc = this.Acc + value;
                     break;
                 case 0xA2: // Loads the X reg with a constant
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(this.PC);
+                    value = _MemoryAccessor.readMemory(this.address + 1);
                     this.PC++;
                     this.Xreg = value;
                     break;
                 case 0xAE: // Loads the X reg from memory
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
                     this.PC++;
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(address);
+                    value = _MemoryAccessor.readMemory(writeAddress);
                     this.Xreg = value;
                     break;
                 case 0xA0: // Loads the Y reg with a constant
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(this.PC);
+                    value = _MemoryAccessor.readMemory(this.address + 1);
                     this.PC++;
                     this.Yreg = value;
                     break;
                 case 0xAC: // Loads the Y reg from memory
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
                     this.PC++;
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(address);
+                    value = _MemoryAccessor.readMemory(writeAddress);
                     this.Yreg = value;
                     break;
                 case 0xEA: // No op
                     this.PC++;
                     break;
                 case 0x00: // Break
-                    this.isExecuting = false;
-                    _PcbList[0].state = "Terminated";
+                    _PcbList[this.PID].state = "Terminated";
+                    var num = _ReadyQueue.getSize() - 1;
+                    _ReadyQueue.dequeueByIndex(num);
+                    let params;
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(CONTEXTSWITCH_IRQ, params));
                     break;
                 case 0xEC: // Sets zflag if byte == x reg
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
                     this.PC++;
                     this.PC++;
-                    value = _MemoryAccessor.readMemory(address);
+                    value = _MemoryAccessor.readMemory(writeAddress);
                     if (value === this.Xreg) {
                         this.Zflag = 1;
                     }
@@ -199,7 +220,7 @@ var TSOS;
                     break;
                 case 0xD0: // Branches n bytes
                     this.PC++;
-                    let operand = _MemoryAccessor.readMemory(this.PC);
+                    let operand = _MemoryAccessor.readMemory(this.address + 1);
                     this.PC++;
                     if (this.Zflag == 0x00) {
                         this.PC += operand;
@@ -210,10 +231,10 @@ var TSOS;
                     break;
                 case 0xEE: // Increments the value of a byte
                     this.PC++;
-                    address = _MemoryAccessor.readMemory(this.PC);
-                    value = _MemoryAccessor.readMemory(address);
+                    writeAddress = _MemoryAccessor.readMemory(this.address + 1) + this.lowerBound;
+                    value = _MemoryAccessor.readMemory(writeAddress);
                     value++;
-                    _MemoryAccessor.writeMemory(address, value);
+                    _MemoryAccessor.writeMemory(writeAddress, value);
                     this.PC++;
                     this.PC++;
                     break;

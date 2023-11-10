@@ -33,6 +33,22 @@ module TSOS {
             return retVal;
         }
 
+        public dequeueByIndex(index: number) {
+            var retVal = null;
+            if (index >= 0 && index < this.q.length) {
+                retVal = this.q.splice(index, 1)[0];
+            }
+            return retVal;
+        }
+
+        public peek(index: number) {
+            if (index >= 0 && index < this.q.length) {
+                return this.q[index];
+            } else {
+                return null;
+            }
+        }
+
         public toString() {
             var retVal = "";
             for (var i in this.q) {
