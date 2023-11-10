@@ -169,6 +169,13 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+             // ps
+             sc = new ShellCommand(this.shellPS,
+                "ps",
+                "- Lists processes and states")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
 
             // Display the initial prompt.
             this.putPrompt();
@@ -604,6 +611,14 @@ module TSOS {
                 }
             } else {
                 _StdOut.putText("Usage: quantum <integer>");
+            }
+        }
+
+        public shellPS(args: string[]){
+            if(_PcbList.length > 0){
+                for(let i = 0; i < _PcbList.length; i++){
+                    _StdOut.putText("PID: " + i + " State: " + _PcbList[i].state + ",   ");
+                }
             }
         }
 

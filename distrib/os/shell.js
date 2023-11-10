@@ -105,6 +105,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "- Defines the CPU quantum");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
+            // ps
+            sc = new TSOS.ShellCommand(this.shellPS, "ps", "- Lists processes and states");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -509,6 +513,13 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: quantum <integer>");
+            }
+        }
+        shellPS(args) {
+            if (_PcbList.length > 0) {
+                for (let i = 0; i < _PcbList.length; i++) {
+                    _StdOut.putText("PID: " + i + " State: " + _PcbList[i].state + ",   ");
+                }
             }
         }
     }
