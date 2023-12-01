@@ -556,6 +556,13 @@ var TSOS;
         }
         shellFormat(args) {
             // Initialize
+            let isFormatted = _krnDiskDriver.format();
+            if (isFormatted) {
+                _StdOut.putText("Disk successfully formatted.");
+            }
+            else {
+                _StdOut.putText("ERR: Could not format disk.");
+            }
         }
         shellCreate(args) {
             if (args.length > 0) {

@@ -14,11 +14,13 @@ module TSOS{
 
         format() {
             let isFormatted = false;
+            // console.log("something");
             try {
                 for (let t = 0; t < this.disk.trackCount; t++) {
                     for (let s = 0; s < this.disk.sectorCount; s++) {
                         for (let b = 0; b < this.disk.blockCount; b++) {
                             sessionStorage.setItem(this.createStorageKey(t, s, b), this.emptyBlockInit());
+                            // console.log("Format line");
                         }
                     }
                 }
@@ -43,15 +45,19 @@ module TSOS{
 
 
         updateDiskTable() {
+            
             // Updates all cell values in the disk table
             const table = document.getElementById("disk-table") as HTMLTableElement;
+            
             // delete all rows first...
             while (table.rows.length > 1) {
                 table.deleteRow(1);
             }
-            for (let t = 0; t < _krnDiskDriver.disk.trackCtn; t++) {
-                for (let s = 0; s < _krnDiskDriver.disk.sectorCnt; s++) {
-                    for (let b = 0; b < _krnDiskDriver.disk.blockCnt; b++) {
+            
+            for (let t = 0; t < _krnDiskDriver.disk.trackCount; t++) {
+                for (let s = 0; s < _krnDiskDriver.disk.sectorCount; s++) {
+                    for (let b = 0; b < _krnDiskDriver.disk.blockCount; b++) {
+                        // console.log("Updating line");
                         // console.log(sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b)));
                         const row = table.insertRow(-1);
                         const tsb = row.insertCell(0);
