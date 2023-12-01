@@ -68,6 +68,8 @@ var _MemoryManager: TSOS.MemoryManager;
 var _Dispatcher: TSOS.Dispatcher;
 var _Scheduler: TSOS.Scheduler;
 
+var _krnDiskDriver = null;
+
 // Standard input and output
 var _StdIn:  TSOS.Console = null; 
 var _StdOut: TSOS.Console = null;

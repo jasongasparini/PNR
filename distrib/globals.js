@@ -52,6 +52,7 @@ var _ReadyQueue = null;
 var _MemoryManager;
 var _Dispatcher;
 var _Scheduler;
+var _krnDiskDriver = null;
 // Standard input and output
 var _StdIn = null;
 var _StdOut = null;
