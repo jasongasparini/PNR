@@ -33,7 +33,24 @@ var TSOS;
             this.updateDiskTable();
             return isFormatted;
         }
-        createFile() {
+        createFile(filename) {
+            let created = false;
+            let startingBlock = this.findFile(filename)[1];
+            if (!startingBlock) {
+                let fileKey = this.getNextDirBlockKey();
+                // Get the next available data block and set it at the end of the file chain
+                let nextKey = this.getNextDataBlockKey();
+                this.setFinalDataBlock(nextKey);
+                // Put the file name in the file block
+                let file = sessionStorage.getItem(fileKey);
+                sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 5, TSOS.Utils.textToHex(filename)));
+                // Put the key of the file starting block in the file meta data
+                file = sessionStorage.getItem(fileKey);
+                sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 1, nextKey));
+                created = true;
+            }
+            this.updateDiskTable();
+            return created;
         }
         readFile() {
         }
@@ -47,27 +64,118 @@ var TSOS;
         }
         renameFile() {
         }
-        findFile() {
+        findFile(fileName) {
+            let startingBlockKey = null;
+            let fileArr = [];
+            directorySearch: for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < this.disk.sectorCount; s++) {
+                    for (let b = 0; b < this.disk.blockCount; b++) {
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        let dataArr = sessionStorage.getItem(potentialKey).split(":");
+                        if (dataArr) {
+                            let metaData = dataArr[0];
+                            let fileData = this.trimData(dataArr[1]);
+                            let isUsed = this.checkIfInUse(metaData);
+                            if (isUsed && this.readBlockData(fileData) == (TSOS.Utils.textToHex(fileName))) {
+                                startingBlockKey = metaData.slice(1, 4);
+                                // directory key
+                                fileArr.push(potentialKey);
+                                // starting block key
+                                fileArr.push(metaData.slice(1, 4));
+                                break directorySearch;
+                            }
+                        }
+                    }
+                }
+            }
+            return fileArr;
         }
         getAllFiles() {
         }
         writeDataToBlock() {
         }
-        readBlockData() {
+        readBlockData(data) {
+            let hexCodesArr = data.match(/.{1,2}/g);
+            let res = '';
+            let i = 0;
+            while (i < hexCodesArr.length) {
+                res += hexCodesArr[i];
+                i++;
+            }
+            return res;
         }
         createSwapFile() {
         }
         deleteSwapFile() {
         }
-        checkIfInUse() {
+        checkIfInUse(data) {
+            let isUsed = false;
+            let dataArray = data.split("");
+            if (dataArray[0] === "1") {
+                isUsed = true;
+            }
+            return isUsed;
         }
-        setUseStatus() {
+        setUseStatus(key, Use) {
+            let data = sessionStorage.getItem(key);
+            if (data) {
+                if (Use) {
+                    sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 0, "1"));
+                }
+                else {
+                    sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 0, "0"));
+                }
+            }
         }
         getNextDataBlockKey() {
+            let nextKey = "";
+            blockSearch: for (let t = 1; t < this.disk.trackCount; t++) {
+                for (let s = 0; s < this.disk.sectorCount; s++) {
+                    for (let b = 0; b < this.disk.blockCount; b++) {
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        let block = sessionStorage.getItem(potentialKey);
+                        if (block && this.isBlockInUse(block)) {
+                            nextKey = potentialKey;
+                            this.setUseStatus(nextKey, true);
+                            // we found an empty block, so break from the routine
+                            break blockSearch;
+                        }
+                    }
+                }
+            }
+            return nextKey;
         }
-        setFinalDataBlock() {
+        setFinalDataBlock(key) {
+            let data = sessionStorage.getItem(key);
+            if (data) {
+                let tempData = data;
+                for (let i = 1; i < 4; i++) {
+                    sessionStorage.setItem(key, TSOS.Utils.replaceAt(tempData, i, "-"));
+                    tempData = sessionStorage.getItem(key);
+                }
+            }
         }
         getNextDirBlockKey() {
+            let nextKey = "";
+            directorySearch: for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < this.disk.sectorCount; s++) {
+                    for (let b = 0; b < this.disk.blockCount; b++) {
+                        let potentialKey = this.createStorageKey(t, s, b);
+                        // Skip the master boot record
+                        if (potentialKey == "000") {
+                            continue;
+                        }
+                        let block = sessionStorage.getItem(potentialKey);
+                        if (block && this.isBlockInUse(block)) {
+                            nextKey = potentialKey;
+                            this.setUseStatus(nextKey, true);
+                            // we found an empty block, so break from the routine
+                            break directorySearch;
+                        }
+                    }
+                }
+            }
+            return nextKey;
         }
         isBlockInUse(block) {
             return (block.charAt(0) == "0");

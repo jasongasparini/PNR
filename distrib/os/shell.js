@@ -566,7 +566,25 @@ var TSOS;
         }
         shellCreate(args) {
             if (args.length > 0) {
-                // Create
+                if (!_krnDiskDriver.disk.isFormatted) {
+                    _StdOut.putText("Please format the disk first.");
+                }
+                else {
+                    let fileName = args[0];
+                    if (!fileName) {
+                        _StdOut.putText("Invalid input: Usage -- create <filename>");
+                    }
+                    else {
+                        // false returned if file already exists
+                        let created = _krnDiskDriver.createFile(fileName);
+                        if (created) {
+                            _StdOut.putText(`File ${fileName} successfully created.`);
+                        }
+                        else {
+                            _StdOut.putText(`ERR: File ${fileName} already exists.`);
+                        }
+                    }
+                }
             }
             else {
                 _StdOut.putText("Usage: create <string>  Please supply a filename.");

@@ -64,7 +64,27 @@ module TSOS {
             return value.substring(0, index) + replacement + value.substring(index + replacement.length);
         }
 
+        public static textToHex(str) {
+            let hexStr = "";
+            for (let i = 0; i < str.length; i++) {
+                hexStr += str.charCodeAt(i).toString(16);
+            }
+            return hexStr;
+        }
         
+        public static hexToText(str) {
+            if (str) {
+                str = this.trimData(str);
+                let textStr = "";
+                for (let i = 0; i < str.length; i += 2) {
+                    textStr += String.fromCharCode(parseInt(str.substr(i, 2), 16));
+                }
+                return textStr;
+            }
+            else {
+                return null;
+            }
+        }
 
     }
 }
