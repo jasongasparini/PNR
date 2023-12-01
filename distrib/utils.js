@@ -42,6 +42,24 @@ var TSOS;
             }
             return retVal;
         }
+        static trimData(data) {
+            let dataArray = data.match(/.{1,2}/g);
+            let i = 0;
+            let result = '';
+            while (i < dataArray.length) {
+                if (dataArray[i] != '00') {
+                    result += dataArray[i];
+                }
+                else {
+                    break;
+                }
+                i++;
+            }
+            return result;
+        }
+        static replaceAt(value, index, replacement) {
+            return value.substring(0, index) + replacement + value.substring(index + replacement.length);
+        }
     }
     TSOS.Utils = Utils;
 })(TSOS || (TSOS = {}));

@@ -33,6 +33,48 @@ var TSOS;
             this.updateDiskTable();
             return isFormatted;
         }
+        createFile() {
+        }
+        readFile() {
+        }
+        writeFile() {
+        }
+        copyFile() {
+        }
+        deleteFile() {
+        }
+        fullDeleteFile() {
+        }
+        renameFile() {
+        }
+        findFile() {
+        }
+        getAllFiles() {
+        }
+        writeDataToBlock() {
+        }
+        readBlockData() {
+        }
+        createSwapFile() {
+        }
+        deleteSwapFile() {
+        }
+        checkIfInUse() {
+        }
+        setUseStatus() {
+        }
+        getNextDataBlockKey() {
+        }
+        setFinalDataBlock() {
+        }
+        getNextDirBlockKey() {
+        }
+        isBlockInUse(block) {
+            return (block.charAt(0) == "0");
+        }
+        doesBlockHaveData(block) {
+            return block.split(':')[1] != '0'.repeat(60);
+        }
         emptyBlockInit() {
             return "0".repeat(4) + ":" + "0".repeat(this.disk.blockSize - 4);
         }
@@ -40,36 +82,47 @@ var TSOS;
             return track.toString() + sector.toString() + block.toString();
         }
         updateDiskTable() {
-            // Updates all cell values in the disk table
             const table = document.getElementById("disk-table");
-            // delete all rows first...
+            // Deletes the rows before updating
             while (table.rows.length > 1) {
                 table.deleteRow(1);
             }
             for (let t = 0; t < _krnDiskDriver.disk.trackCount; t++) {
                 for (let s = 0; s < _krnDiskDriver.disk.sectorCount; s++) {
                     for (let b = 0; b < _krnDiskDriver.disk.blockCount; b++) {
-                        console.log("Updating line");
-                        console.log(sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b)));
                         const row = table.insertRow(-1);
                         const tsb = row.insertCell(0);
                         const inUse = row.insertCell(1);
                         const next = row.insertCell(2);
                         const data = row.insertCell(3);
-                        // inUse.style.borderLeft = "1px solid white";
                         inUse.style.borderRight = "1px solid white";
                         next.style.borderRight = "1px solid white";
                         let block = sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b));
                         let blockArr = block.split(':');
                         tsb.innerHTML = _krnDiskDriver.createStorageKey(t, s, b);
                         tsb.style.backgroundColor = "#087098";
-                        tsb.style.borderRadius = "15px";
+                        tsb.style.borderRadius = "18px";
                         inUse.innerHTML = blockArr[0].slice(0, 1);
                         next.innerHTML = blockArr[0].slice(1, 4);
                         data.innerHTML = blockArr[1].toUpperCase();
                     }
                 }
             }
+        }
+        trimData(data) {
+            let dataArray = data.match(/.{1,2}/g);
+            let i = 0;
+            let result = '';
+            while (i < dataArray.length) {
+                if (dataArray[i] != '00') {
+                    result += dataArray[i];
+                }
+                else {
+                    break;
+                }
+                i++;
+            }
+            return result;
         }
     }
     TSOS.DeviceDriverDisk = DeviceDriverDisk;
