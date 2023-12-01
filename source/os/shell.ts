@@ -170,12 +170,67 @@ module TSOS {
             this.commandListStrings.push(sc.command);
 
              // ps
-             sc = new ShellCommand(this.shellPS,
+            sc = new ShellCommand(this.shellPS,
                 "ps",
                 "- Lists processes and states")
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
 
+            // format
+            sc = new ShellCommand(this.shellFormat,
+                "format",
+                "- Formats the disk")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // create
+            sc = new ShellCommand(this.shellCreate,
+                "create",
+                "- Creates a new file")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // read
+            sc = new ShellCommand(this.shellRead,
+                "read",
+                "- Reads the contents of a file")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // write
+            sc = new ShellCommand(this.shellWrite,
+                "write",
+                "- Writes to the specified file")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // delete
+            sc = new ShellCommand(this.shellDelete,
+                "delete",
+                "- Deletes the file")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // copy
+            sc = new ShellCommand(this.shellCopy,
+                "copy",
+                "- Copies the contents of a file to a new file")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // rename
+            sc = new ShellCommand(this.shellRename,
+                "rename",
+                "- Renames a file")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+
+            // ls
+            sc = new ShellCommand(this.shellLs,
+                "ls",
+                "- Lists all files")
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
 
             // Display the initial prompt.
             this.putPrompt();
@@ -620,6 +675,62 @@ module TSOS {
                     _StdOut.putText("PID: " + i + " State: " + _PcbList[i].state + ",   ");
                 }
             }
+        }
+
+        public shellFormat(args: string[]) {
+            // Initialize
+        }
+
+        public shellCreate(args: string[]) {
+            if (args.length > 0) {
+                // Create
+            } else {
+                _StdOut.putText("Usage: create <string>  Please supply a filename.");
+            }
+        }
+
+        public shellRead(args: string[]) {
+            if (args.length > 0) {
+                // Read
+            } else {
+                _StdOut.putText("Usage: read <string>  Please supply a filename.");
+            }
+        }
+
+        public shellWrite(args: string[]) {
+            if (args.length > 0) {
+                // Write
+            } else {
+                _StdOut.putText("Usage: write <file> <data>");
+            }
+        }
+
+        public shellDelete(args: string[]) {
+            if (args.length > 0) {
+                
+            } else {
+                _StdOut.putText("Usage: create <string>  Please supply a filename.");
+            }
+        }
+
+        public shellCopy(args: string[]) {
+            if (args.length > 0) {
+                
+            } else {
+                _StdOut.putText("Usage: copy <filename> <newfilename>");
+            }
+        }
+
+        public shellRename(args: string[]) {
+            if (args.length > 0) {
+                
+            } else {
+                _StdOut.putText("Usage: rename <filename> <newname>");
+            }
+        }
+
+        public shellLs(args: string[]) {
+            // ls
         }
 
     }

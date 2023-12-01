@@ -109,6 +109,38 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellPS, "ps", "- Lists processes and states");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
+            // format
+            sc = new TSOS.ShellCommand(this.shellFormat, "format", "- Formats the disk");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // create
+            sc = new TSOS.ShellCommand(this.shellCreate, "create", "- Creates a new file");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // read
+            sc = new TSOS.ShellCommand(this.shellRead, "read", "- Reads the contents of a file");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // write
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "- Writes to the specified file");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // delete
+            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "- Deletes the file");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // copy
+            sc = new TSOS.ShellCommand(this.shellCopy, "copy", "- Copies the contents of a file to a new file");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // rename
+            sc = new TSOS.ShellCommand(this.shellRename, "rename", "- Renames a file");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // ls
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all files");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
             // Display the initial prompt.
             this.putPrompt();
         }
@@ -521,6 +553,57 @@ var TSOS;
                     _StdOut.putText("PID: " + i + " State: " + _PcbList[i].state + ",   ");
                 }
             }
+        }
+        shellFormat(args) {
+            // Initialize
+        }
+        shellCreate(args) {
+            if (args.length > 0) {
+                // Create
+            }
+            else {
+                _StdOut.putText("Usage: create <string>  Please supply a filename.");
+            }
+        }
+        shellRead(args) {
+            if (args.length > 0) {
+                // Read
+            }
+            else {
+                _StdOut.putText("Usage: read <string>  Please supply a filename.");
+            }
+        }
+        shellWrite(args) {
+            if (args.length > 0) {
+                // Write
+            }
+            else {
+                _StdOut.putText("Usage: write <file> <data>");
+            }
+        }
+        shellDelete(args) {
+            if (args.length > 0) {
+            }
+            else {
+                _StdOut.putText("Usage: create <string>  Please supply a filename.");
+            }
+        }
+        shellCopy(args) {
+            if (args.length > 0) {
+            }
+            else {
+                _StdOut.putText("Usage: copy <filename> <newfilename>");
+            }
+        }
+        shellRename(args) {
+            if (args.length > 0) {
+            }
+            else {
+                _StdOut.putText("Usage: rename <filename> <newname>");
+            }
+        }
+        shellLs(args) {
+            // ls
         }
     }
     TSOS.Shell = Shell;
