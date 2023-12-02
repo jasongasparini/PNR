@@ -723,10 +723,42 @@ module TSOS {
         }
 
         public shellWrite(args: string[]) {
-            if (args.length > 0) {
-                // Write
-            } else {
-                _StdOut.putText("Usage: write <file> <data>");
+            if (!_krnDiskDriver.disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+
+            else {
+                // If there is a file and data given
+                if (args.length >= 2) {
+                    if (args[1] == '\"\"') {
+                        _StdOut.putText('Invalid input: Please supply a valid data string');
+                        _StdOut.advanceLine();
+                        _StdOut.putText('Invalid usage: write <filename> "data"');
+                    }
+                    else if (args[1].startsWith('"') && args[args.length - 1].endsWith('"')) {
+                        let fileName = args[0];
+                        // Input
+                        let dataArray = args.slice(1, args.length);
+                        let data = dataArray.join(' ').slice(1, -1);
+                        data = TSOS.Utils.textToHex(data);
+                        let msg = _krnDiskDriver.writeFile(fileName, data);
+                        
+                        if (msg == 'y') {
+                            _StdOut.putText("\'" + fileName + "\' written to.");
+                        }
+                        else if (msg == 'does not exist') {
+                            _StdOut.putText("\'" + fileName + "\' doesn't exist.");
+                        }
+                    }
+                    else {
+                        _StdOut.putText('Quotations around data required.');
+                        _StdOut.advanceLine();
+                        _StdOut.putText('Invalid usage: write <filename> "data"');
+                    }
+                }
+                else {
+                    _StdOut.putText('Invalid usage: write <filename> "data"');
+                }
             }
         }
 

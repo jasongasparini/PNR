@@ -41,12 +41,15 @@ module TSOS{
 
             if (!startingBlock) {
                 let fileKey = this.getNextDirBlockKey();
+
                 // Get the next available data block and set it at the end of the file chain
                 let nextKey = this.getNextDataBlockKey();
                 this.setFinalDataBlock(nextKey);
+
                 // Put the file name in the file block
                 let file = sessionStorage.getItem(fileKey);
                 sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 5, TSOS.Utils.textToHex(filename)));
+
                 // Put the key of the file starting block in the file meta data
                 file = sessionStorage.getItem(fileKey);
                 sessionStorage.setItem(fileKey, TSOS.Utils.replaceAt(file, 1, nextKey));
@@ -56,24 +59,106 @@ module TSOS{
             return created;
         }
 
-        readFile(){
+        
 
-        }
+        writeFile(fileName, input) {
+            let startingBlockKey = this.findFile(fileName)[1];
+            let returnMsg = '';
+            
+            if (!startingBlockKey) {
+                returnMsg = 'does not exist';
+            }
+            else {
+                // Retrieve block data
+                let data = sessionStorage.getItem(startingBlockKey);
 
-        writeFile(){
+                // Clear file data
+                if (this.doesBlockHaveData(data)) {
+                    this.fullDeleteFile(fileName);
+                    this.createFile(fileName);
+                    startingBlockKey = this.findFile(fileName)[1];
+                    data = sessionStorage.getItem(startingBlockKey);
+                }
+                if (input.length <= 60) {
+                    sessionStorage.setItem(startingBlockKey, '1---:' + this.writeDataToBlock(data, input));
+                }
+                else {
+                    // Splits the input into an array, with each element having a max length of 60
+                    let inputArr = input.match(/.{1,60}/g);
+                    let currKey = startingBlockKey;
+                    // loop through each input chunk
+                    for (let i = 0; i < inputArr.length; i++) {
+                        let nextKey;
+                        data = sessionStorage.getItem(currKey);
+                        // last input chunk doesn't have a block to link to
+                        if (i == inputArr.length - 1) {
+                            sessionStorage.setItem(currKey, '1---:' + this.writeDataToBlock(data, inputArr[i]));
+                        }
+                        else {
+                            nextKey = this.getNextDataBlockKey();
+                            if (nextKey) {
+                                sessionStorage.setItem(currKey, '1' + nextKey + ':' + this.writeDataToBlock(data, inputArr[i]));
+                            }
+                            else {
+                                returnMsg = 'no more data';
+                                this.disk.isFull = true;
+                                _OsShell.shellKillAll(null);
+                                _StdOut.advanceLine();
+                                _StdOut.putText('ERR: Disk is full.');
+                                _StdOut.advanceLine();
+                                _OsShell.putPrompt();
+                                break;
+                            }
+                        }
 
+                        currKey = nextKey;
+                    }
+                }
+
+                returnMsg = 'y';
+            }
+
+            this.updateDiskTable();
+            return returnMsg;
         }
 
         copyFile(){
 
         }
 
-        deleteFile(){
+        deleteFile(fileName) {
+            let key = this.findFile(fileName)[0];
+            let isDeleted = false;
 
+            if (key) {
+                sessionStorage.setItem(key, this.emptyBlockInit());
+                isDeleted = true;
+            }
+
+            this.updateDiskTable();
+            return isDeleted;
         }
 
-        fullDeleteFile(){
-
+        fullDeleteFile(fileName) {
+            let startingBlockKey = this.findFile(fileName)[1];
+            
+            if (startingBlockKey) {
+                let block = sessionStorage.getItem(startingBlockKey);
+                let blockArray = block.split(':');
+                let metaData = blockArray[0];
+                sessionStorage.setItem(startingBlockKey, this.emptyBlockInit());
+                let nextKey = metaData.slice(1, 4);
+                let nextData = sessionStorage.getItem(nextKey);
+                
+                // Clears until last block
+                while (nextKey != '---') {
+                    sessionStorage.setItem(nextKey, this.emptyBlockInit());
+                    nextKey = nextData.split(':')[0].slice(1, 4);
+                    nextData = sessionStorage.getItem(nextKey);
+                }
+                
+                this.deleteFile(fileName);
+            }
         }
 
         renameFile(){
@@ -82,49 +167,61 @@ module TSOS{
 
         findFile(fileName) {
             let startingBlockKey = null;
-            let fileArr = [];
+            let fileArray = [];
+
             directorySearch: for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < this.disk.sectorCount; s++) {
                     for (let b = 0; b < this.disk.blockCount; b++) {
                         let potentialKey = this.createStorageKey(t, s, b);
-                        let dataArr = sessionStorage.getItem(potentialKey).split(":");
-                        if (dataArr) {
-                            let metaData = dataArr[0];
-                            let fileData = this.trimData(dataArr[1]);
+                        let dataArray = sessionStorage.getItem(potentialKey).split(":");
+                        if (dataArray) {
+                            let metaData = dataArray[0];
+                            let fileData = this.trimData(dataArray[1]);
                             let isUsed = this.checkIfInUse(metaData);
                             if (isUsed && this.readBlockData(fileData) == (TSOS.Utils.textToHex(fileName))) {
                                 startingBlockKey = metaData.slice(1, 4);
+                                
                                 // directory key
-                                fileArr.push(potentialKey);
+                                fileArray.push(potentialKey);
+                                
                                 // starting block key
-                                fileArr.push(metaData.slice(1, 4));
+                                fileArray.push(metaData.slice(1, 4));
                                 break directorySearch;
                             }
                         }
                     }
                 }
             }
-            return fileArr;
+            return fileArray;
         }
 
         getAllFiles(){
 
         }
 
-        writeDataToBlock(){
+        writeDataToBlock(block, data) {
 
+            let blockArray = block.split(':');
+            let blockData = blockArray[1].match(/.{1,2}/g);
+            let dataArray = data.match(/.{1,2}/g);
+
+            for (let i = 0; i < dataArray.length; i++) {
+                blockData[i] = dataArray[i];
+            }
+
+            return (blockData.join(''));
         }
 
         readBlockData(data) {
-            let hexCodesArr = data.match(/.{1,2}/g);
-            let res = '';
+            let hexCodesArray = data.match(/.{1,2}/g);
+            let result = '';
             let i = 0;
             
-            while (i < hexCodesArr.length) {
-                res += hexCodesArr[i];
+            while (i < hexCodesArray.length) {
+                result += hexCodesArray[i];
                 i++;
             }
-            return res;
+            return result;
         }
 
         createSwapFile(){
