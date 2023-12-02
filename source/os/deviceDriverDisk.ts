@@ -59,7 +59,33 @@ module TSOS{
             return created;
         }
 
-        
+        readFile(fileName) {
+            let startingBlockKey = this.findFile(fileName)[1];
+            let dataString = '';
+            if (!startingBlockKey) {
+                dataString = null;
+            }
+            else {
+                let block = sessionStorage.getItem(startingBlockKey);
+                let blockArray = block.split(':');
+                let metaData = blockArray[0];
+                let data = blockArray[1];
+                dataString += this.readBlockData(data);
+                
+                // File contains more than 1 block cond
+                if (metaData.slice(1, 4) != '---') {
+                    let nextKey = metaData.slice(1, 4);
+                    let nextData = sessionStorage.getItem(nextKey);
+                    while (nextKey != '---') {
+                        dataString += this.readBlockData(nextData.split(':')[1]);
+                        nextKey = nextData.split(':')[0].slice(1, 4);
+                        nextData = sessionStorage.getItem(nextKey);
+                    }
+                }
+            }
+            
+            return dataString;
+        }
 
         writeFile(fileName, input) {
             let startingBlockKey = this.findFile(fileName)[1];

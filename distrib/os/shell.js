@@ -558,10 +558,10 @@ var TSOS;
             // Initialize
             let isFormatted = _krnDiskDriver.format();
             if (isFormatted) {
-                _StdOut.putText("Disk successfully formatted.");
+                _StdOut.putText("Disk formatted.");
             }
             else {
-                _StdOut.putText("ERR: Could not format disk.");
+                _StdOut.putText("Error: Could not format disk.");
             }
         }
         shellCreate(args) {
@@ -581,7 +581,7 @@ var TSOS;
                             _StdOut.putText(`File ${fileName} successfully created.`);
                         }
                         else {
-                            _StdOut.putText(`ERR: File ${fileName} already exists.`);
+                            _StdOut.putText(`Error: File ${fileName} already exists.`);
                         }
                     }
                 }
@@ -591,11 +591,25 @@ var TSOS;
             }
         }
         shellRead(args) {
-            if (args.length > 0) {
-                // Read
+            if (_krnDiskDriver.disk.isFormatted) {
+                if (args.length > 0) {
+                    let data = TSOS.Utils.hexToText(_krnDiskDriver.readFile(args[0]));
+                    if (data == null) {
+                        _StdOut.putText("\'" + args[0] + "\' does not exist.");
+                    }
+                    else if (data == '') {
+                        _StdOut.putText("\'" + args[0] + "\' is empty.");
+                    }
+                    else {
+                        _StdOut.putText(data);
+                    }
+                }
+                else {
+                    _StdOut.putText('Invalid usage: read <filename>');
+                }
             }
             else {
-                _StdOut.putText("Usage: read <string>  Please supply a filename.");
+                _StdOut.putText("Please format the disk first.");
             }
         }
         shellWrite(args) {
