@@ -600,8 +600,19 @@ module TSOS {
         }
 
         public shellKillAll(args: string[]){
-            _CPU.isExecuting = false;
+           if(_ReadyQueue.getSize() > 1){
+                _CPU.isExecuting = false;
+                var size = _ReadyQueue.getSize();
+                var i = _PcbList.length - 1;
+                while(_ReadyQueue.isEmpty() == false){
+                    _ReadyQueue.dequeue();
+                }
 
+                var stop = i-size;
+                for(i; i > stop; i--){
+                    _PcbList[i].state = "Terminated";
+                }
+            }
         }
 
         public shellClearmem(args: string[]){
@@ -678,13 +689,18 @@ module TSOS {
         }
 
         public shellFormat(args: string[]) {
-            // Initialize
-            let isFormatted = _krnDiskDriver.format();
-            if (isFormatted) {
-                _StdOut.putText("Disk formatted.");
+            
+            if(_CPU.isExecuting){
+                _StdOut.putText("Cannot format while executing.")
             }
-            else {
-                _StdOut.putText("Error: Could not format disk.");
+            else{
+                let isFormatted = _krnDiskDriver.format();
+                if (isFormatted) {
+                    _StdOut.putText("Disk formatted.");
+                }
+                else {
+                    _StdOut.putText("Error: Could not format disk.");
+                }
             }
         }
 
@@ -778,32 +794,90 @@ module TSOS {
         }
 
         public shellDelete(args: string[]) {
-            if (args.length > 0) {
-                
-            } else {
-                _StdOut.putText("Usage: create <string>  Please supply a filename.");
+            if (!_krnDiskDriver.disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+            else {
+                if (args.length > 0) {
+                    let isDeleted = _krnDiskDriver.deleteFile(args[0]);
+                    if (isDeleted) {
+                        _StdOut.putText(args[0] + ' successfully deleted.');
+                    }
+                    else {
+                        _StdOut.putText(args[0] + ' does not exist.');
+                    }
+                }
+                else {
+                    _StdOut.putText('Invalid usage: delete <filename>');
+                }
             }
         }
 
         public shellCopy(args: string[]) {
-            if (args.length > 0) {
-                
-            } else {
-                _StdOut.putText("Usage: copy <filename> <newfilename>");
+            if (!_krnDiskDriver.disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+            else {
+                if (args.length == 2) {
+                    let msg = _krnDiskDriver.copyFile(args[0], args[1]);
+                    if (msg == 'success') {
+                        _StdOut.putText('Copy successful.');
+                    }
+                    else if (msg == 'new file exists') {
+                        _StdOut.putText("\'" + args[1] + '\' already exists.');
+                    }
+                    else if (msg == 'no existing file') {
+                        _StdOut.putText("\'" + args[0] + '\' does not exist.');
+                    }
+                }
+                else {
+                    _StdOut.putText('Invalid usage: copy <existing filename> <new filename>');
+                }
             }
         }
 
         public shellRename(args: string[]) {
-            if (args.length > 0) {
-                
-            } else {
-                _StdOut.putText("Usage: rename <filename> <newname>");
+            if (!_krnDiskDriver.disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+            else {
+                if (args.length > 0) {
+                    let msg = _krnDiskDriver.renameFile(args[0], args[1]);
+                    if (msg == 'success') {
+                        _StdOut.putText('Rename successful. ' + args[0] + ' => ' + args[1]);
+                    }
+                    else if (msg == 'no file') {
+                        _StdOut.putText(args[0] + ' does not exist.');
+                    }
+                    else {
+                        _StdOut.putText(args[1] + ' already exists.');
+                    }
+                }
+                else {
+                    _StdOut.putText('Invalid usage: rename <existing filename> <new filename>');
+                }
             }
         }
 
         public shellLs(args: string[]) {
-            // ls
-        }
+            let files = _krnDiskDriver.getAllFiles();
 
+            if (!_krnDiskDriver.disk.isFormatted) {
+                _StdOut.putText("Please format the disk first.");
+            }
+            else {
+                if (files.length > 0) {
+                    _StdOut.putText('Files on disk:');
+                    _StdOut.advanceLine();
+                    for (let i = 0; i < files.length; i++) {
+                        _StdOut.putText(files[i]);
+                        _StdOut.advanceLine();
+                    }
+                }
+                else {
+                    _StdOut.putText('No files on disk');
+                }
+            }
+        }
     }
 }

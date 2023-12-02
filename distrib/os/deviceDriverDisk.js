@@ -100,11 +100,10 @@ var TSOS;
                     // Splits the input into an array, with each element having a max length of 60
                     let inputArr = input.match(/.{1,60}/g);
                     let currKey = startingBlockKey;
-                    // loop through each input chunk
+                    // Loops through all input segments
                     for (let i = 0; i < inputArr.length; i++) {
                         let nextKey;
                         data = sessionStorage.getItem(currKey);
-                        // last input chunk doesn't have a block to link to
                         if (i == inputArr.length - 1) {
                             sessionStorage.setItem(currKey, '1---:' + this.writeDataToBlock(data, inputArr[i]));
                         }
@@ -132,7 +131,26 @@ var TSOS;
             this.updateDiskTable();
             return returnMsg;
         }
-        copyFile() {
+        copyFile(fileName, newName) {
+            let returnMsg = '';
+            if (this.findFile(fileName)[0]) {
+                let isCreated = this.createFile(newName);
+                if (isCreated) {
+                    let fileData = this.readFile(fileName);
+                    let msg = this.writeFile(newName, fileData);
+                    if (msg == 'success') {
+                        returnMsg = 'success';
+                    }
+                }
+                else {
+                    returnMsg = 'new file exists';
+                }
+            }
+            else {
+                returnMsg = 'no existing file';
+            }
+            this.updateDiskTable();
+            return returnMsg;
         }
         deleteFile(fileName) {
             let key = this.findFile(fileName)[0];
@@ -162,7 +180,25 @@ var TSOS;
                 this.deleteFile(fileName);
             }
         }
-        renameFile() {
+        renameFile(fileName, newName) {
+            let returnMsg = '';
+            let key = this.findFile(fileName)[0];
+            let otherKey = this.findFile(newName)[0];
+            if (key && !otherKey) {
+                let data = sessionStorage.getItem(key);
+                sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 5, '0'.repeat(60)));
+                data = sessionStorage.getItem(key);
+                sessionStorage.setItem(key, TSOS.Utils.replaceAt(data, 5, TSOS.Utils.textToHex(newName)));
+                returnMsg = 'success';
+            }
+            else if (!key) {
+                returnMsg = 'no file';
+            }
+            else if (otherKey) {
+                returnMsg = 'name taken';
+            }
+            this.updateDiskTable();
+            return returnMsg;
         }
         findFile(fileName) {
             let startingBlockKey = null;
@@ -178,9 +214,9 @@ var TSOS;
                             let isUsed = this.checkIfInUse(metaData);
                             if (isUsed && this.readBlockData(fileData) == (TSOS.Utils.textToHex(fileName))) {
                                 startingBlockKey = metaData.slice(1, 4);
-                                // directory key
+                                // Directory key
                                 fileArray.push(potentialKey);
-                                // starting block key
+                                // Starting block key
                                 fileArray.push(metaData.slice(1, 4));
                                 break directorySearch;
                             }
@@ -191,6 +227,19 @@ var TSOS;
             return fileArray;
         }
         getAllFiles() {
+            let files = [];
+            for (let t = 0; t < 1; t++) {
+                for (let s = 0; s < this.disk.sectorCount; s++) {
+                    for (let b = 0; b < this.disk.blockCount; b++) {
+                        let file = sessionStorage.getItem(this.createStorageKey(t, s, b));
+                        if (file && this.checkIfInUse(file)) {
+                            let fileName = TSOS.Utils.hexToText(this.readBlockData(file.split(':')[1]));
+                            files.push(fileName);
+                        }
+                    }
+                }
+            }
+            return files;
         }
         writeDataToBlock(block, data) {
             let blockArray = block.split(':');
@@ -315,7 +364,7 @@ var TSOS;
                         let block = sessionStorage.getItem(_krnDiskDriver.createStorageKey(t, s, b));
                         let blockArr = block.split(':');
                         tsb.innerHTML = _krnDiskDriver.createStorageKey(t, s, b);
-                        tsb.style.backgroundColor = "#087098";
+                        tsb.style.backgroundColor = "#FF0000";
                         tsb.style.borderRadius = "18px";
                         inUse.innerHTML = blockArr[0].slice(0, 1);
                         next.innerHTML = blockArr[0].slice(1, 4);
