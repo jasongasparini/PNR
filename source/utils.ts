@@ -86,5 +86,27 @@ module TSOS {
             }
         }
 
+        public static checkIfHex(string){
+            string = string.toLowerCase();
+            var opCodes = string.match(/.{1,2}/g);
+            
+            for (var i = 0; i < opCodes.length; i++) {
+                var temp = parseInt(opCodes[i], 16);
+                if ((opCodes[i].startsWith("0")) && (temp.toString(16) === opCodes[i].slice(-1))) { 
+                    continue;
+                }
+                else if (temp.toString(16) === opCodes[i]) {
+                    continue;
+                }
+                else {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+    
+
     }
 }

@@ -370,19 +370,19 @@ var TSOS;
             _Console.putText("You broke GLaDOS........");
         }
         shellLoad(args) {
-            var textarea = document.getElementById("taProgramInput").value;
-            var validation = textarea.match(/^[ A-F0-9]+$/);
+            // var textarea = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+            var validation = TSOS.Control.validation();
             if (validation == null) {
                 _StdOut.putText("Invalid program specified.");
             }
             else {
                 // Split the input into individual opcodes (assuming they are separated by spaces)
-                const opcodes = textarea.split(" ");
+                const opcodes = validation.match(/.{1,2}/g);
                 var segment = _MemoryManager.getNextSegment();
                 var pcb = new TSOS.ProcessControlBlock(_PidCounter, segment);
                 _PcbList.push(pcb);
                 const newPcbRow = document.getElementById("pcbStatus").getElementsByTagName('tbody')[0];
-                console.log("Row output test: ", document.getElementById("pcbStatus").getElementsByTagName('tbody'));
+                // console.log("Row output test: ", document.getElementById("pcbStatus").getElementsByTagName('tbody'));
                 var newRow = newPcbRow.insertRow();
                 let pcbFields = Object.getOwnPropertyNames(pcb);
                 for (const field of pcbFields) {

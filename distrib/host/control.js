@@ -104,6 +104,32 @@ var TSOS;
             _Scheduler.checkForSwitch();
             _CPU.cycle();
         }
+        static validation() {
+            var textarea = document.getElementById("taProgramInput").value;
+            textarea = (textarea).replace(/\s+/g, '');
+            textarea = textarea.toUpperCase();
+            textarea = textarea.trim();
+            var valid = this.checkString(textarea);
+            if (valid) {
+                return textarea;
+            }
+            else {
+                return null;
+            }
+        }
+        static checkString(input) {
+            if (input != "") {
+                if ((TSOS.Utils.checkIfHex(input)) && (input.length % 2 == 0)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
     }
     TSOS.Control = Control;
 })(TSOS || (TSOS = {}));
