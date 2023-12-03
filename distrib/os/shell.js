@@ -375,6 +375,14 @@ var TSOS;
             if (validation == null) {
                 _StdOut.putText("Invalid program specified.");
             }
+            else if (_MemoryManager.memoryFull) {
+                if (_krnDiskDriver.disk.isFormatted) {
+                    _krnDiskDriver.createSwapFile(_PidCounter, validation);
+                }
+                else {
+                    _StdOut.putText("Please format the disk.");
+                }
+            }
             else {
                 // Split the input into individual opcodes (assuming they are separated by spaces)
                 const opcodes = validation.match(/.{1,2}/g);
@@ -608,15 +616,20 @@ var TSOS;
         shellRead(args) {
             if (_krnDiskDriver.disk.isFormatted) {
                 if (args.length > 0) {
-                    let data = TSOS.Utils.hexToText(_krnDiskDriver.readFile(args[0]));
-                    if (data == null) {
-                        _StdOut.putText("\'" + args[0] + "\' does not exist.");
-                    }
-                    else if (data == '') {
-                        _StdOut.putText("\'" + args[0] + "\' is empty.");
+                    if (args[0].includes("swap")) {
+                        _StdOut.putText("Cannot read .swap files");
                     }
                     else {
-                        _StdOut.putText(data);
+                        let data = TSOS.Utils.hexToText(_krnDiskDriver.readFile(args[0]));
+                        if (data == null) {
+                            _StdOut.putText("\'" + args[0] + "\' does not exist.");
+                        }
+                        else if (data == '') {
+                            _StdOut.putText("\'" + args[0] + "\' is empty.");
+                        }
+                        else {
+                            _StdOut.putText(data);
+                        }
                     }
                 }
                 else {

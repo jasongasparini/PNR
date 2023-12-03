@@ -13,6 +13,7 @@ var TSOS;
         segmentOneOccupied = false;
         segmentTwoOccupied = false;
         segmentThreeOccupied = false;
+        memoryFull = false;
         currentSegment = 1;
         constructor() {
         }
@@ -53,6 +54,7 @@ var TSOS;
                 if (this.segmentThreeOccupied == false) {
                     this.currentSegment = 1;
                     this.segmentThreeOccupied = true;
+                    this.memoryFull = true;
                     return 3;
                 }
                 else if (this.segmentThreeOccupied) {

@@ -13,6 +13,7 @@
         public segmentOneOccupied: boolean = false;
         public segmentTwoOccupied: boolean = false;
         public segmentThreeOccupied: boolean = false;
+        public memoryFull: boolean = false;
         public currentSegment: number = 1
 
         constructor() {
@@ -58,6 +59,7 @@
                 if(this.segmentThreeOccupied == false){
                     this.currentSegment = 1;
                     this.segmentThreeOccupied = true;
+                    this.memoryFull = true;
                     return 3;
                 }
                 else if(this.segmentThreeOccupied){

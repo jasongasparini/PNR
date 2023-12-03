@@ -304,8 +304,11 @@ module TSOS{
             return result;
         }
 
-        createSwapFile(){
-
+        createSwapFile(pid, data) {
+            let fileName = '.swap' + pid;
+            this.createFile(fileName);
+            this.writeFile(fileName, data);
+            
         }
 
         deleteSwapFile(){
