@@ -372,7 +372,7 @@ module TSOS{
                 for (let s = 0; s < this.disk.sectorCount; s++) {
                     for (let b = 0; b < this.disk.blockCount; b++) {
                         let potentialKey = this.createStorageKey(t, s, b);
-                        // Skip the master boot record
+                        // Skip the mbr
                         if (potentialKey == "000") {
                             continue;
                         }
@@ -380,7 +380,7 @@ module TSOS{
                         if (block && this.isBlockInUse(block)) {
                             nextKey = potentialKey;
                             this.setUseStatus(nextKey, true);
-                            // we found an empty block, so break from the routine
+                            //  empty block
                             break directorySearch;
                         }
                     }

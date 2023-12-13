@@ -378,6 +378,22 @@ var TSOS;
             else if (_MemoryManager.memoryFull) {
                 if (_krnDiskDriver.disk.isFormatted) {
                     _krnDiskDriver.createSwapFile(_PidCounter, validation);
+                    var pcb = new TSOS.ProcessControlBlock(_PidCounter, -1);
+                    _PcbList.push(pcb);
+                    const newPcbRow = document.getElementById("pcbStatus").getElementsByTagName('tbody')[0];
+                    var newRow = newPcbRow.insertRow();
+                    let pcbFields = Object.getOwnPropertyNames(pcb);
+                    for (const field of pcbFields) {
+                        let value = pcb[field];
+                        let newCell = newRow.insertCell();
+                        let newText = document.createTextNode(value.toString(16));
+                        newCell.appendChild(newText);
+                        newCell.id = pcb.PID + "-" + field;
+                    }
+                    _ReadyQueue.enqueue(_PcbList[_PidCounter]);
+                    _StdOut.putText("Loaded Program to disk.");
+                    _StdOut.putText(" PID: " + _PidCounter.toString(10));
+                    _PidCounter++;
                 }
                 else {
                     _StdOut.putText("Please format the disk.");
@@ -387,6 +403,9 @@ var TSOS;
                 // Split the input into individual opcodes (assuming they are separated by spaces)
                 const opcodes = validation.match(/.{1,2}/g);
                 var segment = _MemoryManager.getNextSegment();
+                if (segment == 3) {
+                    _krnDiskDriver.createSwapFile(_PidCounter, validation);
+                }
                 var pcb = new TSOS.ProcessControlBlock(_PidCounter, segment);
                 _PcbList.push(pcb);
                 const newPcbRow = document.getElementById("pcbStatus").getElementsByTagName('tbody')[0];
@@ -403,6 +422,7 @@ var TSOS;
                 _StdOut.putText("Loaded Program in segment: " + segment.toString(10));
                 // _StdOut.putText("Lower bound: " + _PcbList[_PidCounter].lowerBound.toString(10));
                 _StdOut.putText(" PID: " + _PidCounter.toString(10));
+                _ReadyQueue.enqueue(_PcbList[_PidCounter]);
                 _PidCounter++;
                 for (let i = 0; i < opcodes.length; i++) {
                     const opcode = opcodes[i];
@@ -510,25 +530,25 @@ var TSOS;
         }
         shellRunall(args) {
             if (_PcbList.length > 0) {
-                if (_PcbList.length == 1) {
-                    _ReadyQueue.enqueue(_PcbList[0]);
-                }
-                else if (_PcbList.length == 2) {
-                    _ReadyQueue.enqueue(_PcbList[0]);
-                    _ReadyQueue.enqueue(_PcbList[1]);
-                }
-                else if (_PcbList.length > 2) {
-                    var len = _PcbList.length;
-                    if (_PcbList[len - 3].state != "Terminated") {
-                        _ReadyQueue.enqueue(_PcbList[len - 3]);
-                    }
-                    if (_PcbList[len - 2].state != "Terminated") {
-                        _ReadyQueue.enqueue(_PcbList[len - 2]);
-                    }
-                    if (_PcbList[len - 1].state != "Terminated") {
-                        _ReadyQueue.enqueue(_PcbList[len - 1]);
-                    }
-                }
+                // if(_PcbList.length == 1){
+                //     _ReadyQueue.enqueue(_PcbList[0]);
+                // }
+                // else if(_PcbList.length == 2){
+                //     _ReadyQueue.enqueue(_PcbList[0]);
+                //     _ReadyQueue.enqueue(_PcbList[1]);
+                // }
+                // else if(_PcbList.length > 2){
+                //     var len = _PcbList.length;
+                //     if(_PcbList[len-3].state != "Terminated"){
+                //         _ReadyQueue.enqueue(_PcbList[len-3]);
+                //     }
+                //     if(_PcbList[len-2].state != "Terminated"){
+                //         _ReadyQueue.enqueue(_PcbList[len-2]);
+                //     }
+                //     if(_PcbList[len-1].state != "Terminated"){
+                //         _ReadyQueue.enqueue(_PcbList[len-1]);
+                //     }
+                // }
                 if (_ReadyQueue.getSize() > 0) {
                     var currentprogram = _ReadyQueue.dequeue();
                     _CPU.loadNextProgram(currentprogram);

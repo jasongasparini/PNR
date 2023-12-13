@@ -49,6 +49,11 @@ var TSOS;
         hexToByte(hexValue) {
             return hexValue & 0xFF; // Ensure that the value is within the range of 0x00 to 0xFF
         }
+        copyLast256ToString() {
+            const last256 = this.memory.slice(-256);
+            const hexString = last256.map(value => value.toString(16).padStart(2, '0')).join('');
+            return hexString;
+        }
     }
     TSOS.Memory = Memory;
 })(TSOS || (TSOS = {}));
