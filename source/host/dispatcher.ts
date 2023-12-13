@@ -48,9 +48,31 @@ module TSOS {
                                 _Memory.writeByte(address, value);
                             }
                         }
-                    }
-                    
-                    
+                    }  
+                } else if (pcb.segment == 1 && _ReadyQueue.getSize() > 3){
+                    var replace = _ReadyQueue.peek(1);
+
+                    var replacement = ".swap" + replace.PID;
+                    replace.segment = 3;
+                    replace.checkSetBounds();
+                    var replaceProgram = _krnDiskDriver.readFile(replacement);
+                    const opcodes = replaceProgram.match(/.{1,2}/g);
+                    for (let i = 0; i < opcodes.length; i++) {
+                        const opcode = opcodes[i];
+                        if (opcode.length === 2) {
+                            // Assuming each opcode is a 2-digit hexadecimal string
+                            const value = parseInt(opcode, 16);
+                            
+                            // Check if value is a valid number
+                            if (!isNaN(value) && value >= 0 && value <= 255) {
+                                // Write the value to memory at the next available address
+                                var address = i+replace.lowerBound;
+                                // _StdOut.putText(" Writing to address: " + address.toString(16));
+                                _Memory.writeByte(address, value);
+                            }
+                        }
+                    } 
+
                 }
                 _CPU.loadNextProgram(pcb);
                 _ReadyQueue.enqueue(pcb);
