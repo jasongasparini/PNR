@@ -61,11 +61,85 @@
             return hexValue & 0xFF; // Ensure that the value is within the range of 0x00 to 0xFF
         }
 
-        copyLast256ToString(): string {
-            const last256 = this.memory.slice(-256);
-            const hexString = last256.map(value => value.toString(16).padStart(2, '0')).join('');
-        
+        copyElementsToString(setNumber: number): string {
+            let startIdx = 0;
+
+            if (setNumber === 1) {
+                startIdx = 0;
+            } else if (setNumber === 2) {
+                startIdx = 256;
+            } else if (setNumber === 3) {
+                startIdx = Math.max(0, this.memory.length - 256);
+            } else {
+                throw new Error('Invalid setNumber. Use 1, 2, or 3.');
+            }
+
+            const elementsToCopy = this.memory.slice(startIdx, startIdx + 256);
+            const hexString = elementsToCopy.map(value => value.toString(16).padStart(2, '0')).join('');
+
             return hexString;
+        }
+
+        clearSegment(segment) {
+            var base = 0;
+            var limit = 0;
+
+            if(segment == 1){
+                base = 0;
+                limit = 255;
+            } else if (segment == 2){
+                base = 256;
+                limit = 511;
+            } else if (segment == 3){
+                base = 512;
+                limit = 767;
+            }
+
+            var i = base;
+            while (i <= limit) {
+                this.memory[i] = 0x00;
+                i++;
+            }
+        }
+
+        writeSegment(segment, input) {
+            var base = 0;
+            var limit = 0;
+
+            if(segment == 1){
+                base = 0;
+                limit = 255;
+            } else if (segment == 2){
+                base = 256;
+                limit = 511;
+            } else if (segment == 3){
+                base = 512;
+                limit = 767;
+            }
+
+            const opcodes = input.match(/.{1,2}/g);
+            for (let i = 0; i < opcodes.length; i++) {
+                const opcode = opcodes[i];
+                if (opcode.length === 2) {
+                    
+                    const value = parseInt(opcode, 16);
+                    
+
+                    if (!isNaN(value) && value >= 0 && value <= 255) {
+
+                        var address = i+base;
+
+                        this.writeByte(address, value);
+                        
+                    } else {
+                        _StdOut.putText("Invalid opcode at position " + i + ", Please clearmem and try again");
+                        return;
+                    }
+                } else {
+                    _StdOut.putText("Invalid opcode length at position " + i+ ", Please clearmem and try again");
+                    return;
+                }
+            }
         }
 
         // public updateMemoryTable(): void {

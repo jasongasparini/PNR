@@ -265,8 +265,6 @@ var TSOS;
             this.createFile(fileName);
             this.writeFile(fileName, data);
         }
-        deleteSwapFile() {
-        }
         checkIfInUse(data) {
             let isUsed = false;
             let dataArray = data.split("");

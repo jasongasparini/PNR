@@ -105,6 +105,20 @@ module TSOS {
             
             return true;
         }
+
+        // public static pcbSync(listpcb, outdatedpcb){
+        //     outdatedpcb.PID
+        //     outdatedpcb.segment
+        //     outdatedpcb.PC
+        //     outdatedpcb.IR
+        //     outdatedpcb.ACC = 
+        //     outdatedpcb.X = 
+        //     outdatedpcb.Y = 
+        //     outdatedpcb.Z = 
+        //     outdatedpcb.priority = 
+        //     outdatedpcb.state = 
+        //     outdatedpcb.lowerbo
+        // }
         
     
 

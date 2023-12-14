@@ -8,11 +8,11 @@ module TSOS{
             this.driverEntry = this.krnKbdDriverEntry;
         }
 
-        krnKbdDriverEntry() {
+        public krnKbdDriverEntry() {
             this.status = "loaded";
         }
 
-        format() {
+        public format() {
             let isFormatted = false;
             // console.log("something");
             try {
@@ -35,7 +35,7 @@ module TSOS{
             return isFormatted;
         }
 
-        createFile(filename){
+        public createFile(filename){
             let created = false;
             let startingBlock = this.findFile(filename)[1];
 
@@ -59,7 +59,7 @@ module TSOS{
             return created;
         }
 
-        readFile(fileName) {
+        public readFile(fileName) {
             let startingBlockKey = this.findFile(fileName)[1];
             let dataString = '';
             if (!startingBlockKey) {
@@ -87,7 +87,7 @@ module TSOS{
             return dataString;
         }
 
-        writeFile(fileName, input) {
+        public writeFile(fileName, input) {
             let startingBlockKey = this.findFile(fileName)[1];
             let returnMsg = '';
             
@@ -149,7 +149,7 @@ module TSOS{
             return returnMsg;
         }
 
-        copyFile(fileName, newName) {
+        public copyFile(fileName, newName) {
             let returnMsg = '';
             if (this.findFile(fileName)[0]) {
                 let isCreated = this.createFile(newName);
@@ -172,7 +172,7 @@ module TSOS{
             return returnMsg;
         }
 
-        deleteFile(fileName) {
+        public deleteFile(fileName) {
             let key = this.findFile(fileName)[0];
             let isDeleted = false;
 
@@ -185,7 +185,7 @@ module TSOS{
             return isDeleted;
         }
 
-        fullDeleteFile(fileName) {
+        public fullDeleteFile(fileName) {
             let startingBlockKey = this.findFile(fileName)[1];
             
             if (startingBlockKey) {
@@ -207,7 +207,7 @@ module TSOS{
             }
         }
 
-        renameFile(fileName, newName) {
+        public renameFile(fileName, newName) {
             let returnMsg = '';
             let key = this.findFile(fileName)[0];
             let otherKey = this.findFile(newName)[0];
@@ -231,7 +231,7 @@ module TSOS{
             return returnMsg;
         }
 
-        findFile(fileName) {
+        public findFile(fileName) {
             let startingBlockKey = null;
             let fileArray = [];
 
@@ -261,7 +261,7 @@ module TSOS{
             return fileArray;
         }
 
-        getAllFiles(){
+        public getAllFiles(){
             let files = [];
 
             for (let t = 0; t < 1; t++) {
@@ -279,7 +279,7 @@ module TSOS{
             return files;
         }
 
-        writeDataToBlock(block, data) {
+        public writeDataToBlock(block, data) {
 
             let blockArray = block.split(':');
             let blockData = blockArray[1].match(/.{1,2}/g);
@@ -292,7 +292,7 @@ module TSOS{
             return (blockData.join(''));
         }
 
-        readBlockData(data) {
+        public readBlockData(data) {
             let hexCodesArray = data.match(/.{1,2}/g);
             let result = '';
             let i = 0;
@@ -304,18 +304,14 @@ module TSOS{
             return result;
         }
 
-        createSwapFile(pid, data) {
+        public createSwapFile(pid, data) {
             let fileName = '.swap' + pid;
             this.createFile(fileName);
             this.writeFile(fileName, data);
             
         }
 
-        deleteSwapFile(){
-
-        }
-
-        checkIfInUse(data) {
+        public checkIfInUse(data) {
             let isUsed = false;
             let dataArray = data.split("");
             if (dataArray[0] === "1") {
@@ -324,7 +320,7 @@ module TSOS{
             return isUsed;
         }
 
-        setUseStatus(key, Use) {
+        public setUseStatus(key, Use) {
             let data = sessionStorage.getItem(key);
             if (data) {
                 if (Use) {
@@ -336,7 +332,7 @@ module TSOS{
             }
         }
 
-        getNextDataBlockKey() {
+        public getNextDataBlockKey() {
             let nextKey = "";
             blockSearch: for (let t = 1; t < this.disk.trackCount; t++) {
                 for (let s = 0; s < this.disk.sectorCount; s++) {
@@ -355,7 +351,7 @@ module TSOS{
             return nextKey;
         }
 
-        setFinalDataBlock(key) {
+        public setFinalDataBlock(key) {
             let data = sessionStorage.getItem(key);
             if (data) {
                 let tempData = data;
@@ -366,7 +362,7 @@ module TSOS{
             }
         }
 
-        getNextDirBlockKey(){
+        public getNextDirBlockKey(){
             let nextKey = "";
             directorySearch: for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < this.disk.sectorCount; s++) {
@@ -389,24 +385,24 @@ module TSOS{
             return nextKey;
         }
 
-        isBlockInUse(block) {
+        public isBlockInUse(block) {
             return (block.charAt(0) == "0");
         }
         
-        doesBlockHaveData(block) {
+        public doesBlockHaveData(block) {
             return block.split(':')[1] != '0'.repeat(60);
         }
 
-        emptyBlockInit() {
+        public emptyBlockInit() {
             return "0".repeat(4) + ":" + "0".repeat(this.disk.blockSize - 4);
         }
 
-        createStorageKey(track, sector, block) {
+        public createStorageKey(track, sector, block) {
             return track.toString() + sector.toString() + block.toString();
         }
 
 
-        updateDiskTable() {
+        public updateDiskTable() {
             const table = document.getElementById("disk-table") as HTMLTableElement;
             
             // Deletes the rows before updating
@@ -439,7 +435,7 @@ module TSOS{
         }
 
 
-        trimData(data){
+        public trimData(data){
             let dataArray = data.match(/.{1,2}/g);
             let i = 0;
             let result = '';

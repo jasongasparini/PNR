@@ -15,56 +15,45 @@ var TSOS;
                 _RunningCycles = 0;
             }
             else {
+                var currPID = _CPU.PID;
                 _PcbList[_CPU.PID].updatePcbDisplay();
                 var pcb = _ReadyQueue.dequeue();
-                if (pcb.segment == -1) {
-                    var program = _Memory.copyLast256ToString();
-                    var swapFilename = ".swap" + _CPU.PID;
-                    _krnDiskDriver.writeFile(swapFilename, program); // Saves program in disk
-                    _PcbList[_CPU.PID].segment = -1;
-                    var nextSwapFilename = ".swap" + pcb.PID;
-                    pcb.segment = 3;
-                    pcb.checkSetBounds();
-                    var nextProgram = _krnDiskDriver.readFile(nextSwapFilename);
-                    const opcodes = nextProgram.match(/.{1,2}/g);
-                    for (let i = 0; i < opcodes.length; i++) {
-                        const opcode = opcodes[i];
-                        if (opcode.length === 2) {
-                            // Assuming each opcode is a 2-digit hexadecimal string
-                            const value = parseInt(opcode, 16);
-                            // Check if value is a valid number
-                            if (!isNaN(value) && value >= 0 && value <= 255) {
-                                // Write the value to memory at the next available address
-                                var address = i + pcb.lowerBound;
-                                // _StdOut.putText(" Writing to address: " + address.toString(16));
-                                _Memory.writeByte(address, value);
-                            }
-                        }
+                var nextpcbID = pcb.PID;
+                // pcb = TSOS.Utils.pcbSync(_PcbList[nextpcbID], pcb);
+                if (_PcbList[nextpcbID].segment == -1) { // Next program is on the disk
+                    var currentProgramSegment = _PcbList[currPID].segment;
+                    var currentProgram = _Memory.copyElementsToString(currentProgramSegment);
+                    var currentSwapFile = ".swap" + currPID;
+                    if (_krnDiskDriver.readFile(currentSwapFile) != null) {
+                        _krnDiskDriver.writeFile(currentSwapFile, currentProgram);
+                        _PcbList[currPID].segment = -1;
+                        _Memory.clearSegment(currentProgramSegment);
+                        var nextPID = pcb.PID;
+                        var nextswap = ".swap" + nextPID;
+                        var program = _krnDiskDriver.readFile(nextswap);
+                        _PcbList[nextpcbID].segment = currentProgramSegment;
+                        _PcbList[nextpcbID].checkSetBounds();
+                        pcb.segment = currentProgramSegment;
+                        pcb.checkSetBounds();
+                        _Memory.writeSegment(currentProgramSegment, program);
+                    }
+                    else {
+                        _krnDiskDriver.createSwapFile(currPID, currentProgram);
+                        _PcbList[currPID].segment = -1;
+                        _Memory.clearSegment(currentProgramSegment);
+                        var nextPID = pcb.PID;
+                        var nextswap = ".swap" + nextPID;
+                        var program = _krnDiskDriver.readFile(nextswap);
+                        _PcbList[nextpcbID].segment = currentProgramSegment;
+                        _PcbList[nextpcbID].checkSetBounds();
+                        pcb.segment = currentProgramSegment;
+                        pcb.checkSetBounds();
+                        _Memory.writeSegment(currentProgramSegment, program);
                     }
                 }
-                else if (pcb.segment == 1 && _ReadyQueue.getSize() > 3) {
-                    var replace = _ReadyQueue.peek(1);
-                    var replacement = ".swap" + replace.PID;
-                    replace.segment = 3;
-                    replace.checkSetBounds();
-                    var replaceProgram = _krnDiskDriver.readFile(replacement);
-                    const opcodes = replaceProgram.match(/.{1,2}/g);
-                    for (let i = 0; i < opcodes.length; i++) {
-                        const opcode = opcodes[i];
-                        if (opcode.length === 2) {
-                            // Assuming each opcode is a 2-digit hexadecimal string
-                            const value = parseInt(opcode, 16);
-                            // Check if value is a valid number
-                            if (!isNaN(value) && value >= 0 && value <= 255) {
-                                // Write the value to memory at the next available address
-                                var address = i + replace.lowerBound;
-                                // _StdOut.putText(" Writing to address: " + address.toString(16));
-                                _Memory.writeByte(address, value);
-                            }
-                        }
-                    }
-                }
-                _CPU.loadNextProgram(pcb);
+                _PcbList[_CPU.PID].updatePcbDisplay();
+                _PcbList[nextpcbID].updatePcbDisplay();
+                _CPU.loadNextProgram(_PcbList[nextpcbID]);
                 _ReadyQueue.enqueue(pcb);
             }
         }
