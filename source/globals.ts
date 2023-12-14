@@ -37,9 +37,10 @@ var _PcbList = [];
 var _ProgramList = [];
 
 // CPU cycling statistics
-var _Quantum = 6;
+var _Quantum = 10;
 var _RunningCycles = 0;
 var _TotalCycles = 0;
+var _Schedule = "RR";
 
 var _OSclock: number = 0;  // Page 23.
 

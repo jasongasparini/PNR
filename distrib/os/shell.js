@@ -138,7 +138,15 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // ls
-            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all files");
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", "- Lists all files (ls -a is used to display hidden files)");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // getSchedule
+            sc = new TSOS.ShellCommand(this.shellGetSchedule, "getschedule", "- Displays the current scheduling algorithm");
+            this.commandList[this.commandList.length] = sc;
+            this.commandListStrings.push(sc.command);
+            // setSchedule
+            sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "- Scheduling algorithm can be set to RR (default) or FCFS");
             this.commandList[this.commandList.length] = sc;
             this.commandListStrings.push(sc.command);
             // Display the initial prompt.
@@ -403,7 +411,7 @@ var TSOS;
                 // Split the input into individual opcodes (assuming they are separated by spaces)
                 const opcodes = validation.match(/.{1,2}/g);
                 var segment = _MemoryManager.getNextSegment();
-                if (segment == 3) {
+                if (segment == 3 && _krnDiskDriver.disk.isFormatted) {
                     _krnDiskDriver.createSwapFile(_PidCounter, validation);
                 }
                 var pcb = new TSOS.ProcessControlBlock(_PidCounter, segment);
@@ -565,7 +573,7 @@ var TSOS;
             }
         }
         shellQuantum(args) {
-            if (args.length > 0) {
+            if (args.length > 0 && _Schedule != "FCFS") {
                 try {
                     const quantumValue = parseInt(args[0], 10);
                     if (!isNaN(quantumValue)) {
@@ -581,6 +589,9 @@ var TSOS;
                 catch (error) {
                     _StdOut.putText("Error: " + error.message);
                 }
+            }
+            else if (_Schedule == "FCFS") {
+                _StdOut.putText("Cannot set quantum: Current schedule is FCFS");
             }
             else {
                 _StdOut.putText("Usage: quantum <integer>");
@@ -637,7 +648,7 @@ var TSOS;
             if (_krnDiskDriver.disk.isFormatted) {
                 if (args.length > 0) {
                     if (args[0].includes("swap")) {
-                        _StdOut.putText("Cannot read .swap files");
+                        _StdOut.putText("Cannot read hidden .swap files!");
                     }
                     else {
                         let data = TSOS.Utils.hexToText(_krnDiskDriver.readFile(args[0]));
@@ -761,11 +772,19 @@ var TSOS;
             }
         }
         shellLs(args) {
-            let files = _krnDiskDriver.getAllFiles();
+            var files = [];
             if (!_krnDiskDriver.disk.isFormatted) {
                 _StdOut.putText("Please format the disk first.");
             }
             else {
+                if (args.length > 0) {
+                    if (args[0].includes("-a")) {
+                        files = _krnDiskDriver.getAllFiles(true);
+                    }
+                }
+                else {
+                    files = _krnDiskDriver.getAllFiles(false);
+                }
                 if (files.length > 0) {
                     _StdOut.putText('Files on disk:');
                     _StdOut.advanceLine();
@@ -777,6 +796,29 @@ var TSOS;
                 else {
                     _StdOut.putText('No files on disk');
                 }
+            }
+        }
+        shellGetSchedule(args) {
+            _StdOut.putText("The current scheduling algorithm is: " + _Schedule);
+        }
+        shellSetSchedule(args) {
+            if (args.length > 0) {
+                if (args[0].includes("fcfs")) {
+                    _Schedule = "FCFS";
+                    _Quantum = 9999999;
+                    _StdOut.putText("The current scheduling algorithm is now set to: FCFS");
+                }
+                else if (args[0].includes("rr")) {
+                    _Schedule = "RR";
+                    _Quantum = 10;
+                    _StdOut.putText("The current scheduling algorithm is now set to: RR with a Quantum of 10");
+                }
+                else {
+                    _StdOut.putText("error");
+                }
+            }
+            else {
+                _StdOut.putText("Please provide an algorithm: <RR> (default) or <FCFS>");
             }
         }
     }

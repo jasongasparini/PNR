@@ -203,7 +203,7 @@ var TSOS;
         findFile(fileName) {
             let startingBlockKey = null;
             let fileArray = [];
-            directorySearch: for (let t = 0; t < 1; t++) {
+            traversal: for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < this.disk.sectorCount; s++) {
                     for (let b = 0; b < this.disk.blockCount; b++) {
                         let potentialKey = this.createStorageKey(t, s, b);
@@ -218,7 +218,7 @@ var TSOS;
                                 fileArray.push(potentialKey);
                                 // Starting block key
                                 fileArray.push(metaData.slice(1, 4));
-                                break directorySearch;
+                                break traversal;
                             }
                         }
                     }
@@ -226,7 +226,7 @@ var TSOS;
             }
             return fileArray;
         }
-        getAllFiles() {
+        getAllFiles(hidden) {
             let files = [];
             for (let t = 0; t < 1; t++) {
                 for (let s = 0; s < this.disk.sectorCount; s++) {
@@ -234,7 +234,17 @@ var TSOS;
                         let file = sessionStorage.getItem(this.createStorageKey(t, s, b));
                         if (file && this.checkIfInUse(file)) {
                             let fileName = TSOS.Utils.hexToText(this.readBlockData(file.split(':')[1]));
-                            files.push(fileName);
+                            if (fileName.includes(".")) {
+                                if (hidden) {
+                                    files.push(fileName);
+                                }
+                                else {
+                                    continue;
+                                }
+                            }
+                            else {
+                                files.push(fileName);
+                            }
                         }
                     }
                 }

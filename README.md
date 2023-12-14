@@ -1,14 +1,22 @@
 MY CURRENT PROGRESS
 ================
 
-11/10/2023
+Final Project: 
 
-I am all done with iP3 and everthing is pushed to the main branch. Thank you for the extra time.
-
-
+I have completed, to my best ability, the Final Project.
 
 
+The extra credit challenges that I have successfully attempted and implemented are:
 
+- Hidden file support for files beginning with a "."
+- ls and ls -a
+- FCFS scheduling
+
+
+
+Thank you for a fun (and sometimes maddening) semester! I am looking forward to Theory of Programming Lang in the Spring.
+
+Have a nice break.
 
 
 2019 - 2021 Browser-based Operating System in TypeScript

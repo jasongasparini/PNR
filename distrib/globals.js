@@ -31,9 +31,10 @@ var _PidCounter = 0;
 var _PcbList = [];
 var _ProgramList = [];
 // CPU cycling statistics
-var _Quantum = 6;
+var _Quantum = 10;
 var _RunningCycles = 0;
 var _TotalCycles = 0;
+var _Schedule = "RR";
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _Canvas; // Initialized in Control.hostInit().
